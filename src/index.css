@@ -1,0 +1,22 @@
+body {
+  background: linear-gradient(45deg, #000000, #333333);
+  animation: backgroundAnimation 10s infinite;
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 100vh;
+  background-size: 200% 200%;
+}
+
+@keyframes backgroundAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
