@@ -1,7 +1,6 @@
-
 import { Container } from '@mui/material'
 import './App.css'
-import Nav from './components/Nav'
+import Nav from './components/Nav/Nav'
 import {Routes, Route} from 'react-router-dom'
 import Home from './pages/Home'
 import NotFound404 from './pages/NotFound404'
