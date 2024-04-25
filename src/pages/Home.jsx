@@ -1,12 +1,30 @@
-import React from 'react'
-import AllPosts from '../components/All/AllPosts'
+import React, { useEffect, useState } from 'react'
+    import DisplayPosts from '../components/DisplayPosts'
+    import AddPost from '../components/AddPost'
+    import { getPosts } from '../Firebase/firebaseDB';
+    import { Typography } from '@mui/material';
 
-const Home = () => {
-  return (
-    <>
-      <AllPosts/>
-    </>
-  )
-}
+    const Home = () => {
+      const [posts, setPosts] = useState([]);
+      useEffect(() => {
+        getPosts().then(posts => {
+          if (posts) setPosts(posts);
+          console.log('got posts',posts);
+        });
+      }, []);
 
-export default Home
+      return (
+        <>
+          <Typography variant="h4" component="h1" align="center" gutterBottom>
+            Welcome to our site!
+          </Typography>
+          <Typography variant="body1" component="h2" align="center" gutterBottom>
+            Explore the latest posts from our community.
+          </Typography>
+          <AddPost forumId={'general'}/>
+          <DisplayPosts posts={posts}/>
+        </>
+      )
+    }
+
+    export default Home

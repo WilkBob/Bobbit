@@ -1,12 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { Button, TextField, Collapse, IconButton } from '@mui/material';
-import { UserContext } from '../context/UserContext';
+import { UserContext } from './context/UserContext';
 import { useNavigate } from 'react-router-dom';
-import { addPost } from '../../Firebase/firebaseDB';
-import { uploadImage } from '../../Firebase/firebaseStorage';
+import { addPost } from '../Firebase/firebaseDB';
+import { uploadImage } from '../Firebase/firebaseStorage';
 import CloseIcon from '@mui/icons-material/Close';
+import AddIcon from '@mui/icons-material/Add';
+import SignInIcon from '@mui/icons-material/Login';
 
-const AddPost = () => {
+const AddPost = ({forumId}) => {
     const {user, userDetails} = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
@@ -42,10 +44,6 @@ const AddPost = () => {
   const handleContentChange = (event) => {
     setContent(event.target.value);
   };
-  const submitImage = async (image) => {
-    const url = await uploadImage(image);
-    return url;
-    }
 
 const validatePost = () => {
     if (title.length < 5) {
@@ -78,7 +76,7 @@ const handleSubmit = async (event) => {
         content,
         userId: user.uid,
         username: userDetails.username,
-        forum: 'general',
+        forum: forumId,
         image: imageUrl,
         link
     });
@@ -93,20 +91,48 @@ const handleSubmit = async (event) => {
 }
   return (
     <>
-    {!user && <Button variant='contained' color='primary' onClick={()=>{navigate('/login')}}>Sign In To Post</Button>}
-      {!open && user && <Button variant="contained" color="primary" onClick={handleOpen} sx={{position:'fixed', bottom:'20px'}}>
-        Add Post
-      </Button>}
-        
-      <Collapse in={open} className={'glass'} sx={{position:'relative', marginBottom: '5px', display: `${open? 'block' : 'none'}`}}>
-      <IconButton  
-            color='primary'
-            style={{ position: 'absolute', right: 0, top: 0 }} 
-            onClick={handleClose}
-            size='small'
-          >
-            <CloseIcon />
-          </IconButton>
+      {!user && (
+        <IconButton
+        size='large'
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            navigate('/login');
+          }}
+          sx={{ position: 'fixed', bottom: '20px' }}
+        >
+          <SignInIcon />
+        </IconButton>
+      )}
+      {!open && user && (
+        <IconButton
+        size='large'
+          variant="outlined"
+          color="primary"
+          onClick={handleOpen}
+          sx={{ position: 'fixed', bottom: '20px' }}
+        >
+          <AddIcon />
+        </IconButton>
+      )}
+
+      <Collapse
+        in={open}
+        className={'glass'}
+        sx={{
+          position: 'relative',
+          marginBottom: '5px',
+          display: `${open ? 'block' : 'none'}`,
+        }}
+      >
+        <IconButton
+          color="primary"
+          style={{ position: 'absolute', right: 0, top: 0 }}
+          onClick={handleClose}
+          size="small"
+        >
+          <CloseIcon />
+        </IconButton>
         <TextField
           variant="outlined"
           margin="normal"
@@ -134,24 +160,44 @@ const handleSubmit = async (event) => {
           onChange={handleContentChange}
         />
         {imagePreviewUrl ? (
-        <div style={{ position: 'relative', width: '100%', height: 'auto' } } className='' >
-          <img src={imagePreviewUrl} alt="Preview" style={{ width: '100%', height: 'auto' }} />
-          <IconButton 
-            className='glass' 
-            color='info'
-            style={{ position: 'absolute', right: 0, top: 0 }} 
-            onClick={handleRemoveImage}
+          <div
+            style={{ position: 'relative', width: '100%', height: 'auto' }}
+            className=""
           >
-            <CloseIcon />
-          </IconButton>
-        </div>
-      ) : (
-        <Button variant="contained" component="label" color='success' sx={{marginBlock: '5px'}}>
-          Upload Image
-          <input type="file" hidden onChange={handleImageChange} />
-        </Button>
-      )}
-        <Button  fullWidth variant="contained" color="primary" type="submit" onClick={(e)=>{handleSubmit(e);}}>
+            <img
+              src={imagePreviewUrl}
+              alt="Preview"
+              style={{ width: '100%', height: 'auto' }}
+            />
+            <IconButton
+              className="glass"
+              color="info"
+              style={{ position: 'absolute', right: 0, top: 0 }}
+              onClick={handleRemoveImage}
+            >
+              <CloseIcon />
+            </IconButton>
+          </div>
+        ) : (
+          <Button
+            variant="contained"
+            component="label"
+            color="success"
+            sx={{ marginBlock: '5px' }}
+          >
+            Upload Image
+            <input type="file" hidden onChange={handleImageChange} />
+          </Button>
+        )}
+        <Button
+          fullWidth
+          variant="contained"
+          color="primary"
+          type="submit"
+          onClick={(e) => {
+            handleSubmit(e);
+          }}
+        >
           Submit
         </Button>
       </Collapse>
