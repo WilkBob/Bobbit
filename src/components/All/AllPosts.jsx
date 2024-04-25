@@ -15,8 +15,9 @@ const AllPosts = () => {
 
     return (
         <>
+        <Typography variant="h4">All Posts</Typography>
           <AddPost/>
-          <List>
+          <List className='glass'>
             {posts && Object.values(posts).map(post => (
               <ListItem key={post.id} component={Link} to={`/post/${post.id}`} button>
                 <ListItemAvatar>

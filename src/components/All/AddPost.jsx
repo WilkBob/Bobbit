@@ -94,13 +94,19 @@ const handleSubmit = async (event) => {
   return (
     <>
     {!user && <Button variant='contained' color='primary' onClick={()=>{navigate('/login')}}>Sign In To Post</Button>}
-      {!open && user && <Button variant="contained" color="primary" onClick={handleOpen}>
+      {!open && user && <Button variant="contained" color="primary" onClick={handleOpen} sx={{position:'fixed', bottom:'20px'}}>
         Add Post
       </Button>}
-        {open && <Button variant="contained" color="primary" onClick={handleClose}>
-            Close
-        </Button>}
-      <Collapse in={open}>
+        
+      <Collapse in={open} className={'glass'} sx={{position:'relative', marginBottom: '5px', display: `${open? 'block' : 'none'}`}}>
+      <IconButton  
+            color='primary'
+            style={{ position: 'absolute', right: 0, top: 0 }} 
+            onClick={handleClose}
+            size='small'
+          >
+            <CloseIcon />
+          </IconButton>
         <TextField
           variant="outlined"
           margin="normal"
@@ -128,7 +134,7 @@ const handleSubmit = async (event) => {
           onChange={handleContentChange}
         />
         {imagePreviewUrl ? (
-        <div style={{ position: 'relative', width: '100%', height: 'auto' } } >
+        <div style={{ position: 'relative', width: '100%', height: 'auto' } } className='' >
           <img src={imagePreviewUrl} alt="Preview" style={{ width: '100%', height: 'auto' }} />
           <IconButton 
             className='glass' 

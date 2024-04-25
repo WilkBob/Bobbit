@@ -14,7 +14,7 @@ function App() {
   return (
     <>
     <Nav/>
-      <Container className='glass'>
+      <Container className='glass container'>
         <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/login' element={<Login/>}/>
