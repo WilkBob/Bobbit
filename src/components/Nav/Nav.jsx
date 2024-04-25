@@ -8,8 +8,9 @@ import { Link } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import { useContext, useState} from 'react';
 import { Button } from '@mui/material';
+import { Login } from '@mui/icons-material';
 
-const pages = ['Home', 'About', 'Services', 'Contact'];
+const pages = ['Home', 'About', 'Forums', 'Contact'];
 const settings = ['Profile', 'Account', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -39,8 +40,8 @@ function ResponsiveAppBar() {
           <MenuDesktop   handleOpenNavMenu={handleOpenNavMenu} anchorElNav={anchorElNav} Boolean={Boolean} handleCloseNavMenu={handleCloseNavMenu} pages={pages}  />
           <MenuMobile   pages={pages} handleCloseNavMenu={handleCloseNavMenu}  />
 
-         {user && <NavAvatar   handleOpenUserMenu={handleOpenUserMenu} anchorElUser={anchorElUser} Boolean={Boolean} handleCloseUserMenu={handleCloseUserMenu} settings={settings} Link={Link}  />}
-         {!user && <Button variant='outlined' LinkComponent={Link} to='/login'>Login</Button>}
+         {user && <NavAvatar   handleOpenUserMenu={handleOpenUserMenu} anchorElUser={anchorElUser} Boolean={Boolean} handleCloseUserMenu={handleCloseUserMenu} settings={settings} Link={Link} user={user}  />}
+         {!user && <Button variant='outlined' LinkComponent={Link} to='/login'>sign in<Login/></Button>}
         </Toolbar>
       </Container>
     </AppBar>

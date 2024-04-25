@@ -7,7 +7,7 @@ const db = getDatabase(App);
 
 const auth = getAuth();
 
-export const signUp = async (email, password, username, proifleImage) => {
+export const signUp = async (email, password, username) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
@@ -15,8 +15,9 @@ export const signUp = async (email, password, username, proifleImage) => {
             uid: user.uid,
             email: user.email,
             username: username,
-            profileImage: proifleImage || null,
-            bio: 'No bio yet...'
+            profileImage: null,
+            bio: 'No bio yet...',
+            joined: Date.now()
         });
         window.localStorage.setItem('notAToken', JSON.stringify(user.accessToken));
         window.localStorage.setItem('user', JSON.stringify(user));
@@ -44,6 +45,7 @@ export const signOut = async () => {
         await auth.signOut();
         window.localStorage.removeItem('notAToken');
         window.localStorage.removeItem('user');
+        return null;
     } catch (error) {
         console.error(error);
     }

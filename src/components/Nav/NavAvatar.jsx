@@ -6,8 +6,10 @@ export function NavAvatar({
   Boolean,
   handleCloseUserMenu,
   settings,
-  Link
+  Link,
+  user
 }) {
+
 return (
     <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
@@ -41,6 +43,7 @@ return (
                             color: 'inherit',
                             textDecoration: 'none'
                         }}
+                        
                     >
                         {setting}
                     </Typography>

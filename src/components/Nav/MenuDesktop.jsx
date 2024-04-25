@@ -23,7 +23,8 @@ export function MenuDesktop({
                         xs: 'none',
                         md: 'flex'
                     },
-                    mr: 1
+                    mr: 1,
+                    color: '#cf7753'
                 }}
             />
             <Typography
@@ -40,11 +41,11 @@ export function MenuDesktop({
                     fontFamily: 'monospace',
                     fontWeight: 700,
                     letterSpacing: '.3rem',
-                    color: 'inherit',
+                    color: '#cf7753',
                     textDecoration: 'none'
                 }}
             >
-                App
+                Bobbit
             </Typography>
 
             <Box
