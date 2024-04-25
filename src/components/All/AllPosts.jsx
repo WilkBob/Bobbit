@@ -28,7 +28,8 @@ const AllPosts = () => {
                     <>
                       <Typography
                         sx={{ display: 'inline' }}
-                        component="span"
+                        component={Link}
+                        to={`/user/${post.userId}`}
                         variant="body2"
                         color="text.primary"
                       >

@@ -89,7 +89,7 @@ const handleSubmit = async (event) => {
     setImage(null);
     setImagePreviewUrl(null);
 
-    navigate(`/general/`);
+    navigate(`/`);
 }
   return (
     <>

@@ -8,6 +8,7 @@ const db = getDatabase(app);
 // posts
 export const getPost = async (id) => {
   const post = await get(ref(db, `posts/${id}`));
+  console.log(post.val());
   return post.val();
 }
 

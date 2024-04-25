@@ -7,6 +7,7 @@ import NotFound404 from './pages/NotFound404'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Logout from './pages/Logout'
+import Post from './pages/Post'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
           <Route path='/login' element={<Login/>}/>
           <Route path='/logout' element={<Logout/>}/>
           <Route path='/signup' element={<Signup/>}/>
+          <Route path='/post/:id' element={<Post/>}/>
           <Route path='*' element={<NotFound404/>}/>
         </Routes>
       </Container>
