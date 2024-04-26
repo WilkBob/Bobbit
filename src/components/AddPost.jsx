@@ -1,14 +1,14 @@
 import React, { useState, useContext } from 'react';
-import { Button, TextField, Collapse, IconButton } from '@mui/material';
+import { Button, TextField, Collapse, IconButton, CircularProgress } from '@mui/material';
 import { UserContext } from './context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { addPost } from '../Firebase/firebaseDB';
-import { uploadImage } from '../Firebase/firebaseStorage';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import SignInIcon from '@mui/icons-material/Login';
 
 const AddPost = ({forumId}) => {
+  const [loading, setLoading] = useState(false);
     const {user, userDetails} = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
@@ -60,16 +60,12 @@ const validatePost = () => {
 }
 const handleSubmit = async (event) => {
     event.preventDefault();
+
     if (!user) return navigate('/login');
-    if (!validatePost()) return;
+    if (!validatePost())  return;
 
-    let imageUrl = null;
-    if (image) {
-        // Upload the image to Firebase Storage and get the download URL
-        imageUrl = await uploadImage(image);
-    }
+setLoading(true);
 
-    console.log('Image URL:', imageUrl, 'details:', userDetails);
     // Add the post to the Firebase Database with the image URL
     await addPost({
         title,
@@ -77,7 +73,7 @@ const handleSubmit = async (event) => {
         userId: user.uid,
         username: userDetails.username,
         forum: forumId,
-        image: imageUrl,
+        image: image,
         link
     });
 
@@ -87,7 +83,10 @@ const handleSubmit = async (event) => {
     setImage(null);
     setImagePreviewUrl(null);
 
-    navigate(`/`);
+    setLoading(false);
+    setOpen(false);
+    //relaod the page
+    window.location.reload();
 }
   return (
     <>
@@ -198,7 +197,7 @@ const handleSubmit = async (event) => {
             handleSubmit(e);
           }}
         >
-          Submit
+          {loading ? <CircularProgress color='secondary' size={24} /> : 'Submit'}
         </Button>
       </Collapse>
     </>

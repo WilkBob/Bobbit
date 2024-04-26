@@ -1,9 +1,31 @@
 import {app} from './firebase';
 import { getDatabase, ref, set, get, child, update } from "firebase/database";
 import uniqueid from '../utility/UniqueId';
+import { uploadImage } from './firebaseStorage';
 const db = getDatabase(app);
 
-
+const toggleLike = async (userId, postId) => {
+    const postRef = ref(db, `posts/${postId}`);
+    const userRef = ref(db, `users/${userId}`);
+    const post = await get(postRef);
+    const user = await get(userRef);
+    const postLikes = post.val().likes || {};
+    const userLikes = user.val().likes || {};
+  
+    if (postLikes[userId]) {
+      delete postLikes[userId];
+      delete userLikes[postId];
+    } else {
+      postLikes[userId] = true;
+      userLikes[postId] = true;
+    }
+  
+    const updates = {};
+    updates[`/posts/${postId}/likes`] = postLikes;
+    updates[`/users/${userId}/likes`] = userLikes;
+  
+    await update(ref(db), updates);
+  }
 
 // posts
 export const getPost = async (id) => {
@@ -14,13 +36,14 @@ export const getPost = async (id) => {
 
 export const addPost = async ({ title, content, userId, username, forum, image, link }) => {
   const id = uniqueid();
+  const imageUrl = image ? await uploadImage(image, id) : null;
   const newPost = {
     forum,
     title,
     content,
     userId,
     username,
-    image: image || null,
+    image: imageUrl || null,
     link: link || null,
     id,
     timestamp: Date.now()
@@ -29,6 +52,8 @@ export const addPost = async ({ title, content, userId, username, forum, image, 
   await update(ref(db, `users/${userId}/posts`), {
     [id]: id
   });
+  await toggleLike(userId, id);
+
   return id;
 };
 
@@ -72,6 +97,27 @@ export const deleteUser = async (id) => {
     });
 }
 
+export const getLikedPosts = async (userId) => {
+    const user = await get(ref(db, `users/${userId}`));
+    const likedPosts = user.val().likes;
+    const posts = await get(ref(db, 'posts'));
+    const likedPostList = [];
+    for (const postId in likedPosts) {
+        likedPostList.push(posts.val()[postId]);
+    }
+    return likedPostList;
+}
+
+export const getPostsByUser = async (userId) => {
+    const user = await get(ref(db, `users/${userId}`));
+    const userPosts = user.val().posts;
+    const posts = await get(ref(db, 'posts'));
+    const userPostList = [];
+    for (const postId in userPosts) {
+        userPostList.push(posts.val()[postId]);
+    }
+    return userPostList;
+}
 
 // comments
 export const getComment = async (id) => {

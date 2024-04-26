@@ -3,6 +3,7 @@ import { ListItem, ListItemAvatar, Avatar, ListItemText, Typography } from "@mui
 import { Link } from "react-router-dom";
 
 export function PostItem({ post }) {
+  const likesCount = post.likes ? Object.keys(post.likes).length : 0;
   return (
     <ListItem key={post.id} component={Link} to={`/post/${post.id}`} button>
       <ListItemAvatar>
@@ -33,6 +34,9 @@ export function PostItem({ post }) {
       >
         {` — ${post.content}`}
       </Typography>
+      <Typography variant="body2" color="text.secondary">
+              {`Likes: ${likesCount}`}
+            </Typography>
     </>
   }
 />

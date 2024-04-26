@@ -10,7 +10,7 @@ const DisplayPosts = ({posts}) => {
             {posts && Object.values(posts).map(post => (
               <PostItem post={post}   />
             ))}
-            {!posts && <Typography variant="h4">No posts</Typography>}
+            {posts.length < 1 && <Typography variant="h4">No posts</Typography>}
           </List>
         </>
       );
