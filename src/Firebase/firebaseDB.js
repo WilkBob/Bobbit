@@ -4,7 +4,7 @@ import uniqueid from '../utility/UniqueId';
 import { uploadImage } from './firebaseStorage';
 const db = getDatabase(app);
 
-const toggleLike = async (userId, postId) => {
+export const toggleLike = async (userId, postId) => {
     const postRef = ref(db, `posts/${postId}`);
     const userRef = ref(db, `users/${userId}`);
     const post = await get(postRef);
@@ -16,8 +16,8 @@ const toggleLike = async (userId, postId) => {
       delete postLikes[userId];
       delete userLikes[postId];
     } else {
-      postLikes[userId] = true;
-      userLikes[postId] = true;
+      postLikes[userId] = userId;
+      userLikes[postId] = postId;
     }
   
     const updates = {};

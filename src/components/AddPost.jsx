@@ -98,7 +98,7 @@ setLoading(true);
           onClick={() => {
             navigate('/login');
           }}
-          sx={{ position: 'fixed', bottom: '20px' }}
+          sx={{ position: 'fixed', top: '10px', right: '10px', zIndex: 1000}}
         >
           <SignInIcon />
         </IconButton>
@@ -109,7 +109,7 @@ setLoading(true);
           variant="outlined"
           color="primary"
           onClick={handleOpen}
-          sx={{ position: 'fixed', bottom: '20px' }}
+          sx={{ position: 'fixed', top: '10px', right: '10px', zIndex: 1000}}
         >
           <AddIcon />
         </IconButton>
@@ -121,7 +121,6 @@ setLoading(true);
         sx={{
           position: 'relative',
           marginBottom: '5px',
-          display: `${open ? 'block' : 'none'}`,
         }}
       >
         <IconButton

@@ -8,7 +8,7 @@ const DisplayPosts = ({posts}) => {
         <>
           <List  className='glass'>
             {posts && Object.values(posts).map(post => (
-              <PostItem post={post}   />
+              <PostItem post={post} key={post.id}  />
             ))}
             {posts.length < 1 && <Typography variant="h4">No posts</Typography>}
           </List>

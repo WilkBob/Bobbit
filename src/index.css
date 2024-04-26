@@ -1,12 +1,10 @@
 body {
-  background: linear-gradient(45deg, #000000, #333333);
-  animation: backgroundAnimation 10s infinite;
+  background: linear-gradient(45deg, #4b4b4b, #333333);
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   height: 100vh;
-  background-size: 200% 200%;
 }
 
 @keyframes backgroundAnimation {

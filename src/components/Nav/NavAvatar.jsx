@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Avatar, Box, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
+import { UserContext } from "../context/UserContext";
 export function NavAvatar({
   handleOpenUserMenu,
   anchorElUser,
@@ -7,14 +8,13 @@ export function NavAvatar({
   handleCloseUserMenu,
   settings,
   Link,
-  user
 }) {
-
+const {userDetails} = useContext(UserContext);
 return (
     <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt={userDetails?.username || null} src={userDetails?.profileImage || null} />
             </IconButton>
         </Tooltip>
         <Menu
