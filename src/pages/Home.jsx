@@ -9,7 +9,6 @@ import React, { useEffect, useState } from 'react'
       useEffect(() => {
         getPosts().then(posts => {
           if (posts) setPosts(posts);
-          console.log('got posts',posts);
         });
       }, []);
 

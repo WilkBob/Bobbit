@@ -1,36 +1,29 @@
-
-import { createContext } from "react";
-import { useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { getUser } from "../../Firebase/firebaseDB";
 
 export const UserContext = createContext({
     user: null,
     setUser: () => {},
-
     userDetails: null,
     setUserDetails: () => {}
 });
 
-
-
 export const UserProvider = ({children}) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user')) || null);
     const [userDetails, setUserDetails] = useState(null);
-    useEffect(() => {
-        const user = localStorage.getItem('user');
-        if (user) {
-            setUser(JSON.parse(user));
 
-        }
-    }, [])
     useEffect(() => {
         if (user) {
-            getUser(user.uid).then(userDetails => {
-                setUserDetails(userDetails);
-                console.log('got deets', userDetails);
-            });
+            localStorage.setItem('user', JSON.stringify(user));
+            if (!userDetails) {
+                getUser(user.uid).then(userDetails => {
+                    setUserDetails(userDetails);
+                });
+            }
         }
     }, [user]);
+
+    
 
     return (
         <UserContext.Provider value={{user, setUser, userDetails, setUserDetails}}>
@@ -38,6 +31,3 @@ export const UserProvider = ({children}) => {
         </UserContext.Provider>
     )
 }
-
-
-

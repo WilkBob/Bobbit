@@ -10,11 +10,12 @@ export function NavAvatar({
   Link,
 }) {
 const {userDetails} = useContext(UserContext);
+
 return (
     <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={userDetails?.username || null} src={userDetails?.profileImage || null} />
+                <Avatar alt={userDetails?.username} src={userDetails?.profileImage} />
             </IconButton>
         </Tooltip>
         <Menu

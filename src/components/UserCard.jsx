@@ -5,7 +5,7 @@ import { uploadImage } from "../Firebase/firebaseStorage";
 import { updateUser } from "../Firebase/firebaseDB";
 
 export function UserCard({ displayUser }) {
-  const { user } = useContext(UserContext);
+  const { user, userDetails } = useContext(UserContext);
   const isCurrentUser = displayUser?.uid === user?.uid;
   const [isEditing, setIsEditing] = useState(false);
   const [username, setUsername] = useState(displayUser?.username);
@@ -30,7 +30,7 @@ export function UserCard({ displayUser }) {
 
   const  handleSubmit = async () => {
     setIsEditing(false);
-    const imageurl = profileImage ? await uploadImage(profileImage, user.uid) : null;
+    const imageurl = profileImage ? await uploadImage(profileImage, user.uid) : userDetails.profileImage ? userDetails.profileImage : 'n';
     const updates = {
       username,
       bio,
@@ -57,14 +57,19 @@ export function UserCard({ displayUser }) {
             <label htmlFor="upload-button">
               <Button component="span" disabled={profileImage !==null}>{profileImage ? `${profileImage.name}` : 'Upload Image'}</Button>
             </label>
-            <Button onClick={handleSubmit}>Submit</Button>
+            <Button onClick={handleSubmit}>Save Changes</Button>
           </div>
         ) : (
           <>
             <Typography variant="h5" component="div">{username}</Typography>
             <Typography variant="body2" color="text.secondary">{bio}</Typography>
             <Typography variant="body2" color="text.secondary">
-              {displayUser?.joined ? `Joined ${new Date(displayUser.joined).toLocaleString()}` : 'Loading...'}
+              {displayUser?.joined ? `Joined ${new Date(displayUser.joined).toLocaleString('en-US',{
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
+              
+              })}` : 'Loading...'}
             </Typography>
           </>
         )}
