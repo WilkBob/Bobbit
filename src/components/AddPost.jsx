@@ -117,12 +117,24 @@ setLoading(true);
         </IconButton>
       )}
 
+{!open && user && (
+  <Button
+    variant="outlined"
+    color="primary"
+    onClick={handleOpen}
+    fullWidth
+    sx={{ marginBottom: '10px' }}
+  >
+    Add Post
+  </Button>
+)}
       <Collapse
         in={open}
         className={'glass'}
         sx={{
-          position: 'relative',
-          marginBottom: '5px',
+          display: open ? 'block' : 'none',
+
+          marginBottom: '10px',
         }}
       >
         <IconButton
@@ -179,7 +191,6 @@ setLoading(true);
         {imagePreviewUrl &&
           <div
             style={{ position: 'relative', width: '100%', height: 'auto' }}
-            className=""
           >
             <img
               src={imagePreviewUrl}

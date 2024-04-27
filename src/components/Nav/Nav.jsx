@@ -11,7 +11,7 @@ import { Button } from '@mui/material';
 import { Login } from '@mui/icons-material';
 
 const pages = ['Home', 'About', 'Forums', 'Contact'];
-const settings = ['Profile', 'Account', 'Logout'];
+const settings = ['Profile', 'Logout'];
 
 function ResponsiveAppBar() {
   const {user} = useContext(UserContext);

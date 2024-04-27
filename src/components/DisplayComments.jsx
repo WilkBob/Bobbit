@@ -50,7 +50,7 @@ const DisplayComments = ({ postId }) => {
                         <Typography variant="body2" gutterBottom>
                             {comment.content}
                         </Typography>
-                        {comment.imageUrl && <img src={comment.imageUrl} alt="comment" style={{ maxWidth: '400px', borderRadius: '4px' }} />}
+                        {comment.imageUrl && <img src={comment.imageUrl} alt="comment" style={{  borderRadius: '4px' }} />}
                         <Typography variant="caption" display="block" gutterBottom>
                             {new Date(comment.timestamp).toLocaleDateString(
                                 'en-US',

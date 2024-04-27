@@ -130,7 +130,7 @@ const Signup = () => {
     required 
     fullWidth 
     id="username" 
-    label="Username" 
+    label={"Username" + (errors.username.length > 0 ? ` - ${errors.username}` : '')}
     name="username" 
     autoComplete="username" 
     autoFocus />
@@ -145,7 +145,7 @@ const Signup = () => {
           required 
           fullWidth 
           id="email" 
-          label="Email Address"
+          label={"Email" + (errors.email.length > 0 ? ` - ${errors.email}` : '')}
           name="email" 
           autoComplete="email" 
         />}
@@ -158,7 +158,7 @@ const Signup = () => {
         required 
         fullWidth 
         name="password" 
-        label="Password" 
+        label={"Password" + (errors.password.length > 0 ? ` - ${errors.password}` : '')} 
         type="password" 
         id="password"
         autoComplete="current-password"

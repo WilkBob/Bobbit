@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { Box, TextField, Button, CircularProgress, IconButton, InputAdornment } from '@mui/material';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import CloseIcon from '@mui/icons-material/Close';
-import { uploadImage } from '../Firebase/firebaseStorage';
 
 const CommentBox = ({ postId }) => {
     const {user, userDetails} = useContext(UserContext);

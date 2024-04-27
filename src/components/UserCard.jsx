@@ -42,21 +42,30 @@ export function UserCard({ displayUser }) {
   return (
     <Card sx={{ marginBottom: '10px' }}>
       <CardContent>
-        <Avatar alt={username} src={profileImage? URL.createObjectURL(profileImage) :displayUser?.profileImage} sx={{ width: 150, height: 150, margin: 'auto' }} />
+        <Avatar
+          alt={username}
+          src={profileImage ? URL.createObjectURL(profileImage) : displayUser?.profileImage}
+          sx={{ width: 150, height: 150, margin: 'auto' }}
+        />
         {isEditing ? (
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '10px',
-            alignItems: 'center'
-          
-          }}>
-            <TextField value={username} onChange={handleUsernameChange} />
-            <TextField value={bio} onChange={handleBioChange} multiline />
+          <div
+            style={{
+              marginTop: '10px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px',
+              maxWidth: '300px',
+            }}
+          >
             <input type="file" onChange={handleImageChange} style={{ display: 'none' }} id="upload-button" />
             <label htmlFor="upload-button">
-              <Button component="span" disabled={profileImage !==null}>{profileImage ? `${profileImage.name}` : 'Upload Image'}</Button>
+              <Button component="span" disabled={profileImage !== null}>
+                {profileImage ? `${profileImage.name}` : 'Upload Profile Image'}
+              </Button>
             </label>
+            <TextField label={'Change Username'} value={username} onChange={handleUsernameChange} />
+            <TextField label={'Change Bio'} value={bio} onChange={handleBioChange} multiline />
+
             <Button onClick={handleSubmit}>Save Changes</Button>
           </div>
         ) : (
@@ -64,12 +73,13 @@ export function UserCard({ displayUser }) {
             <Typography variant="h5" component="div">{username}</Typography>
             <Typography variant="body2" color="text.secondary">{bio}</Typography>
             <Typography variant="body2" color="text.secondary">
-              {displayUser?.joined ? `Joined ${new Date(displayUser.joined).toLocaleString('en-US',{
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric'
-              
-              })}` : 'Loading...'}
+              {displayUser?.joined
+                ? `Joined ${new Date(displayUser.joined).toLocaleString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}`
+                : 'Loading...'}
             </Typography>
           </>
         )}

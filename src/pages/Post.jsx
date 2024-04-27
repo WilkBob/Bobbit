@@ -1,5 +1,5 @@
 import { PostCard } from '../components/PostCard';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {  Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { getPost } from '../Firebase/firebaseDB';
@@ -9,7 +9,6 @@ import DisplayComments from '../components/DisplayComments';
 const Post = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
-  const navigate = useNavigate();
 
   const fetchPost = async () => {
     const post = await getPost(id);

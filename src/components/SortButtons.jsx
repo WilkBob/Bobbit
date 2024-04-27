@@ -16,7 +16,7 @@ const SortButtons = ({ posts, setDisplayPosts }) => {
   }, [sortBy, posts]);
 
   return (
-    <ButtonGroup aria-label="outlined primary button group" sx={{ display: 'flex', justifyContent: 'center' }}>
+    <ButtonGroup aria-label="outlined primary button group" sx={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}>
       <Button variant={sortBy === 'time' ? 'contained' : 'outlined'} onClick={() => setSortBy('time')}>Most Recent</Button>
       <Button variant={sortBy === 'likes' ? 'contained' : 'outlined'} onClick={() => setSortBy('likes')}>Most Liked</Button>
     </ButtonGroup>
