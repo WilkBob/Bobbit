@@ -34,7 +34,7 @@ export const getPost = async (id) => {
   return post.val();
 }
 
-export const addPost = async ({ title, content, userId, username, forum, image, link }) => {
+export const addPost = async ({ title, content, userId, username, userImage, forum, image, link }) => {
   const id = uniqueid();
   const imageUrl = image ? await uploadImage(image, id) : null;
   const newPost = {
@@ -43,6 +43,7 @@ export const addPost = async ({ title, content, userId, username, forum, image, 
     content,
     userId,
     username,
+    userImage: userImage || null,
     image: imageUrl || null,
     link: link || null,
     id,
@@ -126,7 +127,7 @@ export const getComment = async (id) => {
     return comment.val();
 }
 
-export const addComment = async (content, username, userId, postId, image) => {
+export const addComment = async (content, username, userId, postId, userImage, image) => {
     const imageUrl = image ? await uploadImage(image, postId) : null;
     const id = uniqueid();
     const newComment = {
@@ -136,7 +137,8 @@ export const addComment = async (content, username, userId, postId, image) => {
         id,
         imageUrl: imageUrl || null,
         timestamp: Date.now(),
-        username
+        username,
+        userImage
     }
     await set(ref(db, `comments/${id}`), newComment);
     await update(ref(db, `posts/${postId}/comments`), {

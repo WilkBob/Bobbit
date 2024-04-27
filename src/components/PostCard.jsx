@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardMedia, Box, Typography, Chip, Icon, IconButton } from "@mui/material";
+import { Card, CardContent, CardHeader, CardMedia, Box, Typography, Chip, Icon, IconButton, Avatar } from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import { UserContext } from "./context/UserContext";
@@ -19,7 +19,10 @@ export function PostCard({ post }) {
                     title={post.title}
                     subheader={[
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                            <AccountCircleIcon />
+                            <Avatar src={ post.userImage || <AccountCircleIcon 
+                            shapeRendering="crispEdges"
+                            />
+                            } />
                             <Typography variant="body2" component={Link} to={`/user/${post.userId}`} color="text.secondary" sx={{ marginLeft: 1 }}>
                                 {`u/${post.username}`}
                             </Typography>

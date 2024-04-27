@@ -73,6 +73,7 @@ setLoading(true);
         content,
         userId: user.uid,
         username: userDetails.username,
+        userImage: userDetails.profileImage || null,
         forum: forumId,
         image: image,
         link
