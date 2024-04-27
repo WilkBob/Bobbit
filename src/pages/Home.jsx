@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import DisplayPosts from '../components/DisplayPosts'
 import AddPost from '../components/AddPost'
 import { getPosts } from '../Firebase/firebaseDB';
-import { ButtonGroup, Button, Typography } from '@mui/material';
+import { CircularProgress, Typography } from '@mui/material';
 import SortButtons from '../components/SortButtons';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [displayPosts, setDisplayPosts] = useState([]);
-  const [sortBy, setSortBy] = useState('time');
+
 
   useEffect(() => {
     getPosts().then(posts => {
@@ -20,7 +20,7 @@ const Home = () => {
 
 
   if (!posts) {
-    return <Typography>Loading...</Typography>;
+    return <CircularProgress />;
   }
 
   return (

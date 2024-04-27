@@ -17,7 +17,7 @@ const Footer = () => {
                 Made with love by Bob
             </Typography>
             <Typography variant="body2" color="textSecondary" align="center">
-                <Link color="inherit" href="https://github.com/bob" target="_blank">
+                <Link color="inherit" href="https://github.com/WilkBob" target="_blank">
                     GitHub
                 </Link>
             </Typography>

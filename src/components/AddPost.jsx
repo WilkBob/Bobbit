@@ -1,11 +1,12 @@
 import React, { useState, useContext } from 'react';
-import { Button, TextField, Collapse, IconButton, CircularProgress } from '@mui/material';
+import { Button, TextField, Collapse, IconButton, CircularProgress, InputAdornment } from '@mui/material';
 import { UserContext } from './context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { addPost } from '../Firebase/firebaseDB';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import SignInIcon from '@mui/icons-material/Login';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
 
 const AddPost = ({forumId}) => {
   const [loading, setLoading] = useState(false);
@@ -145,19 +146,36 @@ setLoading(true);
           onChange={handleTitleChange}
         />
         <TextField
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          id="content"
-          label="Content"
-          name="content"
-          multiline
-          rows={4}
-          value={content}
-          onChange={handleContentChange}
-        />
-        {imagePreviewUrl ? (
+  variant="outlined"
+  margin="normal"
+  required
+  fullWidth
+  id="content"
+  label="Content"
+  name="content"
+  multiline
+  rows={4}
+  value={content}
+  onChange={handleContentChange}
+  InputProps={{
+    endAdornment: (
+      <InputAdornment position="end">
+        <IconButton
+          color="primary"
+          component="label"
+        >
+          <PhotoCamera />
+          <input
+            type="file"
+            hidden
+            onChange={handleImageChange}
+          />
+        </IconButton>
+      </InputAdornment>
+    ),
+  }}
+/>
+        {imagePreviewUrl &&
           <div
             style={{ position: 'relative', width: '100%', height: 'auto' }}
             className=""
@@ -176,17 +194,7 @@ setLoading(true);
               <CloseIcon />
             </IconButton>
           </div>
-        ) : (
-          <Button
-            variant="contained"
-            component="label"
-            color="success"
-            sx={{ marginBlock: '5px' }}
-          >
-            Upload Image
-            <input type="file" hidden onChange={handleImageChange} />
-          </Button>
-        )}
+         }
         <Button
           fullWidth
           variant="contained"
