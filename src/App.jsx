@@ -11,6 +11,7 @@ import Post from './pages/Post'
 import User from './pages/User'
 import Profile from './pages/Profile'
 import Waves from './components/Waves'
+import Footer from './components/Footer'
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
           <Route path='*' element={<NotFound404/>}/>
         </Routes>
       </Container>
+      <Footer/>
     </>
   )
 }

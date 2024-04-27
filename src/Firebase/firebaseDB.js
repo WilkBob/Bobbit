@@ -76,7 +76,8 @@ export const deletePost = async (id) => {
 
 export const getPosts = async () => {
     const posts = await get(ref(db, 'posts'));
-    return posts.val();
+  
+    return Object.values(posts.val());
 }
 
 
@@ -125,18 +126,35 @@ export const getComment = async (id) => {
     return comment.val();
 }
 
-export const addComment = async (content, userId, postId) => {
+export const addComment = async (content, username, userId, postId, image) => {
+    const imageUrl = image ? await uploadImage(image, postId) : null;
     const id = uniqueid();
     const newComment = {
         content,
         userId,
         postId,
         id,
-        timestamp: Date.now()
+        imageUrl: imageUrl || null,
+        timestamp: Date.now(),
+        username
     }
     await set(ref(db, `comments/${id}`), newComment);
     await update(ref(db, `posts/${postId}/comments`), {
         [id]: id
     });
+    await update(ref(db, `users/${userId}/comments`), {
+        [id]: id
+    });
     return id;
+}
+
+export const getCommentsByPost = async (postId) => {
+    const post = await get(ref(db, `posts/${postId}`));
+    const comments = post.val().comments;
+    const commentList = [];
+    for (const commentId in comments) {
+        const comment = await getComment(commentId);
+        commentList.push(comment);
+    }
+    return commentList;
 }

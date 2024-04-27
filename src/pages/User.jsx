@@ -38,13 +38,13 @@ if (loading) {
 
   return (
     <div>
- <UserCard   displayUser={displayUser}/>
-<Typography variant="h6" component="div" sx={{marginBottom: '10px'}}>
-    Posts by {displayUser?.username}
-</Typography>
-<DisplayPosts posts={posts} />
-</div>
-  )
+      <UserCard displayUser={displayUser} />
+      <Typography variant="h6" component="div" sx={{ marginBottom: '10px' }}>
+        Posts by {displayUser?.username}
+      </Typography>
+      <DisplayPosts posts={posts} />
+    </div>
+  );
 }
 
 export default User
