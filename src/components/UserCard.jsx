@@ -3,6 +3,7 @@ import { Avatar, Card, CardContent, Typography, TextField, Button } from "@mui/m
 import { UserContext } from "./context/UserContext";
 import { uploadImage } from "../Firebase/firebaseStorage";
 import { updateUser } from "../Firebase/firebaseDB";
+import UserCardAvatar from "./UserCardAvatar";
 
 export function UserCard({ displayUser }) {
   const { user, userDetails } = useContext(UserContext);
@@ -43,11 +44,8 @@ export function UserCard({ displayUser }) {
   return (
     <Card sx={{ marginBottom: '10px' }}>
       <CardContent>
-        <Avatar
-          alt={username}
-          src={profileImage ? URL.createObjectURL(profileImage) : displayUser?.profileImage}
-          sx={{ width: 150, height: 150, margin: 'auto' }}
-        />
+       {displayUser.profileImage && <UserCardAvatar src={displayUser.profileImage} />}
+       {!displayUser.profileImage && <Avatar sx={{ width: 200, height: 200, marginInline:'auto' }}><Typography variant="h1">{displayUser.username.slice(0, 2)}</Typography></Avatar>}
         {isEditing ? (
           <div
             style={{
@@ -58,7 +56,7 @@ export function UserCard({ displayUser }) {
               maxWidth: '300px',
             }}
           >
-            <input type="file" onChange={handleImageChange} style={{ display: 'none' }} id="upload-button" />
+            <input type="file" accept="image*/" onChange={handleImageChange} style={{ display: 'none' }} id="upload-button" />
             <label htmlFor="upload-button">
               <Button component="span" disabled={profileImage !== null}>
                 {profileImage ? `${profileImage.name}` : 'Upload Profile Image'}

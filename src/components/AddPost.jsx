@@ -180,6 +180,7 @@ setLoading(true);
           <PhotoCamera />
           <input
             type="file"
+            accept='image/png'
             hidden
             onChange={handleImageChange}
           />

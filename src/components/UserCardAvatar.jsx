@@ -2,37 +2,34 @@ import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-import { styled, useTheme } from '@mui/system';
-import { IconButton, useMediaQuery } from '@mui/material';
+import { IconButton } from '@mui/material';
 import Close from '@mui/icons-material/Close';
+import { styled } from '@mui/system';
 
 const Image = styled('img')({
-  width: '100%',
-  height: 'auto',
-  maxHeight: '100vh', // Limit the height of the image to the viewport height
-  objectFit: 'contain', // Ensure that the image is scaled correctly
-});
+    width: '100%',
+    height: 'auto',
+    maxHeight: '100vh', // Limit the height of the image to the viewport height
+    objectFit: 'contain', // Ensure that the image is scaled correctly
+  });
 
-const CommentImage = ({ src }) => {
+const UserCardAvatar = ({ src }) => {
+
+    
   const [open, setOpen] = useState(false);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <>
-      <Image
-        alt="Comment"
+      <Avatar
         src={src}
         sx={{ 
-          width: isMobile ? '100%' : '50%', 
-          maxHeight: isMobile ? '80vh' : '50vh',
+          width: 200, 
+          height: 200,
           cursor: 'pointer', 
-          transition: 'transform 0.15s ease-in-out',
-          borderRadius: '4px',
-          marginRight: 'auto',
+          marginInline: 'auto'
         }}
         onClick={handleOpen}
       />
@@ -66,4 +63,4 @@ const CommentImage = ({ src }) => {
   );
 }
 
-export default CommentImage;
+export default UserCardAvatar;

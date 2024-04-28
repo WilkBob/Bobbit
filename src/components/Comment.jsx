@@ -71,6 +71,7 @@ const Comment = ({
                                 >
                                     <input
                                         type="file"
+                                        accept="image/*"
                                         hidden
                                         onChange={(e) => {setEditedImage(e.target.files[0]); setEditedImagePreviewUrl(URL.createObjectURL(e.target.files[0]))}}
                                     />

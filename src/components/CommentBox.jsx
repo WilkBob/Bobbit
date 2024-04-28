@@ -67,6 +67,7 @@ const CommentBox = ({ postId }) => {
                                 <PhotoCamera />
                                 <input
                                     type="file"
+                                    accept='image/*'
                                     hidden
                                     onChange={handleCommentImageChange}
                                 />

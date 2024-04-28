@@ -12,7 +12,8 @@ import {
     Avatar,
     TextField,
     Button,
-    CircularProgress
+    CircularProgress,
+    Badge
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
@@ -66,58 +67,14 @@ export function PostCard({ post, handleEdit, loading }) {
     return (
         <Card sx={{ display: "flex", marginTop: 2, padding: 2 }}>
             
-          <Box sx={{ display: "flex", flexDirection: "column", marginInline: "auto", width:'100%'}}>
+          <Box sx={{ display: "flex", flexDirection: "column", marginInline: "auto", width:'95%'}}>
             <CardHeader
                     title={
                         !isEditing ? (post?.title) : (
                             <TextField label='Title' value={editedTitle} sx={{marginBottom: '5px'}} onChange={(e) => setEditedTitle(e.target.value)} />
                         )
                     }
-                    action={
-                        <Box key="likesBox" sx={{ display: "flex", alignItems: "center" }}>
-                            {isEditing && (
-                    <IconButton component="label" htmlFor={'upload-button'} >
-                    <input
-                            type="file"
-                            onChange={(e) => setEditedImage(e.target.files[0])}
-                            style={{ display: "none" }}
-                            id="upload-button"
-                        />
-                        {<Collections/>}
-                    </IconButton>
-                    )}
-                            <IconButton
-                                
-                                onClick={async () => {
-                                    if (!userDetails) {
-                                        return;
-                                    }
-                                    await toggleLike(userDetails.uid, post.id);
-                                    setLiked(!liked);
-                                    setLikesCount(liked ? likesCount - 1 : likesCount + 1);
-                                }}
-                            >
-                                <ThumbUpIcon
-                                    sx={{
-                                        color: liked ? "primary.main" : "action",
-                                    }}
-                                />
-                            </IconButton>
-                            <Typography variant="body2" color="text.secondary">
-                                {likesCount}
-                            </Typography>
-                            {userDetails && userDetails.uid === post.userId && (
-                                <IconButton color={isEditing ? 'success' : 'inherit'} onClick={() => setIsEditing(!isEditing)} >
-                                    <EditIcon />
-                                </IconButton>
-                            )}
-                            {userDetails && userDetails.uid === post.userId && (
-                                <IconButton color="secondary" onClick={handleDelete}>
-                                    <Delete />
-                                </IconButton>
-                            )}
-                        </Box>
-                    }
+            
                     subheader={
                         <Chip
                             key="timestampChip"
@@ -131,6 +88,45 @@ export function PostCard({ post, handleEdit, loading }) {
                         />
                     }
                 />
+                <Box key="likesBox" sx={{ display: "flex", alignItems: "center", width: '100%'}}>
+                           
+                            <IconButton
+                                
+                                onClick={async () => {
+                                    if (!userDetails) {
+                                        return;
+                                    }
+                                    await toggleLike(userDetails.uid, post.id);
+                                    setLiked(!liked);
+                                    setLikesCount(liked ? likesCount - 1 : likesCount + 1);
+                                }}
+                            >
+                                <Badge badgeContent={likesCount} color="primary">
+                                <ThumbUpIcon color={liked ? "primary" : "inherit"} />
+                                </Badge>
+                            </IconButton>{userDetails && userDetails.uid === post.userId && (
+                                <IconButton color="secondary" onClick={handleDelete}>
+                                    <Delete />
+                                </IconButton>
+                            )}
+                            {userDetails && userDetails.uid === post.userId && (
+                                <IconButton color={isEditing ? 'success' : 'inherit'} onClick={() => setIsEditing(!isEditing)} >
+                                    <EditIcon />
+                                </IconButton>
+                            )}
+                            {isEditing && (
+                    <IconButton component="label" htmlFor={'upload-button'} sx={{ marginBottom: 1 }}>
+                    <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => setEditedImage(e.target.files[0])}
+                            style={{ display: "none" }}
+                            id="upload-button"
+                        />
+                        {<Collections/>}
+                    </IconButton>
+                    )}
+                        </Box>
                 <CardContent sx={
                     {
                         width: "100%",

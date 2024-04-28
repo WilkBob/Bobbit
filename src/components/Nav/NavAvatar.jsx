@@ -15,7 +15,7 @@ return (
     <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={userDetails?.username} src={userDetails?.profileImage} />
+                <Avatar alt={userDetails?.username} src={userDetails?.profileImage || userDetails?.username} />
             </IconButton>
         </Tooltip>
         <Menu

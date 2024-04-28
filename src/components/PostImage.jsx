@@ -31,9 +31,6 @@ const PostImage = ({ src }) => {
           cursor: 'pointer', 
           transition: 'transform 0.15s ease-in-out',
           borderRadius: '4px',
-          '&:hover': {
-            transform: 'scale(1.03)',
-          }
         }}
         onClick={handleOpen}
       />
