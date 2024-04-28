@@ -2,7 +2,7 @@ import { PostCard } from '../components/PostCard';
 import { useParams } from 'react-router-dom';
 import {  Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { getPost } from '../Firebase/firebaseDB';
+import { getPost, updatePost } from '../Firebase/firebaseDB';
 import CommentBox from '../components/CommentBox';
 import DisplayComments from '../components/DisplayComments';
 
@@ -15,6 +15,14 @@ const Post = () => {
     setPost(post);
   };
 
+  const handleEdit = async (id, title, content, image) => {
+    const editResult = await updatePost(id, title, content, image || null);
+    console.log('Edit result:', editResult);
+    setPost(null);
+    fetchPost();
+    
+  }
+
   useEffect(() => {
     fetchPost();
   }, [id]);
@@ -24,7 +32,7 @@ const Post = () => {
   }
 
   return (<>
-    <PostCard post={post}  />
+    <PostCard post={post} handleEdit={handleEdit} />
     <CommentBox postId={id} />
     <DisplayComments postId={id} />
   </>

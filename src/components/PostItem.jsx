@@ -39,8 +39,12 @@ export function PostItem({ post }) {
             >
               {` — ${post.content}`}
             </Typography>
-            <div>
-              <Chip
+            
+              
+            
+          </>
+        }
+      /><Chip
                 icon={<ThumbUpIcon />}
                 label={likesCount}
                 variant="contained"
@@ -53,10 +57,6 @@ export function PostItem({ post }) {
                 variant="contained"
                 size="small"
               />
-            </div>
-          </>
-        }
-      />
       
     </ListItem>
   );

@@ -27,7 +27,7 @@ export function UserCard({ displayUser }) {
   const handleImageChange = (event) => {
     setProfileImage(event.target.files[0]);
   };
-
+//todo take upload image up to firebaseDB, use it to update user profile image across all posts and comments
   const  handleSubmit = async () => {
     setIsEditing(false);
     const imageurl = profileImage ? await uploadImage(profileImage, user.uid) : userDetails.profileImage ? userDetails.profileImage : 'n';
@@ -37,6 +37,7 @@ export function UserCard({ displayUser }) {
       profileImage: imageurl
     };
     await updateUser(user.uid, updates);
+    
   };
 
   return (
@@ -84,7 +85,7 @@ export function UserCard({ displayUser }) {
           </>
         )}
         {isCurrentUser && (
-          <Button onClick={handleEditProfile}>{isEditing ? 'Close' : 'Edit Profile'}</Button>
+          <Button onClick={()=>{handleEditProfile}}>{isEditing ? 'Close' : 'Edit Profile'}</Button>
         )}
       </CardContent>
     </Card>

@@ -38,7 +38,7 @@ const CommentBox = ({ postId }) => {
         }
         setLoading(true);
         
-        await addComment(comment, userDetails.username, user.uid, postId, userDetails.profileImage || null, commentImage);
+       const NewComment = await addComment(comment, userDetails.username, user.uid, postId, userDetails.profileImage || null, commentImage);
         setComment('');
         setCommentImage(null);
         setCommentImagePreviewUrl(null);

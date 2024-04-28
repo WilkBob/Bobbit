@@ -1,7 +1,7 @@
 import {app} from './firebase';
-import { getDatabase, ref, set, get, child, update } from "firebase/database";
+import { getDatabase, ref, set, get, child, update, remove } from "firebase/database";
 import uniqueid from '../utility/UniqueId';
-import { uploadImage } from './firebaseStorage';
+import { uploadImage, deleteImage } from './firebaseStorage';
 const db = getDatabase(app);
 
 export const toggleLike = async (userId, postId) => {
@@ -62,17 +62,25 @@ export const updatePost = async (id, title, content, image, link) => {
     const updates = {
         title,
         content,
-        image: image || null,
         link: link || null,
         timestamp: Date.now()
     }
+    if (image) {
+        const imageUrl = await uploadImage(image, id);
+        updates.image = imageUrl;
+    }
     await update(ref(db, `posts/${id}`), updates);
+    const post = await getPost(id);
+    return post;
 }
 
 export const deletePost = async (id) => {
-    await update(ref(db, `posts/${id}`), {
-        deleted: true
-    });
+    const postRef = ref(db, `posts/${id}`);
+    const post = await get(postRef);
+    const userId = post.val().userId;
+    const userRef = ref(db, `users/${userId}`);
+    await remove(postRef);
+    await remove(child(userRef, `posts/${id}`));
 }
 
 export const getPosts = async () => {
@@ -91,12 +99,15 @@ export const getUser = async (id) => {
 
 export const updateUser = async (id, updates) => {
     await update(ref(db, `users/${id}`), updates);
+    const updatedUser = await getUser(id);
+    return updatedUser;
 }
 
 export const deleteUser = async (id) => {
     await update(ref(db, `users/${id}`), {
         deleted: true
     });
+
 }
 
 export const getLikedPosts = async (userId) => {
@@ -147,7 +158,7 @@ export const addComment = async (content, username, userId, postId, userImage, i
     await update(ref(db, `users/${userId}/comments`), {
         [id]: id
     });
-    return id;
+    return newComment;
 }
 
 export const getCommentsByPost = async (postId) => {
@@ -159,4 +170,44 @@ export const getCommentsByPost = async (postId) => {
         commentList.push(comment);
     }
     return commentList;
+}
+
+export const updateComment = async ( content, id, image, userImage) => {
+    const updates = {
+        content,
+        edited: true,
+        timestamp: Date.now(),
+        userImage: userImage || null,
+    }
+    if (image) {
+        const imageUrl = await uploadImage(image, id);
+        updates.imageUrl = imageUrl;
+    }
+    await update(ref(db, `comments/${id}`), updates);
+    const comment = await getComment(id);
+    return comment;
+}
+
+export const deleteComment = async (id, userId, postId) => {
+    try {
+        const commentRef = ref(db, `comments/${id}`);
+        if(!commentRef) {
+            return { success: false, message: 'Comment reference not found.' };
+        }
+        //if theres an image, delete that too
+        const comment = await getComment(id);
+        if (comment.imageUrl) {
+            await deleteImage(id);
+        }
+        const postRef = ref(db, `posts/${postId}`);
+        const userRef = ref(db, `users/${userId}`);
+        await remove(commentRef);
+        await remove(child(postRef, `comments/${id}`));
+        await remove(child(userRef, `comments/${id}`));
+
+        return { success: true, message: 'Comment deleted successfully.' };
+    } catch (error) {
+        console.error('Error deleting comment: ', error);
+        return { success: false, message: error.message };
+    }
 }
