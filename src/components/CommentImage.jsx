@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-import { styled } from '@mui/system';
-import { IconButton } from '@mui/material';
+import { styled, useTheme } from '@mui/system';
+import { IconButton, useMediaQuery } from '@mui/material';
 import Close from '@mui/icons-material/Close';
 
 const Image = styled('img')({
@@ -13,6 +13,8 @@ const Image = styled('img')({
 
 const CommentImage = ({ src }) => {
   const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -23,14 +25,13 @@ const CommentImage = ({ src }) => {
         alt="Comment"
         src={src}
         sx={{ 
-          width: '20%', 
-          height: '20%', 
+          width: isMobile ? '100%' : '50%', 
+          height: 'auto', 
           cursor: 'pointer', 
           transition: 'transform 0.15s ease-in-out',
           borderRadius: '4px',
           '&:hover': {
-            transform: 'scale(1.1)',
-
+            transform: 'scale(1.03)',
           }
         }}
         onClick={handleOpen}
@@ -42,22 +43,28 @@ const CommentImage = ({ src }) => {
         aria-describedby="modal-modal-description"
       >
         <Box 
+        className='glass'
           sx={{ 
             position: 'absolute', 
             top: '50%', 
             left: '50%', 
-            transform: 'translate(-50%, -50%)', 
-            bgcolor: 'background.paper', 
-            boxShadow: 24, 
-            p: 4 
+            transform: 'translate(-50%, -50%)',
+            width: '80%',
+
+            maxHeight: '80vh',
+            overflowY: 'auto',
           }}
         >
             <IconButton onClick={handleClose} sx={{position: 'absolute', top: 0, right: 0}}>
                 <Close />
             </IconButton>
-
-
-          <Image src={src} alt="Comment" />
+          <Image src={src} alt="Comment" sx={{
+            objectFit: 'contain',
+            width: '100%',
+            height: 'auto',
+            borderRadius: '4px',
+          
+          }} />
         </Box>
       </Modal>
     </>

@@ -9,10 +9,11 @@ import DisplayComments from '../components/DisplayComments';
 const Post = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
-
+  const [loading, setLoading] = useState(true);
   const fetchPost = async () => {
     const post = await getPost(id);
     setPost(post);
+    setLoading(false);
   };
 
   const handleEdit = async (id, title, content, userImage, image) => {
@@ -27,12 +28,10 @@ const Post = () => {
     fetchPost();
   }, [id]);
 
-  if (!post) {
-    return <Typography variant="h4">Post not found</Typography>;
-  }
+  
 
   return (<>
-    <PostCard post={post} handleEdit={handleEdit} />
+    <PostCard post={post} handleEdit={handleEdit} loading={loading} />
     <CommentBox postId={id} />
     <DisplayComments postId={id} />
   </>

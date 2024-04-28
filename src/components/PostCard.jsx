@@ -1,10 +1,9 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
     Card,
     CardContent,
     CardHeader,
-    
     Box,
     Typography,
     Chip,
@@ -12,26 +11,29 @@ import {
     IconButton,
     Avatar,
     TextField,
-    Button
+    Button,
+    CircularProgress
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import EditIcon from "@mui/icons-material/Edit";
 import { UserContext } from "./context/UserContext";
-import { toggleLike } from "../Firebase/firebaseDB";
+import { deletePost, toggleLike } from "../Firebase/firebaseDB";
 import PostImage from "./PostImage";
-import { Image } from "@mui/icons-material";
+import { Delete, Image } from "@mui/icons-material";
 
-export function PostCard({ post, handleEdit }) {
-    const { user, userDetails } = useContext(UserContext);
+export function PostCard({ post, handleEdit, loading }) {
+    const navigate = useNavigate();
+    const { userDetails } = useContext(UserContext);
     const [likesCount, setLikesCount] = useState(
-        Object.keys(post.likes || {}).length
+        0
     );
     const [liked, setLiked] = useState(
-        userDetails && post.likes && post.likes[userDetails.uid]
+        false
     );
     const [isEditing, setIsEditing] = useState(false);
-    const [editedPost, setEditedPost] = useState(post.content);
+    const [editedPost, setEditedPost] = useState(null);
+    
     const [editedImage, setEditedImage] = useState(null);
 
     const handleSave = () => {
@@ -39,9 +41,25 @@ export function PostCard({ post, handleEdit }) {
         setIsEditing(false);
     };
 
+    const handleDelete = async () => {
+       await deletePost(post.id);
+       navigate('/');
+    }
+
+    useEffect(() => {
+        if (!post) {
+            return;
+        }
+        setLikesCount(Object.keys(post.likes || {}).length);
+        setLiked(userDetails && post.likes && post.likes[userDetails.uid]);
+        setEditedPost(post.content);
+        
+    }, [post, userDetails]);
+
     return (
         <Card sx={{ display: "flex", marginTop: 2, padding: 2 }}>
-            <Box sx={{ display: "flex", flexDirection: "column", marginInline: "20px", width:'100%'}}>
+            {loading && <Box sx={{ display: "flex", flexDirection: "column", marginInline: "auto", width:'100%'}}><CircularProgress/></Box>}
+            {!loading &&<Box sx={{ display: "flex", flexDirection: "column", marginInline: "auto", width:'100%'}}>
             <CardHeader
                     title={post.title}
                     action={
@@ -68,6 +86,11 @@ export function PostCard({ post, handleEdit }) {
                             {userDetails && userDetails.uid === post.userId && (
                                 <IconButton onClick={() => setIsEditing(!isEditing)} sx={{ marginLeft: 1 }}>
                                     <EditIcon />
+                                </IconButton>
+                            )}
+                            {userDetails && userDetails.uid === post.userId && (
+                                <IconButton onClick={handleDelete} sx={{ marginLeft: 1 }}>
+                                    <Delete />
                                 </IconButton>
                             )}
                         </Box>
@@ -151,7 +174,7 @@ export function PostCard({ post, handleEdit }) {
                     )}
                     
                 </CardContent>
-            </Box>
+            </Box>}
         </Card>
     );
 }

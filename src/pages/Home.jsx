@@ -13,8 +13,8 @@ const Home = () => {
   useEffect(() => {
     getPosts().then(posts => {
       if (posts) setPosts(posts);
-      setLoading(false);
-    });
+      
+    });setLoading(false);
   }, []);
 
 

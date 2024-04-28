@@ -140,8 +140,9 @@ export const getComment = async (id) => {
 }
 
 export const addComment = async (content, username, userId, postId, userImage, image) => {
-    const imageUrl = image ? await uploadImage(image, postId) : null;
+    
     const id = uniqueid();
+    const imageUrl = image ? await uploadImage(image, id) : null;
     const newComment = {
         content,
         userId,
