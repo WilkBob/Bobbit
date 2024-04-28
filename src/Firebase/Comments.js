@@ -28,7 +28,7 @@ export const toggleCommentLike = async (userId, commentId, postId) => {
     await update(userRef, userLikes);
 }
 
-export const addComment = async (content, username, userId, postId, userImage, image) => {
+export const addComment = async (content, username, userId, postId, userImage, forumId, image) => {
     const id = uniqueid();
     const imageUrl = image ? await uploadImage(image, id) : null;
     const newComment = {
@@ -39,16 +39,17 @@ export const addComment = async (content, username, userId, postId, userImage, i
         imageUrl: imageUrl || null,
         timestamp: Date.now(),
         username,
-        userImage
+        userImage,
+        forumId,
     }
     await set(ref(db, `comments/${postId}/${id}`), newComment);
-    await update(ref(db, `posts/${postId}/comments`), {
+    await update(ref(db, `posts/${forumId}/${postId}/comments`), {
         [id]: id
     });
     await update(ref(db, `users/${userId}/comments`), {
         [id]: id
     });
-    await toggleCommentLike(userId, id, postId);
+    await toggleCommentLike(userId, id, postId, forumId);
     return newComment;
 }
 
@@ -88,7 +89,8 @@ export const deleteComment = async (postId, commentId, userId) => {
         if (comment.imageUrl) {
             await deleteImage(commentId);
         }
-        const postRef = ref(db, `posts/${postId}`);
+        const forumId = comment.forumId;
+        const postRef = ref(db, `posts/${forumId}/${postId}`);
         const userRef = ref(db, `users/${userId}`);
         await remove(commentRef);
         await remove(child(postRef, `comments/${commentId}`));

@@ -5,8 +5,8 @@ import { uploadImage, deleteImage } from './firebaseStorage';
 import { toggleLike } from './Users';
 
 
-export const getPost = async (id) => {
-    const post = await get(ref(db, `posts/${id}`));
+export const getPost = async (id, forumId) => {
+    const post = await get(ref(db, `posts/${forumId}/${id}`));
     console.log(post.val());
     return post.val();
   }
@@ -30,12 +30,12 @@ export const getPost = async (id) => {
     await update(ref(db, `users/${userId}/posts`), {
       [id]: id
     });
-    await toggleLike(userId, id);
+    await toggleLike(userId, id, forumId);
   
     return id;
   };
   
-  export const updatePost = async (id, title, content, userImage, image, link) => {
+  export const updatePost = async (id, title, content, userImage, forumId, image, link, ) => {
       const updates = {
           title,
           content,
@@ -47,7 +47,7 @@ export const getPost = async (id) => {
           const imageUrl = await uploadImage(image, id);
           updates.image = imageUrl;
       }
-      await update(ref(db, `posts/${id}`), updates);
+      await update(ref(db, `posts/${forumId}/${id}`), updates);
       const post = await getPost(id);
       return post;
   }

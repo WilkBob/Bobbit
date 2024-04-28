@@ -8,7 +8,7 @@ export function PostItem({ post }) {
   const likesCount = post.likes ? Object.keys(post.likes).length : 0;
   const commentsCount = post.comments ? Object.keys(post.comments).length : 0;
   return (
-    <ListItem key={post.id} component={Link} to={`/post/${post.id}`} button 
+    <ListItem key={post.id} component={Link} to={`/post/${post.forumId}/${post.id}`} button 
     
     sx={{
       borderRadius: 'inherit',

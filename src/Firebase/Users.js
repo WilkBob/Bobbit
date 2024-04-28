@@ -23,39 +23,38 @@ export const deleteUser = async (id) => {
 
 }
 
-export const toggleLike = async (userId, postId) => {
-    const postRef = ref(db, `posts/${postId}`);
+export const toggleLike = async (userId, postId, forumId) => {
+    const postRef = ref(db, `posts/${forumId}/${postId}`);
     const userRef = ref(db, `users/${userId}`);
-    const post = await get(postRef);
-    const user = await get(userRef);
-    const postLikes = post.val().likes || {};
-    const userLikes = user.val().likes || {};
-  
-    if (postLikes[userId]) {
-      delete postLikes[userId];
-      delete userLikes[postId];
-    } else {
-      postLikes[userId] = userId;
-      userLikes[postId] = postId;
-    }
-  
-    const updates = {};
-    updates[`/posts/${postId}/likes`] = postLikes;
-    updates[`/users/${userId}/likes`] = userLikes;
-  
-    await update(ref(db), updates);
-  }
+    const postSnapshot = await get(postRef);
+    const userSnapshot = await get(userRef);
 
-export const getLikedPosts = async (userId) => {
-    const user = await get(ref(db, `users/${userId}`));
-    const likedPosts = user.val().likes;
-    const posts = await get(ref(db, 'posts'));
-    const likedPostList = [];
-    for (const postId in likedPosts) {
-        likedPostList.push(posts.val()[postId]);
+    // Check if post and user are not null
+    if (!postSnapshot.exists() || !userSnapshot.exists()) {
+        console.error('Post or user does not exist');
+        return;
     }
-    return likedPostList;
+
+    const post = postSnapshot.val();
+    const user = userSnapshot.val();
+    const postLikes = post.likes || {};
+    const userLikes = user.likes || {};
+
+    if (postLikes[userId]) {
+        delete postLikes[userId];
+        delete userLikes[postId];
+    } else {
+        postLikes[userId] = userId;
+        userLikes[postId] = postId;
+    }
+
+    const updates = {};
+    updates[`/posts/${forumId}/${postId}/likes`] = postLikes;
+    updates[`/users/${userId}/likes`] = userLikes;
+
+    await update(ref(db), updates);
 }
+
 
 export const getPostsByUser = async (userId) => {
     const user = await get(ref(db, `users/${userId}`));

@@ -12,7 +12,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const postsRef = ref(db, 'posts');
+    const postsRef = ref(db, 'posts/general');
     const unsubscribe = onValue(postsRef, (snapshot) => {
       setPosts(Object.values(snapshot.val() || {}));
       setLoading(false);

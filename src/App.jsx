@@ -29,7 +29,7 @@ function App() {
           <Route path='/login' element={<Login/>}/>
           <Route path='/logout' element={<Logout/>}/>
           <Route path='/signup' element={<Signup/>}/>
-          <Route path='/post/:id' element={<Post/>}/>
+          <Route path='/post/:forumId/:id' element={<Post/>}/>
           <Route path='/user/:id' element={<User/>}/>
           <Route path='/Profile' element={<Profile/>}/>
           <Route path='/Forums' element={<Forums/>}/>

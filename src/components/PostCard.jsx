@@ -48,7 +48,7 @@ export function PostCard({ post, handleEdit, loading }) {
         if (!confirmDelete) {
             return;
         }
-       await deletePost(post.id);
+       await deletePost(post.id, post.forumId);
        navigate('/');
     }
 
@@ -98,7 +98,7 @@ export function PostCard({ post, handleEdit, loading }) {
                                     if (!userDetails) {
                                         navigate("/login");
                                     }
-                                    await toggleLike(userDetails.uid, post.id);
+                                    await toggleLike(userDetails.uid, post.id, post.forumId);
                                     setLiked(!liked);
                                     setLikesCount(liked ? likesCount - 1 : likesCount + 1);
                                 }}

@@ -24,17 +24,17 @@ const DisplayComments = ({ postId }) => {
 
     
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (id, postId) => {
         const confirmDelete = window.confirm('Are you sure you want to delete this comment?');
         if (confirmDelete) {
-            await deleteComment(id, user.uid, postId); 
+            await deleteComment(postId, id, user.uid); 
             setComments([]);
             fetchComments(); 
         }
     }
 
     const handleEdit = async (id, content, image) => {
-        const editResult = await updateComment(content, id, image, userDetails.profileImage || null); 
+        const editResult = await updateComment(content, postId, id, image, userDetails.profileImage || null); 
         console.log('Edit result:', editResult);
         setComments([]);
         fetchComments();

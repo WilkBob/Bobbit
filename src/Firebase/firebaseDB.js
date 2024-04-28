@@ -5,11 +5,3 @@ export const db = getDatabase(app);
 
 
 
-// posts
-
-
-// users --most will be in auth--
-
-
-
-// comments

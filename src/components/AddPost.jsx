@@ -67,14 +67,14 @@ const handleSubmit = async (event) => {
 
 setLoading(true);
 
-    // Add the post to the Firebase Database with the image URL
+    console.log('Adding post', title, content, image, forumId, link, );
     await addPost({
         title,
         content,
         userId: user.uid,
         username: userDetails.username,
         userImage: userDetails.profileImage || null,
-        forum: forumId,
+        forumId: forumId,
         image: image,
         link
     });

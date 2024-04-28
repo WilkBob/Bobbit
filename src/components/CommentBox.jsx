@@ -6,7 +6,7 @@ import { Box, TextField, Button, CircularProgress, IconButton, InputAdornment } 
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import CloseIcon from '@mui/icons-material/Close';
 
-const CommentBox = ({ postId }) => {
+const CommentBox = ({ postId, forumId }) => {
     const {user, userDetails} = useContext(UserContext);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -38,7 +38,7 @@ const CommentBox = ({ postId }) => {
         }
         setLoading(true);
         
-       const NewComment = await addComment(comment, userDetails.username, user.uid, postId, userDetails.profileImage || null, commentImage);
+       const NewComment = await addComment(comment, userDetails.username, user.uid, postId, userDetails.profileImage || null, forumId, commentImage);
         setComment('');
         setCommentImage(null);
         setCommentImagePreviewUrl(null);

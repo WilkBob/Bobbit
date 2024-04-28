@@ -119,7 +119,7 @@ const Comment = ({
                             </IconButton>
                             <IconButton
                                 color="secondary"
-                                onClick={()=>handleDelete(comment.id)}
+                                onClick={()=>handleDelete(comment.id, comment.postId)}
                             >
                                 <DeleteOutline/>
                             </IconButton>
