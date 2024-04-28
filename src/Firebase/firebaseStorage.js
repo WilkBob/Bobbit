@@ -1,5 +1,5 @@
 import {app} from "./firebase";
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 
 const storage = getStorage(app);
 
@@ -37,12 +37,10 @@ export const uploadImage = async (file, id) => {
     return downloadURL;
 }
 
-export const deleteImage = async (url) => {
-    const imageRef = ref(storage, url);
-    try {
-        await imageRef.delete();
-    } catch (error) {
-        console.error(error);
-    }
-}
 
+
+export const deleteImage = async (id) => {
+  const imageRef = ref(storage, `images/${id}`);
+  await deleteObject(imageRef);
+    console.log('Image deleted successfully frfrfr');
+};

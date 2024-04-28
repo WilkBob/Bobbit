@@ -20,6 +20,7 @@ const Post = () => {
     const editResult = await updatePost(id, title, content, userImage, image);
     console.log('Edit result:', editResult);
     setPost(null);
+    setLoading(true);
     fetchPost();
     
   }
@@ -32,6 +33,9 @@ const Post = () => {
 
   return (<>
     <PostCard post={post} handleEdit={handleEdit} loading={loading} />
+    <Typography variant="h6" component="div" sx={{ marginBottom: '10px' }}>
+      Comments
+    </Typography>
     <CommentBox postId={id} />
     <DisplayComments postId={id} />
   </>

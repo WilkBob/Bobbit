@@ -48,7 +48,7 @@ const CommentBox = ({ postId }) => {
     }
 
     return (
-        <Box sx={{ mt: 2 }}>
+        <Box sx={{ marginBlock: 2 }}>
             <TextField
                 variant="outlined"
                 multiline

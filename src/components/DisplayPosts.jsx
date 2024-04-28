@@ -13,7 +13,7 @@ const DisplayPosts = ({posts, loading}) => {
             {posts && Object.values(posts).map(post => (
               [<PostItem post={post} key={post.id}  />, <Divider key={post.id + 'divider'} />]
             ))}
-            {posts.length < 1 && loading && <CircularProgress sx={{
+            {loading && <CircularProgress sx={{
               display: 'block',
               margin: 'auto',
               marginTop: '20px',

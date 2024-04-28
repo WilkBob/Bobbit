@@ -20,7 +20,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { UserContext } from "./context/UserContext";
 import { deletePost, toggleLike } from "../Firebase/firebaseDB";
 import PostImage from "./PostImage";
-import { Delete, Image } from "@mui/icons-material";
+import { Collections, Delete } from "@mui/icons-material";
 
 export function PostCard({ post, handleEdit, loading }) {
     const navigate = useNavigate();
@@ -33,15 +33,19 @@ export function PostCard({ post, handleEdit, loading }) {
     );
     const [isEditing, setIsEditing] = useState(false);
     const [editedPost, setEditedPost] = useState(null);
-    
+    const [editedTitle, setEditedTitle] = useState(null);
     const [editedImage, setEditedImage] = useState(null);
 
     const handleSave = () => {
-        handleEdit(post.id, post.title, editedPost, userDetails.profileImage || null, editedImage? editedImage : null);
+        handleEdit(post.id, editedTitle, editedPost, userDetails.profileImage || null, editedImage? editedImage : null);
         setIsEditing(false);
     };
 
     const handleDelete = async () => {
+        const confirmDelete = window.confirm('Are you sure you want to delete this post?');
+        if (!confirmDelete) {
+            return;
+        }
        await deletePost(post.id);
        navigate('/');
     }
@@ -53,18 +57,37 @@ export function PostCard({ post, handleEdit, loading }) {
         setLikesCount(Object.keys(post.likes || {}).length);
         setLiked(userDetails && post.likes && post.likes[userDetails.uid]);
         setEditedPost(post.content);
-        
+        setEditedTitle(post.title);
+
     }, [post, userDetails]);
+
+    if(loading) return (<CircularProgress/>);
 
     return (
         <Card sx={{ display: "flex", marginTop: 2, padding: 2 }}>
-            {loading && <Box sx={{ display: "flex", flexDirection: "column", marginInline: "auto", width:'100%'}}><CircularProgress/></Box>}
-            {!loading &&<Box sx={{ display: "flex", flexDirection: "column", marginInline: "auto", width:'100%'}}>
+            
+          <Box sx={{ display: "flex", flexDirection: "column", marginInline: "auto", width:'100%'}}>
             <CardHeader
-                    title={post.title}
+                    title={
+                        !isEditing ? (post?.title) : (
+                            <TextField label='Title' value={editedTitle} sx={{marginBottom: '5px'}} onChange={(e) => setEditedTitle(e.target.value)} />
+                        )
+                    }
                     action={
                         <Box key="likesBox" sx={{ display: "flex", alignItems: "center" }}>
+                            {isEditing && (
+                    <IconButton component="label" htmlFor={'upload-button'} >
+                    <input
+                            type="file"
+                            onChange={(e) => setEditedImage(e.target.files[0])}
+                            style={{ display: "none" }}
+                            id="upload-button"
+                        />
+                        {<Collections/>}
+                    </IconButton>
+                    )}
                             <IconButton
+                                
                                 onClick={async () => {
                                     if (!userDetails) {
                                         return;
@@ -84,12 +107,12 @@ export function PostCard({ post, handleEdit, loading }) {
                                 {likesCount}
                             </Typography>
                             {userDetails && userDetails.uid === post.userId && (
-                                <IconButton onClick={() => setIsEditing(!isEditing)} sx={{ marginLeft: 1 }}>
+                                <IconButton color={isEditing ? 'success' : 'inherit'} onClick={() => setIsEditing(!isEditing)} >
                                     <EditIcon />
                                 </IconButton>
                             )}
                             {userDetails && userDetails.uid === post.userId && (
-                                <IconButton onClick={handleDelete} sx={{ marginLeft: 1 }}>
+                                <IconButton color="secondary" onClick={handleDelete}>
                                     <Delete />
                                 </IconButton>
                             )}
@@ -138,17 +161,7 @@ export function PostCard({ post, handleEdit, loading }) {
                         <PostImage src={URL.createObjectURL(editedImage)} />
                     )}
 
-                    {isEditing && (
-                    <IconButton component="label" htmlFor={'upload-button'} sx={{ marginBottom: 1 }}>
-                    <input
-                            type="file"
-                            onChange={(e) => setEditedImage(e.target.files[0])}
-                            style={{ display: "none" }}
-                            id="upload-button"
-                        />
-                        {<Image />}
-                    </IconButton>
-                    )}
+                    
 
                     {isEditing ? (
                         <TextField
@@ -156,6 +169,8 @@ export function PostCard({ post, handleEdit, loading }) {
                             onChange={(e) => setEditedPost(e.target.value)}
                             multiline
                             fullWidth
+                            label="Content"
+                            sx={{ marginRight: 2 }}
                         />
                     ) : (
                         <Typography variant="body2" color="text.primary">
@@ -174,7 +189,7 @@ export function PostCard({ post, handleEdit, loading }) {
                     )}
                     
                 </CardContent>
-            </Box>}
+            </Box>
         </Card>
     );
 }

@@ -80,6 +80,9 @@ export const deletePost = async (id) => {
     const post = await get(postRef);
     const userId = post.val().userId;
     const userRef = ref(db, `users/${userId}`);
+    if (post.val().image) {
+        await deleteImage(id);
+    }
     await remove(postRef);
     await remove(child(userRef, `posts/${id}`));
 }
@@ -160,7 +163,31 @@ export const addComment = async (content, username, userId, postId, userImage, i
     await update(ref(db, `users/${userId}/comments`), {
         [id]: id
     });
+    await toggleCommentLike(userId, id);
     return newComment;
+}
+
+export const toggleCommentLike = async (userId, commentId) => {
+    const commentRef = ref(db, `comments/${commentId}`);
+    const userRef = ref(db, `users/${userId}`);
+    const comment = await get(commentRef);
+    const user = await get(userRef);
+    const commentLikes = comment.val().likes || {};
+    const userLikes = user.val().commentLikes || {};
+
+    if (commentLikes[userId]) {
+        delete commentLikes[userId];
+        delete userLikes[commentId];
+    } else {
+        commentLikes[userId] = userId;
+        userLikes[commentId] = commentId;
+    }
+
+    const updates = {};
+    updates[`/comments/${commentId}/likes`] = commentLikes;
+    updates[`/users/${userId}/commentLikes`] = userLikes;
+
+    await update(ref(db), updates);
 }
 
 export const getCommentsByPost = async (postId) => {
@@ -178,7 +205,7 @@ export const updateComment = async ( content, id, image, userImage) => {
     const updates = {
         content,
         edited: true,
-        timestamp: Date.now(),
+
         userImage: userImage || null,
     }
     if (image) {

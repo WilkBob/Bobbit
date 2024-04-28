@@ -11,13 +11,14 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getPosts().then(posts => {
-      if (posts) setPosts(posts);
-      
-    });setLoading(false);
+    fetchPosts();
   }, []);
 
-
+const fetchPosts = async () => {
+  const posts = await getPosts();
+  setPosts(posts);
+  setLoading(false);
+}
   return (
     <>
       <Typography variant="h4" component="h1" align="center" gutterBottom>

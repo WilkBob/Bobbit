@@ -9,6 +9,8 @@ import Close from '@mui/icons-material/Close';
 const Image = styled('img')({
   width: '100%',
   height: 'auto',
+  maxHeight: '100vh', // Limit the height of the image to the viewport height
+  objectFit: 'contain', // Ensure that the image is scaled correctly
 });
 
 const PostImage = ({ src }) => {
@@ -25,14 +27,12 @@ const PostImage = ({ src }) => {
         alt="Comment"
         src={src}
         sx={{ 
-          width: isMobile ? '90%' : '80%', 
-          height: 'auto', 
+          width: isMobile ? '100%' : '80%', 
           cursor: 'pointer', 
-          transition: 'transform 0.15s ease-in-out, margin-bottom 0.15s ease-in-out',
+          transition: 'transform 0.15s ease-in-out',
           borderRadius: '4px',
           '&:hover': {
             transform: 'scale(1.03)',
-            marginBottom: '10px'
           }
         }}
         onClick={handleOpen}
@@ -52,18 +52,14 @@ const PostImage = ({ src }) => {
             transform: 'translate(-50%, -50%)',
             width: '80%',
             maxHeight: '80vh',
-            overflowY: 'auto'
+            overflowY: 'auto',
           }}
         >
             <IconButton onClick={handleClose} sx={{position: 'absolute', top: 0, right: 0}}>
                 <Close />
             </IconButton>
           <Image src={src} alt="Comment" sx={{
-            objectFit: 'contain',
-            width: '100%',
-            height: 'auto',
             borderRadius: '4px',
-          
           }} />
         </Box>
       </Modal>
