@@ -3,6 +3,8 @@ import Avatar from '@mui/material/Avatar';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/system';
+import { IconButton } from '@mui/material';
+import Close from '@mui/icons-material/Close';
 
 const Image = styled('img')({
   width: '100%',
@@ -50,6 +52,11 @@ const CommentImage = ({ src }) => {
             p: 4 
           }}
         >
+            <IconButton onClick={handleClose} sx={{position: 'absolute', top: 0, right: 0}}>
+                <Close />
+            </IconButton>
+
+
           <Image src={src} alt="Comment" />
         </Box>
       </Modal>

@@ -85,7 +85,7 @@ export function UserCard({ displayUser }) {
           </>
         )}
         {isCurrentUser && (
-          <Button onClick={()=>{handleEditProfile}}>{isEditing ? 'Close' : 'Edit Profile'}</Button>
+         <Button onClick={handleEditProfile}>{isEditing ? 'Close' : 'Edit Profile'}</Button>
         )}
       </CardContent>
     </Card>

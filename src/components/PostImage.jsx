@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-import { styled } from '@mui/system';
+import { styled, useTheme } from '@mui/system';
+import { IconButton, useMediaQuery } from '@mui/material';
+import { Close } from '@mui/icons-material';
 
 const Image = styled('img')({
   width: '100%',
@@ -10,6 +12,8 @@ const Image = styled('img')({
 
 const PostImage = ({ src }) => {
   const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -20,14 +24,13 @@ const PostImage = ({ src }) => {
         alt="Comment"
         src={src}
         sx={{ 
-          width: '50%', 
-          height: '50%', 
+          width: isMobile ? '100%' : '50%',  
           cursor: 'pointer', 
-          transition: 'transform 0.15s ease-in-out',
+          transition: 'transform 0.15s ease-in-out, margin-bottom 0.15s ease-in-out',
           borderRadius: '4px',
           '&:hover': {
             transform: 'scale(1.1)',
-
+            marginBottom: '15px'
           }
         }}
         onClick={handleOpen}
@@ -46,9 +49,18 @@ const PostImage = ({ src }) => {
             transform: 'translate(-50%, -50%)', 
             bgcolor: 'background.paper', 
             boxShadow: 24, 
-            p: 4 
+            p: 4,
+            width: isMobile ? '90%' : '80%',
+            height: 'auto',
+            borderRadius: '8px',
           }}
         >
+        <IconButton
+            sx={{ position: 'absolute', top: 0, right: 0 }}
+            onClick={handleClose}
+        >
+            <Close/>
+        </IconButton>
           <Image src={src} alt="Comment" />
         </Box>
       </Modal>

@@ -4,11 +4,11 @@ import {
     Card,
     CardContent,
     CardHeader,
-    CardMedia,
+    
     Box,
     Typography,
     Chip,
-    Icon,
+
     IconButton,
     Avatar,
     TextField,
@@ -19,6 +19,8 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import EditIcon from "@mui/icons-material/Edit";
 import { UserContext } from "./context/UserContext";
 import { toggleLike } from "../Firebase/firebaseDB";
+import PostImage from "./PostImage";
+import { Image } from "@mui/icons-material";
 
 export function PostCard({ post, handleEdit }) {
     const { user, userDetails } = useContext(UserContext);
@@ -30,91 +32,99 @@ export function PostCard({ post, handleEdit }) {
     );
     const [isEditing, setIsEditing] = useState(false);
     const [editedPost, setEditedPost] = useState(post.content);
+    const [editedImage, setEditedImage] = useState(null);
 
     const handleSave = () => {
-        handleEdit(post.id, post.title, editedPost, post.image);
+        handleEdit(post.id, post.title, editedPost, userDetails.profileImage || null, editedImage? editedImage : null);
         setIsEditing(false);
     };
 
     return (
         <Card sx={{ display: "flex", marginTop: 2, padding: 2 }}>
-            <Box sx={{ display: "flex", flexDirection: "column", marginLeft: "20px" }}>
-                <CardHeader
-    title={post.title}
-    subheader={[
-        <Box key="userBox" sx={{ display: "flex", alignItems: "center" }}>
-            {post.userImage ? (
-                <Avatar src={post.userImage} />
-            ) : (
-                <AccountCircleIcon />
-            )}
-            <Typography
-                variant="body2"
-                component={Link}
-                to={`/user/${post.userId}`}
-                color="text.secondary"
-                sx={{ marginLeft: 1 }}
-            >
-                {`u/${post.username}`}
-            </Typography>
-        </Box>,
-        <Box key="likesBox" sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton
-                onClick={async () => {
-                    if (!userDetails) {
-                        return;
+            <Box sx={{ display: "flex", flexDirection: "column", marginInline: "20px", width:'100%'}}>
+            <CardHeader
+                    title={post.title}
+                    action={
+                        <Box key="likesBox" sx={{ display: "flex", alignItems: "center" }}>
+                            <IconButton
+                                onClick={async () => {
+                                    if (!userDetails) {
+                                        return;
+                                    }
+                                    await toggleLike(userDetails.uid, post.id);
+                                    setLiked(!liked);
+                                    setLikesCount(liked ? likesCount - 1 : likesCount + 1);
+                                }}
+                            >
+                                <ThumbUpIcon
+                                    sx={{
+                                        color: liked ? "primary.main" : "action",
+                                    }}
+                                />
+                            </IconButton>
+                            <Typography variant="body2" color="text.secondary">
+                                {likesCount}
+                            </Typography>
+                            {userDetails && userDetails.uid === post.userId && (
+                                <IconButton onClick={() => setIsEditing(!isEditing)} sx={{ marginLeft: 1 }}>
+                                    <EditIcon />
+                                </IconButton>
+                            )}
+                        </Box>
                     }
-                    await toggleLike(userDetails.uid, post.id);
-                    setLiked(!liked);
-                    setLikesCount(liked ? likesCount - 1 : likesCount + 1);
-                }}
-            >
-                <ThumbUpIcon
-                    sx={{
-                        color: liked ? "primary.main" : "action",
-                    }}
-                />
-            </IconButton>
-            <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{ marginLeft: 1 }}
-            >
-                {` ${likesCount} ${likesCount === 1 ? "like" : "likes"}`}
-            </Typography>
-            {userDetails && userDetails.uid === post.userId && (
-                <IconButton onClick={() => setIsEditing(true)} sx={{ marginLeft: 1 }}>
-                    <EditIcon />
-                </IconButton>
-            )}
-        </Box>,
-        <Chip
-            key="timestampChip"
-            label={new Date(post.timestamp).toLocaleString("en-US", {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-            })}
-            color="primary"
-            sx={{ marginLeft: 1 }}
-        />,
-    ]}
-/>
-
-                <CardContent>
-                    {post.image && (
-                        <CardMedia
-                            component="img"
-                            sx={{
-                                maxWidth: "500px",
-                                objectFit: "cover",
-                                borderRadius: 1,
-                                marginTop: 2,
-                            }}
-                            image={post.image}
-                            alt={post.title}
+                    subheader={
+                        <Chip
+                            key="timestampChip"
+                            label={new Date(post.timestamp).toLocaleString("en-US", {
+                                weekday: "long",
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                            }) + (post.edited ? " (edited)" : "")}
+                            color="primary"
                         />
+                    }
+                />
+                <CardContent sx={
+                    {
+                        width: "100%",
+                    }
+                }>
+                
+                <Box key="userBox" sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}>
+                        {post.userImage ? (
+                            <Avatar src={post.userImage} />
+                        ) : (
+                            <AccountCircleIcon />
+                        )}
+                        <Typography
+                            variant="body2"
+                            component={Link}
+                            to={`/user/${post.userId}`}
+                            color="text.secondary"
+                            sx={{ marginLeft: 1 }}
+                        >
+                            {`u/${post.username}`}
+                        </Typography>
+                    </Box>
+                    
+                    {post.image && !editedImage && (
+                        <PostImage src={post.image}/>
+                    )}
+                    {editedImage && isEditing && (
+                        <PostImage src={URL.createObjectURL(editedImage)} />
+                    )}
+
+                    {isEditing && (
+                    <IconButton component="label" htmlFor={'upload-button'} sx={{ marginBottom: 1 }}>
+                    <input
+                            type="file"
+                            onChange={(e) => setEditedImage(e.target.files[0])}
+                            style={{ display: "none" }}
+                            id="upload-button"
+                        />
+                        {<Image />}
+                    </IconButton>
                     )}
 
                     {isEditing ? (
@@ -134,6 +144,12 @@ export function PostCard({ post, handleEdit }) {
                             Save
                         </Button>
                     )}
+                    {isEditing && (
+                        <Button onClick={() => setIsEditing(false)} sx={{ marginTop: 1 }}>
+                            Cancel
+                        </Button>
+                    )}
+                    
                 </CardContent>
             </Box>
         </Card>

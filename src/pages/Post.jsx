@@ -15,8 +15,8 @@ const Post = () => {
     setPost(post);
   };
 
-  const handleEdit = async (id, title, content, image) => {
-    const editResult = await updatePost(id, title, content, image || null);
+  const handleEdit = async (id, title, content, userImage, image) => {
+    const editResult = await updatePost(id, title, content, userImage, image);
     console.log('Edit result:', editResult);
     setPost(null);
     fetchPost();

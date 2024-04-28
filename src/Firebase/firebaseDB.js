@@ -58,12 +58,13 @@ export const addPost = async ({ title, content, userId, username, userImage, for
   return id;
 };
 
-export const updatePost = async (id, title, content, image, link) => {
+export const updatePost = async (id, title, content, userImage, image, link) => {
     const updates = {
         title,
         content,
         link: link || null,
-        timestamp: Date.now()
+        userImage: userImage || null,
+        edited: true
     }
     if (image) {
         const imageUrl = await uploadImage(image, id);
