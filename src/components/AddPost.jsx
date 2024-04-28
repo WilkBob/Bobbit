@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Button, TextField, Collapse, IconButton, CircularProgress, InputAdornment } from '@mui/material';
 import { UserContext } from './context/UserContext';
 import { useNavigate } from 'react-router-dom';
-import { addPost } from '../Firebase/firebaseDB';
+import { addPost } from '../Firebase/Posts';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import SignInIcon from '@mui/icons-material/Login';
@@ -88,7 +88,6 @@ setLoading(true);
     setLoading(false);
     setOpen(false);
     //relaod the page
-    window.location.reload();
 }
   return (
     <>

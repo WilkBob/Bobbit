@@ -2,7 +2,7 @@ import { UserCard } from '../components/UserCard';
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 
 'react-router-dom';
-import { getPostsByUser, getUser } from '../Firebase/firebaseDB';
+import { getPostsByUser, getUser } from '../Firebase/Users';
 import { Typography, Card, CardContent, Avatar } from '@mui/material';
 import DisplayPosts from '../components/DisplayPosts';
 

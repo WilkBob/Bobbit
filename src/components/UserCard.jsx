@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Avatar, Card, CardContent, Typography, TextField, Button } from "@mui/material";
 import { UserContext } from "./context/UserContext";
 import { uploadImage } from "../Firebase/firebaseStorage";
-import { updateUser } from "../Firebase/firebaseDB";
+import { updateUser } from "../Firebase/Users";
 import UserCardAvatar from "./UserCardAvatar";
 
 export function UserCard({ displayUser }) {

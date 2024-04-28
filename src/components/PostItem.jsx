@@ -8,7 +8,9 @@ export function PostItem({ post }) {
   const likesCount = post.likes ? Object.keys(post.likes).length : 0;
   const commentsCount = post.comments ? Object.keys(post.comments).length : 0;
   return (
-    <ListItem key={post.id} component={Link} to={`/post/${post.id}`} button sx={{
+    <ListItem key={post.id} component={Link} to={`/post/${post.id}`} button 
+    
+    sx={{
       borderRadius: 'inherit',
     }}>
       <ListItemAvatar>
@@ -37,7 +39,13 @@ export function PostItem({ post }) {
                 textOverflow: 'ellipsis',
               }}
             >
-              {` — ${post.content}`}
+              {`${new Date(post.timestamp).toLocaleDateString(
+                'en-US',
+                {
+                  month: 'long',
+                  day: 'numeric',
+                }
+              )} — ${post.content}`}
             </Typography>
             
               

@@ -12,7 +12,10 @@ import User from './pages/User'
 import Profile from './pages/Profile'
 import Waves from './components/Waves'
 import Footer from './components/Footer'
-
+import Forums from './pages/Forums'
+import Forum from './pages/Forum'
+import About from './pages/About'
+import Contact from './pages/Contact'
 function App() {
 
   return (
@@ -29,6 +32,10 @@ function App() {
           <Route path='/post/:id' element={<Post/>}/>
           <Route path='/user/:id' element={<User/>}/>
           <Route path='/Profile' element={<Profile/>}/>
+          <Route path='/Forums' element={<Forums/>}/>
+          <Route path='/Forum/:id' element={<Forum/>}/>
+          <Route path='/about' element={<About/>}/>
+          <Route path='/contact' element={<Contact/>}/>
           <Route path='*' element={<NotFound404/>}/>
         </Routes>
       </Container>

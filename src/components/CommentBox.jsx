@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { UserContext } from './context/UserContext';
-import { addComment } from '../Firebase/firebaseDB';
+import { addComment } from '../Firebase/Comments';
 import { useNavigate } from 'react-router-dom';
 import { Box, TextField, Button, CircularProgress, IconButton, InputAdornment } from '@mui/material';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';

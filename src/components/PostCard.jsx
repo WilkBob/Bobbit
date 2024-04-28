@@ -19,7 +19,8 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import EditIcon from "@mui/icons-material/Edit";
 import { UserContext } from "./context/UserContext";
-import { deletePost, toggleLike } from "../Firebase/firebaseDB";
+import { deletePost } from "../Firebase/Posts";
+import { toggleLike } from "../Firebase/Users";
 import PostImage from "./PostImage";
 import { Collections, Delete } from "@mui/icons-material";
 
@@ -78,12 +79,13 @@ export function PostCard({ post, handleEdit, loading }) {
                     subheader={
                         <Chip
                             key="timestampChip"
-                            label={new Date(post.timestamp).toLocaleString("en-US", {
-                                weekday: "long",
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                            }) + (post.edited ? " (edited)" : "")}
+                            label={new Date(post.timestamp).toLocaleDateString('en-US', {
+                                month: 'long',
+                                day: 'numeric',
+                                year: 'numeric',
+                                hour: 'numeric',
+                                minute: 'numeric'
+                            }) + (post?.edited ? ' (edited)' : '')}
                             color="primary"
                         />
                     }
@@ -94,7 +96,7 @@ export function PostCard({ post, handleEdit, loading }) {
                                 
                                 onClick={async () => {
                                     if (!userDetails) {
-                                        return;
+                                        navigate("/login");
                                     }
                                     await toggleLike(userDetails.uid, post.id);
                                     setLiked(!liked);

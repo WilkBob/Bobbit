@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Typography, Avatar, IconButton, TextField, Button, Badge } from "@mui/material";
-import { Collections, Delete, DeleteOutline, Edit, EditOutlined, Save, SaveOutlined, ThumbUp } from "@mui/icons-material";
+import { Box, Typography, Avatar, IconButton, TextField, Badge } from "@mui/material";
+import { Collections, DeleteOutline, Edit, EditOutlined,  SaveOutlined, ThumbUp } from "@mui/icons-material";
 import { UserContext } from "./context/UserContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import CommentImage from "./CommentImage";
-import { toggleCommentLike } from "../Firebase/firebaseDB";
-import Chip from '@mui/material/Chip';
+import { toggleCommentLike } from "../Firebase/Comments";
 import Stack from '@mui/material/Stack';
 
 const Comment = ({
@@ -18,11 +17,14 @@ const Comment = ({
     const [editedComment, setEditedComment] = useState(comment.content);
     const [editedImage, setEditedImage] = useState(null);
     const [editedImagePreviewUrl, setEditedImagePreviewUrl] = useState(null);
+    const navigate = useNavigate();
 
     const [isLiked, setIsLiked] = useState(false);
     const [likesCount, setLikesCount] = useState(0);
 
     const handleLike = () => {
+        if (!user) navigate('/login');
+        if (!userDetails) return;
         setIsLiked(!isLiked);
         setLikesCount(isLiked ? likesCount - 1 : likesCount + 1);
         toggleCommentLike(user.uid, comment.id);
@@ -117,7 +119,7 @@ const Comment = ({
                             </IconButton>
                             <IconButton
                                 color="secondary"
-                                onClick={handleDelete}
+                                onClick={()=>handleDelete(comment.id)}
                             >
                                 <DeleteOutline/>
                             </IconButton>

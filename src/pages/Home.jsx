@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import DisplayPosts from '../components/DisplayPosts'
 import AddPost from '../components/AddPost'
-import { getPosts } from '../Firebase/firebaseDB';
+import { onValue, ref } from 'firebase/database';
+import { db } from '../Firebase/firebaseDB';
 import { Typography } from '@mui/material';
 import SortButtons from '../components/SortButtons';
 
@@ -11,14 +12,16 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchPosts();
+    const postsRef = ref(db, 'posts');
+    const unsubscribe = onValue(postsRef, (snapshot) => {
+      setPosts(Object.values(snapshot.val() || {}));
+      setLoading(false);
+    });
+
+    // Clean up subscription on unmount
+    return () => unsubscribe();
   }, []);
 
-const fetchPosts = async () => {
-  const posts = await getPosts();
-  setPosts(posts);
-  setLoading(false);
-}
   return (
     <>
       <Typography variant="h4" component="h1" align="center" gutterBottom>

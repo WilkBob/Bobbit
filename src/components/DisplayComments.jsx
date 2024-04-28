@@ -1,10 +1,8 @@
 import  Comment  from './Comment.jsx';
 import React, { useContext, useEffect, useState } from 'react';
-import { getCommentsByPost, deleteComment, updateComment } from '../Firebase/firebaseDB';
+import { getCommentsByPost, deleteComment, updateComment } from '../Firebase/Comments.js';
 import { Box, Typography, Avatar, CircularProgress, IconButton } from '@mui/material';
-import { Link } from 'react-router-dom';
 import { UserContext } from './context/UserContext';
-import { Delete } from '@mui/icons-material';
 import SortButtons from './SortButtons.jsx';
 
 const DisplayComments = ({ postId }) => {
