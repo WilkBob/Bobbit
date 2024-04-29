@@ -20,9 +20,9 @@ function App() {
 
   return (
     <>
-    <Waves/>
+    
     <Nav/>
-      
+      <Waves/>
       <Container className='glass container'>
         <Routes>
           <Route path='/' element={<Home/>}/>
