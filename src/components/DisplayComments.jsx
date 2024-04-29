@@ -1,7 +1,7 @@
 import  Comment  from './Comment.jsx';
 import React, { useContext, useEffect, useState } from 'react';
-import { getCommentsByPost, deleteComment, updateComment } from '../Firebase/Comments.js';
-import { Box, Typography, Avatar, CircularProgress, IconButton } from '@mui/material';
+import {  deleteComment, updateComment } from '../Firebase/Comments.js';
+import { Box, Typography,  CircularProgress} from '@mui/material';
 import { UserContext } from './context/UserContext';
 import SortButtons from './SortButtons.jsx';
 import { onValue, ref } from 'firebase/database';
@@ -30,8 +30,6 @@ const DisplayComments = ({ postId }) => {
         const confirmDelete = window.confirm('Are you sure you want to delete this comment?');
         if (confirmDelete) {
             await deleteComment(postId, id, user.uid); 
-            setComments([]);
-            fetchComments(); 
         }
     }
 
