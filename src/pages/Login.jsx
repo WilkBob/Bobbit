@@ -39,7 +39,7 @@ const Login = () => {
             flexDirection: 'column',
             textAlign: 'center',
             gap: '1rem',
-            width: '100%',
+            width: '95%',
             maxWidth: '400px',
             margin: 'auto',
             padding: '1rem'

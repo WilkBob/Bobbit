@@ -21,7 +21,7 @@ export function PostItem({ post }) {
         secondary={
           <>
             <Typography
-              sx={{ display: 'inline', marginLeft: 1 }}
+              sx={{ display: 'inline', marginLeft: 1, marginRight: 1}}
               component={'span'}
               variant="body2"
               color="text.primary"

@@ -30,12 +30,27 @@ const CommentBox = ({ postId, forumId }) => {
         setCommentImagePreviewUrl(null);
     }
 
+    const validateComment = () => {
+        if (comment.trim().length < 5) {
+            alert('Comment must be at least 5 characters');
+            return false;
+        }
+
+        if (commentImage && commentImage.size > 1000000) {
+            alert('Image must be less than 1MB');
+            return false;
+        }
+
+        if (commentImage && !['image/jpeg', 'image/png', 'image/gif'].includes(commentImage.type)) {
+            alert('Image must be a jpeg, png or gif');
+            return false;
+        }
+
+        return true;
+    }
     const handleComment = async () => {
         if (!user) return navigate('/login');
-        if (comment.length < 5) {
-            alert('Comment must be at least 5 characters');
-            return;
-        }
+        if (!validateComment()) return;
         setLoading(true);
         
        const NewComment = await addComment(comment, userDetails.username, user.uid, postId, userDetails.profileImage || null, forumId, commentImage);

@@ -1,5 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, TextField, Typography, IconButton } from '@mui/material';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { UserContext } from '../components/context/UserContext';
@@ -99,7 +104,7 @@ const Signup = () => {
         display: 'flex',
         flexDirection: 'column',
         gap: '10px',
-        width: '100%',
+        width: '95%',
         maxWidth: '400px',
         margin: 'auto',
         flexWrap: 'wrap',
@@ -108,18 +113,62 @@ const Signup = () => {
         onSubmit={handleSubmit}
         >
         <Typography align='center' variant="body1" component="p" gutterBottom className='fadeIn'>{`Step ${step} of 4`}</Typography>
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between'}}>
-      {step > 1 && step <= 4 && 
-        <IconButton className='fadeIn'sx={{width: '10%'}}  onClick={prevStep}>
-          <ArrowBackIosIcon />
-        </IconButton>
-      }
-      {step < 4 && 
-        <IconButton className='fadeIn' sx={{width: '10%', marginLeft:'auto'}}  onClick={nextStep}>
-          <ArrowForwardIosIcon />
-        </IconButton>
-      }
-      </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+  {step > 1 ? 
+    <IconButton onClick={prevStep}>
+      <ArrowBackIosIcon />
+    </IconButton>
+    :
+    <IconButton style={{ visibility: 'hidden' }}>
+      <ArrowForwardIosIcon />
+    </IconButton>
+  }
+  {/* dots to track progress */}
+  <Box sx={{ 
+  width: '70%', 
+  display: 'flex', 
+  justifyContent: 'space-between', 
+  alignItems: 'center' 
+}}>
+  <Box sx={{ 
+    width: step == 1 ? 15 : 8, 
+    height: step == 1 ? 15 : 8, 
+    bgcolor: validateUsername(form.username) ? '#cf7753' : 'white', 
+    borderRadius: '50%', 
+    transition: 'background-color 0.3s, width 0.3s, height 0.3s' 
+  }} />
+  <Box sx={{ 
+    width: step == 2 ? 15 : 10, 
+    height: step == 2 ? 15 : 10, 
+    bgcolor: validateEmail(form.email) ? '#cf7753' : 'white', 
+    borderRadius: '50%', 
+    transition: 'background-color 0.3s, width 0.3s, height 0.3s' 
+  }} />
+  <Box sx={{ 
+    width: step == 3 ? 15 : 10, 
+    height: step == 3 ? 15 : 10, 
+    bgcolor: validatePassword(form.password) ? '#cf7753' : 'white', 
+    borderRadius: '50%', 
+    transition: 'background-color 0.3s, width 0.3s, height 0.3s' 
+  }} />
+  <Box sx={{ 
+    width: step == 4 ? 15 : 8, 
+    height: step == 4 ? 15 : 8, 
+    bgcolor: step >= 4 ? '#cf7753' : 'white', 
+    borderRadius: '50%', 
+    transition: 'background-color 0.3s, width 0.3s, height 0.3s' 
+  }} />
+</Box>
+  {step < 4 ? 
+    <IconButton onClick={nextStep}>
+      <ArrowForwardIosIcon />
+    </IconButton>
+    :
+    <IconButton style={{ visibility: 'hidden' }}>
+      <ArrowForwardIosIcon />
+    </IconButton>
+  }
+</div>
       {step === 1 && 
   <TextField 
     error={errors.username.length > 0}

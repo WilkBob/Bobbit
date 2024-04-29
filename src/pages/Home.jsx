@@ -23,7 +23,7 @@ const Home = () => {
   return (
     <>
       <Typography variant="h4" component="h1" align="center" gutterBottom>
-        Welcome to our Bobbit!
+        Welcome to Bobbit!
       </Typography>
       <Typography sx={{
         

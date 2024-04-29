@@ -3,7 +3,6 @@ import DisplayPosts from '../components/DisplayPosts'
 import AddPost from '../components/AddPost'
 import { onValue, ref } from 'firebase/database';
 import { db } from '../Firebase/firebaseDB';
-import { Typography } from '@mui/material';
 import SortButtons from '../components/SortButtons';
 import { useParams } from 'react-router-dom';
 import { getForum } from '../Firebase/Forums';
