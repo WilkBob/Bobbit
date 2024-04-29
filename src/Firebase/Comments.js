@@ -17,8 +17,8 @@ export const toggleCommentLike = async (userId, commentId, postId) => {
     const userLikes = (await get(userRef)).val() || {};
 
     if (commentLikes[userId]) {
-        delete commentLikes[userId];
-        delete userLikes[commentId];
+        commentLikes[userId] = null;
+        userLikes[commentId] = null;
     } else {
         commentLikes[userId] = true;
         userLikes[commentId] = true;

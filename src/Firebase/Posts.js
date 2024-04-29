@@ -26,6 +26,7 @@ export const getPost = async (id, forumId) => {
       id,
       timestamp: Date.now()
     }
+    await set(ref(db, `forums/${forumId}/posts/${id}`), id);
     await set(ref(db, `posts/${forumId}/${id}`), newPost);
     await update(ref(db, `users/${userId}/posts`), {
       [id]: id

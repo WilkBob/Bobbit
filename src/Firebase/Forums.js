@@ -1,4 +1,7 @@
-
+import { db } from './firebaseDB';
+import { get, ref, set, update, remove } from 'firebase/database';
+import { uploadImage, deleteImage } from './firebaseStorage';
+import uniqueid from '../utility/UniqueId';
 
 export const getForum = async (forumId) => {
     const forum = await get(ref(db, `forums/${forumId}`));
@@ -10,13 +13,15 @@ export const getForums = async () => {
     return forums.val();
 }
 
-export const addForum = async (name, description, image) => {
+export const addForum = async (name, description,  userId, username, image,) => {
     const id = uniqueid();
     const newForum = {
         name,
         id,
         description,
         timestamp: Date.now(),
+        ownerUsername: username,
+        ownerId: userId,
     }
     if (image) {
         const imageUrl = await uploadImage(image, id);

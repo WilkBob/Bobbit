@@ -57,12 +57,24 @@ export const toggleLike = async (userId, postId, forumId) => {
 
 
 export const getPostsByUser = async (userId) => {
-    const user = await get(ref(db, `users/${userId}`));
-    const userPosts = user.val().posts;
-    const posts = await get(ref(db, 'posts'));
+    const userSnapshot = await get(ref(db, `users/${userId}`));
+    const userPosts = userSnapshot.val().posts;
+
+    const forumsSnapshot = await get(ref(db, 'forums'));
+    const forums = forumsSnapshot.val();
+
     const userPostList = [];
-    for (const postId in userPosts) {
-        userPostList.push(posts.val()[postId]);
+
+    for (const forumId in forums) {
+        const postsSnapshot = await get(ref(db, `/posts/${forumId}`));
+        const posts = postsSnapshot.val();
+
+        for (const postId in userPosts) {
+            if (posts && posts[postId]) {
+                userPostList.push(posts[postId]);
+            }
+        }
     }
+
     return userPostList;
 }

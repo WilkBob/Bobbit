@@ -22,12 +22,12 @@ const Comment = ({
     const [isLiked, setIsLiked] = useState(false);
     const [likesCount, setLikesCount] = useState(0);
 
-    const handleLike = () => {
+    const handleLike = async () => {
         if (!user) navigate('/login');
         if (!userDetails) return;
         setIsLiked(!isLiked);
         setLikesCount(isLiked ? likesCount - 1 : likesCount + 1);
-        toggleCommentLike(user.uid, comment.id);
+        await toggleCommentLike(user.uid, comment.id, comment.postId);
     };
 
     useEffect(() => {
