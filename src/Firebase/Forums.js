@@ -28,7 +28,7 @@ export const addForum = async (name, description,  userId, username, image,) => 
         const imageUrl = await uploadImage(image, id);
         newForum.image = imageUrl;
     }
-
+    await set(ref(db, `users/${userId}/forums/${id}`), id);
     await set(ref(db, `forums/${id}`), newForum);
     return id;
 }

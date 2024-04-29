@@ -70,15 +70,30 @@ export function PostCard({ post, handleEdit, loading, setLoading }) {
 
     return (
         <Card sx={{ display: "flex", marginTop: 2, padding: 2 }}>
-            
-          <Box sx={{ display: "flex", flexDirection: "column", marginInline: "auto", width:'95%'}}>
-            <CardHeader
+            <Box sx={{ display: "flex", flexDirection: "column", marginInline: "auto", width:'95%'}}>
+                <CardHeader
                     title={
-                        !isEditing ? (post?.title) : (
+                        !isEditing ? (
+                            <Typography variant="h5" color="text.primary">{post.title}
+                                <IconButton
+                                    onClick={async () => {
+                                        if (!userDetails) {
+                                            navigate("/login");
+                                        }
+                                        await toggleLike(userDetails.uid, post.id, post.forumId);
+                                        setLiked(!liked);
+                                        setLikesCount(liked ? likesCount - 1 : likesCount + 1);
+                                    }}
+                                >
+                                    <Badge badgeContent={likesCount} color="primary">
+                                        <ThumbUpIcon color={liked ? "primary" : "inherit"} />
+                                    </Badge>
+                                </IconButton>
+                            </Typography>
+                        ) : (
                             <TextField label='Title' value={editedTitle} sx={{marginBottom: '5px'}} onChange={(e) => setEditedTitle(e.target.value)} />
                         )
                     }
-            
                     subheader={
                         <Chip
                             key="timestampChip"
@@ -94,55 +109,35 @@ export function PostCard({ post, handleEdit, loading, setLoading }) {
                     }
                 />
                 <Box key="likesBox" sx={{ display: "flex", alignItems: "center", width: '100%'}}>
-                           
-                            <IconButton
-                                
-                                onClick={async () => {
-                                    if (!userDetails) {
-                                        navigate("/login");
-                                    }
-                                    await toggleLike(userDetails.uid, post.id, post.forumId);
-                                    setLiked(!liked);
-                                    setLikesCount(liked ? likesCount - 1 : likesCount + 1);
-                                }}
-                            >
-                                <Badge badgeContent={likesCount} color="primary">
-                                <ThumbUpIcon color={liked ? "primary" : "inherit"} />
-                                </Badge>
-                            </IconButton>{userDetails && userDetails.uid === post.userId && (
-                                <IconButton color="secondary" onClick={handleDelete}>
-                                    <Delete />
-                                </IconButton>
-                            )}
-                            {userDetails && userDetails.uid === post.userId && (
-                                <IconButton color={isEditing ? 'success' : 'inherit'} onClick={() => setIsEditing(!isEditing)} >
-                                    <EditIcon />
-                                </IconButton>
-                            )}
-                            {isEditing && (
-                    <IconButton component="label" htmlFor={'upload-button'} sx={{ marginBottom: 1 }}>
-                    <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) => setEditedImage(e.target.files[0])}
-                            style={{ display: "none" }}
-                            id="upload-button"
-                        />
-                        {<Collections/>}
-                    </IconButton>
+                    {userDetails && userDetails.uid === post.userId && (
+                        <IconButton color="secondary" onClick={handleDelete}>
+                            <Delete />
+                        </IconButton>
                     )}
-                        </Box>
-                <CardContent sx={
-                    {
-                        width: "100%",
-                    }
-                }>
-                
-                <Box key="userBox" sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}>
+                    {userDetails && userDetails.uid === post.userId && (
+                        <IconButton color={isEditing ? 'success' : 'inherit'} onClick={() => setIsEditing(!isEditing)} >
+                            <EditIcon />
+                        </IconButton>
+                    )}
+                    {isEditing && (
+                        <IconButton component="label" htmlFor={'upload-button'} sx={{ marginBottom: 1 }}>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => setEditedImage(e.target.files[0])}
+                                style={{ display: "none" }}
+                                id="upload-button"
+                            />
+                            {<Collections/>}
+                        </IconButton>
+                    )}
+                </Box>
+                <CardContent sx={{ width: "100%" }}>
+                    <Box key="userBox" sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}>
                         {post.userImage ? (
                             <Avatar src={post.userImage} />
                         ) : (
-                            <AccountCircleIcon />
+                            <Avatar src={<AccountCircleIcon />} />
                         )}
                         <Typography
                             variant="body2"
@@ -151,19 +146,16 @@ export function PostCard({ post, handleEdit, loading, setLoading }) {
                             color="text.secondary"
                             sx={{ marginLeft: 1 }}
                         >
-                            {`u/${post.username}`}
+                            {`u/${post.username}`} 
                         </Typography>
+                        <Chip component={Link} to={`/forum/${post.forumId}`} label={post.forumName} size="small"  sx={{marginLeft: 1, cursor: 'pointer'}}/>
                     </Box>
-                    
                     {post.image && !editedImage && (
                         <PostImage src={post.image}/>
                     )}
                     {editedImage && isEditing && (
                         <PostImage src={URL.createObjectURL(editedImage)} />
                     )}
-
-                    
-
                     {isEditing ? (
                         <TextField
                             value={editedPost}
@@ -188,7 +180,6 @@ export function PostCard({ post, handleEdit, loading, setLoading }) {
                             Cancel
                         </Button>
                     )}
-                    
                 </CardContent>
             </Box>
         </Card>

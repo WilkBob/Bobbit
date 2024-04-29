@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import DisplayPosts from '../components/DisplayPosts'
 import AddPost from '../components/AddPost'
-import { onValue, ref } from 'firebase/database';
-import { db } from '../Firebase/firebaseDB';
 import { Typography } from '@mui/material';
 import SortButtons from '../components/SortButtons';
+import { getAllPosts } from '../Firebase/Posts';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -12,23 +11,24 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const postsRef = ref(db, 'posts/general');
-    const unsubscribe = onValue(postsRef, (snapshot) => {
-      setPosts(Object.values(snapshot.val() || {}));
+    const fetchPosts = async () => {
+      const allPosts = await getAllPosts();
+      setPosts(allPosts);
       setLoading(false);
-    });
-
-    // Clean up subscription on unmount
-    return () => unsubscribe();
-  }, []);
-
+      
+    }
+    fetchPosts();
+  }
+  , []);
   return (
     <>
       <Typography variant="h4" component="h1" align="center" gutterBottom>
-        Welcome to our site!
+        Welcome to our Bobbit!
       </Typography>
-      <Typography variant="body1" component="h2" align="center" gutterBottom>
-        Explore the latest posts from our community.
+      <Typography sx={{
+        
+      }} variant="body1" component="h2" align="center" gutterBottom>
+        This is a community forum where you can share your thoughts and ideas with others. Feel free to browse, or Sign Up to like, comment, and post! <br/> Right now you're viewing all posts, and you can filter them by clicking the buttons below. Any posts you make will be added to the general forum.
       </Typography>
       <AddPost forumId={'general'}/>
       <SortButtons posts={posts} setDisplayPosts={setDisplayPosts} />

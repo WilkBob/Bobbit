@@ -44,7 +44,6 @@ const CommentBox = ({ postId, forumId }) => {
         setCommentImagePreviewUrl(null);
         setCommenting(false);
         setLoading(false);
-        window.location.reload();
     }
 
     return (

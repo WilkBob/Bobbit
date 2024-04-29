@@ -14,8 +14,11 @@ export const getPost = async (id, forumId) => {
   export const addPost = async ({ title, content, userId, username, userImage, forumId, image, link }) => {
     const id = uniqueid();
     const imageUrl = image ? await uploadImage(image, id) : null;
+    const forum = await get(ref(db, `forums/${forumId}`));
+    const forumName = forum.val().name;
     const newPost = {
       forumId,
+      forumName, 
       title,
       content,
       userId,
@@ -67,12 +70,23 @@ export const getPost = async (id, forumId) => {
   }
   
  export const getAllPosts = async () => {
-      const posts = await get(ref(db, 'posts'));
-      return Object.values(posts.val());
-    }
+    const forums = await get(ref(db, 'forums'));
+    const postsList = [];
+    const forumsList = Object.values(forums.val());
+    for (const forum of forumsList) {
+      const forumPosts = await getPostsByForum(forum.id);
+      if (forumPosts){
+      postsList.push(...forumPosts);
+      }else{
+        continue;
+      }
 
-    export const getPostsByForum = async (forumId) => {
-        const posts = await get(ref(db, `posts/${forumId}`));
-        return Object.values(posts.val());
     }
-  
+    return postsList;
+  }
+
+  export const getPostsByForum = async (forumId) => {
+    const postsSnapshot = await get(ref(db, `posts/${forumId}`));
+    const postsVal = postsSnapshot.val();
+    return postsVal ? Object.values(postsVal) : [];
+}

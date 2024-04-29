@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getForums } from '../Firebase/Forums';
 import { Link as RouterLink } from 'react-router-dom';
-import { List, ListItem, ListItemText, Typography } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Grid, CardActionArea, Divider } from '@mui/material';
 
 const DisplayForums = () => {
     const [forums, setForums] = useState([]);
@@ -20,17 +20,36 @@ const DisplayForums = () => {
             <Typography variant="h4" component="h1" gutterBottom>
                 Forums
             </Typography>
-            <List>
+            <Grid container spacing={3}>
                 {forums.map(forum => (
-                    <ListItem button component={RouterLink} to={`/forum/${forum.id}`} key={forum.id}>
-                        <ListItemText primary={forum.name} secondary={forum.description}/>
-                        <Typography variant="body2" color="textSecondary">{forum.posts ? (
-                            Object.keys(forum.posts).length
-                        ) : 0 + ` posts`}</Typography>
-                    
-                    </ListItem>
+                    <Grid item xs={12} sm={6} md={4} key={forum.id}>
+                        <Card component={RouterLink} to={`/forum/${forum.id}`} sx={{ textDecoration: 'none' }}>
+                            <CardActionArea>
+                                {forum.image && (
+                                    <CardMedia
+                                        component="img"
+                                        height="140"
+                                        image={forum.image}
+                                        alt={forum.name}
+                                    />
+                                )}
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" component="div">
+                                        {forum.name}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        {forum.description}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        {forum.posts ? Object.keys(forum.posts).length : 0} posts
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
+                        <Divider/>
+                    </Grid>
                 ))}
-            </List>
+            </Grid>
         </div>
     )
 }

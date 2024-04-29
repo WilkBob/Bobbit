@@ -26,7 +26,7 @@ export function PostItem({ post }) {
               variant="body2"
               color="text.primary"
             >
-              {'u/'}{post.username}
+              {'u/'}{post.username} <Chip component={'span'} label={post.forumName} size="small" />
             </Typography>
             <Typography
               variant="body2"

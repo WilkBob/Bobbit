@@ -7,6 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import SignInIcon from '@mui/icons-material/Login';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import { set } from 'firebase/database';
 
 const AddPost = ({forumId}) => {
   const [loading, setLoading] = useState(false);
@@ -104,46 +105,42 @@ setLoading(true);
           <SignInIcon />
         </IconButton>
       )}
-      {!open && user && (
-        <IconButton
-        size='large'
-          variant="outlined"
-          color="primary"
-          onClick={handleOpen}
-          sx={{ position: 'fixed', top: '10px', right: '10px', zIndex: 1000}}
-        >
-          <AddIcon />
-        </IconButton>
-      )}
+      {user &&<IconButton color='primary' size='large'
+        sx={{
+            position: 'fixed',
+            top: '10px',
+            right: '10px',
+            zIndex: 1000,
+        }}
+        onClick={() => setOpen(!open)}
+    >
+        {open ? <CloseIcon /> : <AddIcon />}
+    </IconButton>
+}
 
-{!open && user && (
+{ user && (
   <Button
     variant="outlined"
     color="primary"
-    onClick={handleOpen}
+    onClick={()=>setOpen(!open)}
     fullWidth
     sx={{ marginBottom: '10px' }}
   >
-    Add Post
+    {open ? 'Close' : 'Add Post'}
   </Button>
 )}
       <Collapse
         in={open}
         className={'glass'}
         sx={{
-          display: open ? 'block' : 'none',
+          padding: open ? '10px' : '0px',
+          margin: open ? '10px' : '0px',
 
           marginBottom: '10px',
+          transition: 'all 0.5s',   
         }}
       >
-        <IconButton
-          color="primary"
-          style={{ position: 'absolute', right: 0, top: 0 }}
-          onClick={handleClose}
-          size="small"
-        >
-          <CloseIcon />
-        </IconButton>
+        
         <TextField
           variant="outlined"
           margin="normal"
