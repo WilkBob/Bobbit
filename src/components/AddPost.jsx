@@ -133,8 +133,8 @@ setLoading(true);
         in={open}
         className={'glass'}
         sx={{
-          padding: open ? '10px' : '0px',
-          margin: open ? '10px' : '0px',
+          paddingBlock: open ? '10px' : '0px',
+          marginBlock: open ? '10px' : '0px',
 
           marginBottom: '10px',
           transition: 'all 0.5s',   
