@@ -1,11 +1,24 @@
-import React from 'react'
+import React from 'react';
+import { Typography, Box, Container, Paper } from '@mui/material';
 
 const Contact = () => {
   return (
-    <div>
-      Contact
-    </div>
-  )
-}
+    <Container maxWidth="md">
+      <Box sx={{ my: 4 }}>
+        <Paper sx={{ p: 4 }}>
+          <Typography variant="h4" gutterBottom>
+            Contact Us
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            If you have any questions, please feel free to contact us at:
+          </Typography>
+          <Typography variant="body1" gutterBottom>
+            Email: bobbydchess@gmail.com
+          </Typography>
+        </Paper>
+      </Box>
+    </Container>
+  );
+};
 
-export default Contact
+export default Contact;
