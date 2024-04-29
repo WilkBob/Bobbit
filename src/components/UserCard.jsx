@@ -38,6 +38,9 @@ export function UserCard({ displayUser }) {
       profileImage: imageurl
     };
     await updateUser(user.uid, updates);
+
+    //clear the profile image input
+    setProfileImage(null);
     
   };
 

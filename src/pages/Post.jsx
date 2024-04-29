@@ -1,5 +1,5 @@
 import { PostCard } from '../components/PostCard';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { updatePost } from '../Firebase/Posts';
@@ -12,26 +12,29 @@ const Post = () => {
   const { id, forumId } = useParams();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate();
   const handleEdit = async (id, title, content, userImage, image) => {
     const editResult = await updatePost(id, title, content, userImage, forumId, image);
     console.log('Edit result:', editResult);
-    setPost(null);
-    setLoading(true);
   }
 
   useEffect(() => {
     const postRef = ref(db, `posts/${forumId}/${id}`);
     const unsubscribe = onValue(postRef, (snapshot) => {
       setPost(snapshot.val());
-      setLoading(false);
+      if (loading){
+        setLoading(false);
+      }
+      if (!snapshot.exists()) {
+        navigate('/');
+      }
     });
 
     return () => unsubscribe();
   }, [id]);
 
   return (<>
-    <PostCard post={post} handleEdit={handleEdit} loading={loading} />
+    <PostCard post={post} handleEdit={handleEdit} loading={loading} setLoading={setLoading}/>
     <Typography variant="h6" component="div" sx={{ marginBottom: '10px' }}>
       Comments
     </Typography>

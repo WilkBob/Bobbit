@@ -4,23 +4,25 @@ import { getCommentsByPost, deleteComment, updateComment } from '../Firebase/Com
 import { Box, Typography, Avatar, CircularProgress, IconButton } from '@mui/material';
 import { UserContext } from './context/UserContext';
 import SortButtons from './SortButtons.jsx';
+import { onValue, ref } from 'firebase/database';
+import { db } from '../Firebase/firebaseDB.js';
 
 const DisplayComments = ({ postId }) => {
     const {user, userDetails} = useContext(UserContext)
     const [comments, setComments] = useState([]);
     const [sortedComments, setSortedComments] = useState([]);
     const [loading, setLoading] = useState(true);
-    const fetchComments = async () => {
-        const comments = await getCommentsByPost(postId);
-        setComments(comments);
-    }
+  
 
-    useEffect(() => {
-        fetchComments();
-        setLoading(false);
-    }, [postId]);
+  useEffect(() => {
+    const commentsRef = ref(db, `comments/${postId}`);
+    const unsubscribe = onValue(commentsRef, (snapshot) => {
+        setComments(Object.values(snapshot.val() || {}));
+      setLoading(false);
+    });
 
-   
+    return () => unsubscribe();
+}, []);
 
     
 

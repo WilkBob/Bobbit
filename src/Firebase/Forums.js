@@ -9,8 +9,9 @@ export const getForum = async (forumId) => {
 }
 
 export const getForums = async () => {
+    
     const forums = await get(ref(db, 'forums'));
-    return forums.val();
+    return Object.values(forums.val() || {});
 }
 
 export const addForum = async (name, description,  userId, username, image,) => {

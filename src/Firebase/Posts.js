@@ -61,6 +61,7 @@ export const getPost = async (id, forumId) => {
       if (post.val().image) {
           await deleteImage(id);
       }
+      await remove(ref(db, `forums/${forumId}/posts/${id}`));
       await remove(postRef);
       await remove(child(userRef, `posts/${id}`));
   }

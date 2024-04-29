@@ -23,8 +23,9 @@ import { deletePost } from "../Firebase/Posts";
 import { toggleLike } from "../Firebase/Users";
 import PostImage from "./PostImage";
 import { Collections, Delete } from "@mui/icons-material";
+import { set } from "firebase/database";
 
-export function PostCard({ post, handleEdit, loading }) {
+export function PostCard({ post, handleEdit, loading, setLoading }) {
     const navigate = useNavigate();
     const { userDetails } = useContext(UserContext);
     const [likesCount, setLikesCount] = useState(
@@ -41,6 +42,7 @@ export function PostCard({ post, handleEdit, loading }) {
     const handleSave = () => {
         handleEdit(post.id, editedTitle, editedPost, userDetails.profileImage || null, editedImage? editedImage : null);
         setIsEditing(false);
+        editedImage && setEditedImage(null);
     };
 
     const handleDelete = async () => {
@@ -48,6 +50,7 @@ export function PostCard({ post, handleEdit, loading }) {
         if (!confirmDelete) {
             return;
         }
+        setLoading(true);
        await deletePost(post.id, post.forumId);
        navigate('/');
     }
@@ -79,7 +82,7 @@ export function PostCard({ post, handleEdit, loading }) {
                     subheader={
                         <Chip
                             key="timestampChip"
-                            label={new Date(post.timestamp).toLocaleDateString('en-US', {
+                            label={new Date(post?.timestamp).toLocaleDateString('en-US', {
                                 month: 'long',
                                 day: 'numeric',
                                 year: 'numeric',

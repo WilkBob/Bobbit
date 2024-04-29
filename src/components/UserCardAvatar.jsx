@@ -18,7 +18,7 @@ const UserCardAvatar = ({ src }) => {
     
   const [open, setOpen] = useState(false);
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {if (src) setOpen(true)};
   const handleClose = () => setOpen(false);
 
   return (
