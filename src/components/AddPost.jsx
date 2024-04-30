@@ -9,7 +9,7 @@ import SignInIcon from '@mui/icons-material/Login';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 
 
-const AddPost = ({forumId, addToDisplay}) => {
+const AddPost = ({forumId}) => {
   const [loading, setLoading] = useState(false);
     const {user, userDetails} = useContext(UserContext);
   const [open, setOpen] = useState(false);
@@ -70,9 +70,7 @@ setLoading(true);
         image: image,
         link
     });
-    if (addToDisplay && newPost) {
-        addToDisplay(newPost);
-    }
+    
 
     // Clear the form
     setTitle('');
@@ -82,7 +80,9 @@ setLoading(true);
 
     setLoading(false);
     setOpen(false);
+
     //relaod the page
+    navigate(`/post/${forumId}/${newPost.id}`);
 }
   return (
     <>

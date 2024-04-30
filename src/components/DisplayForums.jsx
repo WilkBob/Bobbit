@@ -22,8 +22,8 @@ const DisplayForums = () => {
             </Typography>
             <Grid container spacing={3}>
                 {forums.map(forum => (
-                    <Grid item xs={12} sm={6} md={4} key={forum.id}>
-                        <Card component={RouterLink} to={`/forum/${forum.id}`} sx={{ textDecoration: 'none' }}>
+                    <Grid item xs={12} sm={6} md={4} key={forum.id} sx={{display:'flex'}}>
+                        <Card component={RouterLink} to={`/forum/${forum.id}`} sx={{ textDecoration: 'none', display:'flex'}}>
                             <CardActionArea>
                                 {forum.image && (
                                     <CardMedia
@@ -33,7 +33,12 @@ const DisplayForums = () => {
                                         alt={forum.name}
                                     />
                                 )}
-                                <CardContent>
+                                <CardContent sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    height: '100%',
+                                
+                                }}>
                                     <Typography gutterBottom variant="h5" component="div">
                                         {forum.name}
                                     </Typography>

@@ -4,7 +4,7 @@ import AddPost from '../components/AddPost'
 import { onValue, ref } from 'firebase/database';
 import { db } from '../Firebase/firebaseDB';
 import SortButtons from '../components/SortButtons';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getForum } from '../Firebase/Forums';
 import ForumCard from '../components/ForumCard';
 
@@ -14,11 +14,16 @@ const Forum = () => {
   const [posts, setPosts] = useState([]);
   const [displayPosts, setDisplayPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const fetchForum = async () => {
-    const thing = await getForum(id);
-    setForum(thing);
+  try {
+    const forum = await getForum(id);
+    setForum(forum);
+  } catch (error) {
+    navigate('/404');
   }
+};
 
   useEffect(() => {
     fetchForum();
@@ -34,6 +39,7 @@ const Forum = () => {
     // Clean up subscription on unmount
     return () => unsubscribe();
   }, []);
+
 
   return (
     <>

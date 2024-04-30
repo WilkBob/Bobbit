@@ -18,8 +18,9 @@ const {user, userDetails} = useContext(UserContext);
   const handleSubmit = async (event) => {
     event.preventDefault();
     if(!user) navigate('/login')
-    await addForum(name, description, userDetails.uid, userDetails.username, image);
+    const newid = await addForum(name, description, userDetails.uid, userDetails.username, image);
     setOpen(false);
+    navigate(`/forum/${newid}`);
   };
 
   return (

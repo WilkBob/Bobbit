@@ -18,7 +18,7 @@ const ForumCard = ({ forum, loading }) => {
                     boxShadow: '0 2px 4px 0 rgba(0,0,0,0.2)',
                     transition: '0.3s',
                     '&:hover': {
-                        boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+                        boxShadow: '0 4px 8px 0 rgba(0,0,0,0.8)',
                     },
                     marginBottom: '10px',
                     opacity: 0.8,
