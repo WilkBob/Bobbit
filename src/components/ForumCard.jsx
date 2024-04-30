@@ -83,12 +83,13 @@ const ForumCard = ({ forum, loading }) => {
                     {forum.image && editedImagePreviewUrl &&
                         <CardMedia
                             sx={{
-                                height: '200px',
+                                height: '100%',
                                 objectFit: 'cover',
                                 objectPosition: 'center',
                                 position: 'absolute',
                                 top: 0,
                                 left: 0,
+
                                 zIndex: -1,
                                 overflow: 'hidden',
                                 opacity: 0.1,
@@ -101,7 +102,7 @@ const ForumCard = ({ forum, loading }) => {
                         forum.image && !editedImagePreviewUrl &&
                         <CardMedia
                             sx={{
-                                height: '200px',
+                                height: '100%',
                                 objectFit: 'cover',
                                 objectPosition: 'center',
                                 position: 'absolute',
