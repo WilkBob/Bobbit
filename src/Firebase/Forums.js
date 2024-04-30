@@ -14,6 +14,12 @@ export const getForums = async () => {
     return Object.values(forums.val() || {});
 }
 
+export const getForumIds = async () => {
+    // ['id, id, id' ]
+    const forums = await get(ref(db, 'forums'));
+    return Object.keys(forums.val() || {});
+}
+
 export const addForum = async (name, description,  userId, username, image,) => {
     const id = uniqueid();
     const newForum = {

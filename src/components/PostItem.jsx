@@ -1,8 +1,19 @@
 import React from "react";
-import { ListItem, ListItemAvatar, Avatar, ListItemText, Typography, Chip, Divider } from "@mui/material";
+import { ListItem, ListItemAvatar, Avatar, ListItemText, Typography, Chip, Divider, styled } from "@mui/material";
 import CommentIcon from '@mui/icons-material/Comment';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import { Link } from "react-router-dom";
+
+
+const Image = styled('img')({
+  width: 50,
+  height: 50,
+  objectFit: 'cover',
+  borderRadius: '5px',
+    '&:hover': {
+      transform: 'scale(1.1)',
+    },
+});
 
 export function PostItem({ post }) {
   const likesCount = post.likes ? Object.keys(post.likes).length : 0;
@@ -14,7 +25,7 @@ export function PostItem({ post }) {
       borderRadius: 'inherit',
     }}>
       <ListItemAvatar>
-        {post.image && <Avatar variant="square" src={post.image} />}
+        {post.image && <Image src={post.image} />}
       </ListItemAvatar>
       <ListItemText
         primary={post.title}

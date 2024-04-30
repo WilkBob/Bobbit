@@ -7,9 +7,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import SignInIcon from '@mui/icons-material/Login';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import { set } from 'firebase/database';
 
-const AddPost = ({forumId}) => {
+
+const AddPost = ({forumId, addToDisplay}) => {
   const [loading, setLoading] = useState(false);
     const {user, userDetails} = useContext(UserContext);
   const [open, setOpen] = useState(false);
@@ -31,14 +31,6 @@ const AddPost = ({forumId}) => {
     setImagePreviewUrl(null);
   };
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
@@ -48,11 +40,11 @@ const AddPost = ({forumId}) => {
   };
 
 const validatePost = () => {
-    if (title.length < 5) {
+    if (title.trim().length < 5) {
         alert('Title must be at least 5 characters');
         return false;
     }
-    if (content.length < 10) {
+    if (content.trim().length < 10) {
         alert('Content must be at least 10 characters');
         return false;
     }
@@ -68,8 +60,7 @@ const handleSubmit = async (event) => {
 
 setLoading(true);
 
-    console.log('Adding post', title, content, image, forumId, link, );
-    await addPost({
+   const newPost= await addPost({
         title,
         content,
         userId: user.uid,
@@ -79,6 +70,9 @@ setLoading(true);
         image: image,
         link
     });
+    if (addToDisplay && newPost) {
+        addToDisplay(newPost);
+    }
 
     // Clear the form
     setTitle('');

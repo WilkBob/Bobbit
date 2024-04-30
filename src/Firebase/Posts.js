@@ -35,8 +35,9 @@ export const getPost = async (id, forumId) => {
       [id]: id
     });
     await toggleLike(userId, id, forumId);
-  
-    return id;
+    
+    
+    return newPost;
   };
   
   export const updatePost = async (id, title, content, userImage, forumId, image, link, ) => {

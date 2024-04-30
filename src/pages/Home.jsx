@@ -20,6 +20,11 @@ const Home = () => {
     fetchPosts();
   }
   , []);
+
+  const addToDisplay = (post) => {
+    setPosts([post, ...posts]);
+  }
+
   return (
     <>
       <Typography variant="h4" component="h1" align="center" gutterBottom>
@@ -30,7 +35,7 @@ const Home = () => {
       }} variant="body1" component="h2" align="center" gutterBottom>
         This is a community forum where you can share your thoughts and ideas with others. Feel free to browse, or Sign Up to like, comment, and post! <br/> Right now you're viewing all posts, and you can filter them by clicking the buttons below. Any posts you make will be added to the general forum.
       </Typography>
-      <AddPost forumId={'general'}/>
+      <AddPost forumId={'general'} addToDisplay={addToDisplay}/>
       <SortButtons posts={posts} setDisplayPosts={setDisplayPosts} />
       <DisplayPosts posts={displayPosts} loading={loading}/>
     </>
