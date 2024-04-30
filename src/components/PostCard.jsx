@@ -22,8 +22,7 @@ import { UserContext } from "./context/UserContext";
 import { deletePost } from "../Firebase/Posts";
 import { toggleLike } from "../Firebase/Users";
 import PostImage from "./PostImage";
-import { Collections, Delete } from "@mui/icons-material";
-import { set } from "firebase/database";
+import {PhotoCamera as Camera, Delete, SaveOutlined } from "@mui/icons-material";
 
 export function PostCard({ post, handleEdit, loading, setLoading }) {
     const navigate = useNavigate();
@@ -40,6 +39,24 @@ export function PostCard({ post, handleEdit, loading, setLoading }) {
     const [editedImage, setEditedImage] = useState(null);
 
     const handleSave = () => {
+        if (!editedPost.trim()) {
+            alert('Post cannot be empty');
+            return;
+        }
+        if (editedPost.trim().length < 10) {
+            alert('Post must be at least 10 characters');
+            return;
+        }
+        if (editedImage && editedImage.size > 2000000) {
+            alert('Image must be less than 1MB');
+            return;
+        }
+        if (editedImage && !['image/jpeg', 'image/png', 'image/gif'].includes(editedImage.type)) {
+            alert('Image must be a jpeg, png or gif');
+            return;
+        }
+
+
         handleEdit(post.id, editedTitle, editedPost, userDetails.profileImage || null, editedImage? editedImage : null);
         setIsEditing(false);
         editedImage && setEditedImage(null);
@@ -120,7 +137,7 @@ export function PostCard({ post, handleEdit, loading, setLoading }) {
                         </IconButton>
                     )}
                     {isEditing && (
-                        <IconButton component="label" htmlFor={'upload-button'} sx={{ marginBottom: 1 }}>
+                        <IconButton  component="label" htmlFor={'upload-button'} sx={{ marginBottom: 1 }}>
                             <input
                                 type="file"
                                 accept="image/*"
@@ -128,9 +145,17 @@ export function PostCard({ post, handleEdit, loading, setLoading }) {
                                 style={{ display: "none" }}
                                 id="upload-button"
                             />
-                            {<Collections/>}
+                            {<Camera/>}
                         </IconButton>
                     )}
+                    {
+                        isEditing &&
+                        <IconButton color="success" onClick={handleSave}>
+                            <SaveOutlined />
+                        </IconButton>
+                        
+                    }
+
                 </Box>
                 <CardContent sx={{ width: "100%" }}>
                     <Box key="userBox" sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}>

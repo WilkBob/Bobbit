@@ -36,7 +36,7 @@ const CommentBox = ({ postId, forumId }) => {
             return false;
         }
 
-        if (commentImage && commentImage.size > 1000000) {
+        if (commentImage && commentImage.size > 2000000) {
             alert('Image must be less than 1MB');
             return false;
         }

@@ -34,10 +34,12 @@ const DisplayComments = ({ postId }) => {
     }
 
     const handleEdit = async (id, content, image) => {
+        if (!content.trim()) return alert('Comment cannot be empty');
+        if (content.trim().length < 5) return alert('Comment must be at least 5 characters');
+        if (image && image.size > 2000000) return alert('Image must be less than 1MB');
+        if (image && !['image/jpeg', 'image/png', 'image/gif'].includes(image.type)) return alert('Image must be a jpeg, png or gif');
         const editResult = await updateComment(content, postId, id, image, userDetails.profileImage || null); 
         console.log('Edit result:', editResult);
-        setComments([]);
-        fetchComments();
     }
 
     return (

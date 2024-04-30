@@ -3,9 +3,10 @@ import { TextField, Button, Collapse, IconButton } from '@mui/material';
 import { addForum } from '../Firebase/Forums';
 import { UserContext } from './context/UserContext';
 import { useNavigate } from 'react-router-dom';
-import { Collections} from '@mui/icons-material';
+import { PhotoCamera as Collections} from '@mui/icons-material';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
+import PostImage from './PostImage';
 
 const AddForum = () => {
 const {user, userDetails} = useContext(UserContext);
@@ -13,11 +14,36 @@ const {user, userDetails} = useContext(UserContext);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
   const navigate = useNavigate();
+
+  const validateForum = () => {
+    if(image && image.size > 2000000) {
+      alert('Image must be less than 1MB');
+      return false;
+    }
+    if(image && !['image/jpeg', 'image/png', 'image/gif'].includes(image.type)) {
+      alert('Image must be a jpeg, png or gif');
+      return false;
+    }
+    if (name.trim().length < 5) {
+      alert('Name must be at least 5 characters');
+      return false;
+    }
+    if (description.trim().length < 10) {
+      alert('Description must be at least 10 characters');
+      return false;
+    }
+    return true;
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if(!user) navigate('/login')
+    if(!validateForum()) return;
+
+
+
     const newid = await addForum(name, description, userDetails.uid, userDetails.username, image);
     setOpen(false);
     navigate(`/forum/${newid}`);
@@ -33,7 +59,14 @@ const {user, userDetails} = useContext(UserContext);
             right: '10px',
             zIndex: 1000,
         }}
-        onClick={() => setOpen(!open)}
+        onClick={() => {setOpen(!open)
+        if(open) {
+          setName('');
+          setDescription('');
+          setImage(null);
+          setImagePreviewUrl(null);
+        }
+        }}
     >
         {open ? <CloseIcon /> : <AddIcon />}
     </IconButton>
@@ -67,13 +100,17 @@ const {user, userDetails} = useContext(UserContext);
             style={{ display: 'none' }}
             id='upload-button'
             type="file"
-            onChange={(e) => setImage(e.target.files[0])}
+            onChange={(e) => {setImage(e.target.files[0])
+            setImagePreviewUrl(URL.createObjectURL(e.target.files[0]))
+            }}
           />
           <label htmlFor='upload-button'>
             <Collections/>
           </label>
           </IconButton>
-
+ {imagePreviewUrl &&         
+          <PostImage src={imagePreviewUrl} />
+}
           <Button type="submit" variant="contained" color="primary">
             Submit
           </Button>
