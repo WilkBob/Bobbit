@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { TextField, Button, Collapse, IconButton } from '@mui/material';
+import { TextField, Button, Collapse, IconButton, Typography } from '@mui/material';
 import { addForum } from '../Firebase/Forums';
 import { UserContext } from './context/UserContext';
 import { useNavigate } from 'react-router-dom';
@@ -81,6 +81,8 @@ const {user, userDetails} = useContext(UserContext);
           gap: '10px',
         }}
         >
+          <Typography variant="h5">Add a new forum</Typography>
+          <Typography variant="caption">Please fill in the details below</Typography>
           <TextField
             required
             label="Name"
