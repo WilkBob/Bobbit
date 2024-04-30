@@ -8,8 +8,22 @@ const SortButtons = ({ posts, setDisplayPosts }) => {
   };
   const getPopularityScore = (post) => {
     const likesCount = getLikesCount(post.likes);
+    const commentsCount = post.comments ? Object.keys(post.comments).length : 0;
     const timeSincePost = (new Date().getTime() - post.timestamp) / 1000;
-    return likesCount / timeSincePost;
+    const LIKE_WEIGHT = 3;
+    const COMMENT_WEIGHT = 4;
+    const TIME_WEIGHT = 2;
+
+  
+    const totalInteractions = (likesCount * LIKE_WEIGHT) + (commentsCount * COMMENT_WEIGHT);
+
+
+    const hoursSincePost = timeSincePost / 3600; // 3600 seconds in an hour
+
+  
+    const popularityScore = totalInteractions / Math.max(1, hoursSincePost) * TIME_WEIGHT;
+    return popularityScore;
+    
   };
   useEffect(() => {
     if(!posts) return;
