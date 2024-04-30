@@ -16,6 +16,7 @@ import Forums from './pages/Forums'
 import Forum from './pages/Forum'
 import About from './pages/About'
 import Contact from './pages/Contact'
+import ForgotPassword from './pages/ForgotPassword'
 function App() {
 
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path='/login' element={<Login/>}/>
           <Route path='/logout' element={<Logout/>}/>
           <Route path='/signup' element={<Signup/>}/>
+          <Route path='/forgot-password' element={<ForgotPassword/>}/>
           <Route path='/post/:forumId/:id' element={<Post/>}/>
           <Route path='/user/:id' element={<User/>}/>
           <Route path='/Profile' element={<Profile/>}/>

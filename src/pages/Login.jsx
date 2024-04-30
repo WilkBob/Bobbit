@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 const Login = () => {
     const {user, setUser} = useContext(UserContext);
     const [form, setForm] = useState({
-        username: '',
+        email: '',
         password: ''
     
     });
@@ -57,6 +57,10 @@ const Login = () => {
             </form>
             <Link to="/signup" >
                 <Typography variant="body2" color="primary">Don't have an account? Register here</Typography>
+            </Link>
+
+            <Link to="/forgot-password" >
+                <Typography variant="body2" color="primary">Forgot your password?</Typography>
             </Link>
             
         </div>

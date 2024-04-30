@@ -23,7 +23,7 @@ const DisplayForums = () => {
             <Grid container spacing={3}>
                 {forums.map(forum => (
                     <Grid item xs={12} sm={6} md={4} key={forum.id} sx={{display:'flex'}}>
-                        <Card raised a component={RouterLink} to={`/forum/${forum.id}`} sx={{ textDecoration: 'none', display:'flex'}}>
+                        <Card raised component={RouterLink} to={`/forum/${forum.id}`} sx={{ textDecoration: 'none', display:'flex'}}>
                             <CardActionArea>
                                 {forum.image && (
                                     <CardMedia

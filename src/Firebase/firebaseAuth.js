@@ -5,7 +5,7 @@ import { app } from "./firebase";
 const App = app;
 const db = getDatabase(App);
 
-const auth = getAuth();
+export const auth = getAuth(App);
 
 export const signUp = async (email, password, username) => {
     try {
