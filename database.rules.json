@@ -1,9 +1,28 @@
 {
   "rules": {
-    ".read": "now < 1716447600000",  
+    ".read": "true",  
     ".write": "auth != null",
     "users": {
-      ".write": "true"
+      "$userId": {
+        ".write": "auth != null && $userId === auth.uid" 
+      }
+    },
+    "forums": {
+      "$forumId": {
+        ".write": "auth != null && newData.child('userId').val() === auth.uid"
+      }
+    },
+    "posts": {
+      "$forumId": {
+        "$postId": {
+          ".write": "auth != null && newData.child('userId').val() === auth.uid"
+        }
+      }
+    },
+    "comments": {
+      "$postId": {
+        ".write": "auth != null && newData.child('userId').val() === auth.uid"
+      }
     }
   }
 }
