@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import { auth } from "../../Firebase/firebaseAuth";
 import { getUser } from "../../Firebase/Users";
 
 export const UserContext = createContext({
@@ -9,24 +10,27 @@ export const UserContext = createContext({
 });
 
 export const UserProvider = ({children}) => {
-    const [user, setUser] = useState(() => JSON.parse(localStorage.getItem('user')) || null);
+    const [user, setUser] = useState(null);
     const [userDetails, setUserDetails] = useState(null);
 
     useEffect(() => {
-        if (user) {
-            localStorage.setItem('user', JSON.stringify(user));
-            if (!userDetails) {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            setUser(user);
+            if (user) {
                 getUser(user.uid).then(userDetails => {
                     setUserDetails(userDetails);
                 });
+            } else {
+                setUserDetails(null);
             }
-        }
-    }, [user]);
+        });
 
-    
+        // Cleanup subscription on unmount
+        return () => unsubscribe();
+    }, []);
 
     return (
-        <UserContext.Provider value={{user, setUser, userDetails, setUserDetails}}>
+        <UserContext.Provider value={{user, userDetails}}>
             {children}
         </UserContext.Provider>
     )

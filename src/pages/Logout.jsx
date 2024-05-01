@@ -5,16 +5,16 @@ import { signOut } from '../Firebase/firebaseAuth';
 import { useNavigate } from 'react-router-dom';
 
 const Logout = () => {
-    const {user, setUser} = useContext(UserContext);
+    const {user} = useContext(UserContext);
     const navigate = useNavigate();
 
     useEffect(() => {
-        setUser(null);
+        
         signOut();
         if (user === null) {
             navigate('/login');
         }
-    }, [user, setUser])
+    }, [user])
   return (
     <div>
       Logout

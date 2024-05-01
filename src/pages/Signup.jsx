@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
   const navigate = useNavigate();
-  const {user, setUser} = useContext(UserContext)
+  const {user} = useContext(UserContext)
   const [errors, setErrors] = useState({
     username: '',
     email: '',
@@ -91,9 +91,9 @@ const Signup = () => {
       console.log('User created');
     }
 
-    const user = await signUp(email, password, username);
+    await signUp(email, password, username);
     console.log(user);
-    setUser(user);
+    
   }
 
   return (

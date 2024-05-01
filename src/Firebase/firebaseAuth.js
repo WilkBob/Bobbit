@@ -43,8 +43,6 @@ export const signIn = async (email, password) => {
 export const signOut = async () => {
     try {
         await auth.signOut();
-        window.localStorage.removeItem('notAToken');
-        window.localStorage.removeItem('user');
         return null;
     } catch (error) {
         console.error(error);

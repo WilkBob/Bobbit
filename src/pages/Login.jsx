@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
-    const {user, setUser} = useContext(UserContext);
+    const {user} = useContext(UserContext);
     const [form, setForm] = useState({
         email: '',
         password: ''
@@ -24,8 +24,7 @@ const Login = () => {
     }, [user]);
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const user = await signIn(form.email, form.password);
-        setUser(user);
+        await signIn(form.email, form.password);
         }
 
     const handleChange = (e) => {
