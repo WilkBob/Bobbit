@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Typography, Link } from '@mui/material';
+import { Typography, Link, IconButton } from '@mui/material';
+import { GitHub } from '@mui/icons-material';
 
 
 
@@ -17,9 +18,19 @@ const Footer = () => {
                 Made with love by Bob
             </Typography>
             <Typography variant="body2" color="textSecondary" align="center">
-                <Link color="inherit" href="https://github.com/WilkBob" target="_blank">
-                    GitHub
-                </Link>
+                <IconButton href="https://github.com/wilkbob" target="_blank">
+                    <GitHub />
+                </IconButton>
+                <a href="https://github.com/wilkbob" target="_blank"
+                style={{
+                    textDecoration: 'none',
+                    color: 'inherit',
+                    '&:hover': {
+                        color: 'blue',
+                        textDecoration: 'underline'
+                    
+                }}}
+                >GitHub</a>
             </Typography>
         </footer>
     );
