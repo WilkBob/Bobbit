@@ -13,7 +13,7 @@ const Contact = () => {
             If you have any questions, please feel free to contact us at:
           </Typography>
           <Typography variant="body1" gutterBottom>
-            Email: bobbydchess@gmail.com
+            Email: bobbit.web@gmail.com
           </Typography>
         </Paper>
       </Box>
