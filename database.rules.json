@@ -1,27 +1,32 @@
 {
   "rules": {
     ".read": "true",  
-    ".write": "auth != null",
+    ".write": "false",
     "users": {
+      ".write": "auth != null && !data.exists()",
       "$userId": {
-        ".write": "auth != null && $userId === auth.uid" 
+        ".write": "auth != null && $userId === auth.uid"
       }
     },
     "forums": {
+      ".write": "auth != null && !data.exists() && newData.exists()",
       "$forumId": {
-        ".write": "auth != null && newData.child('userId').val() === auth.uid"
+        ".write": "auth != null"
       }
     },
     "posts": {
+      ".write": "auth != null",
       "$forumId": {
+        ".write": "auth != null",
         "$postId": {
-          ".write": "auth != null && newData.child('userId').val() === auth.uid"
+          ".write": "auth != null"
         }
       }
     },
     "comments": {
+      ".write": "auth != null",
       "$postId": {
-        ".write": "auth != null && newData.child('userId').val() === auth.uid"
+        ".write": "auth != null"
       }
     }
   }
