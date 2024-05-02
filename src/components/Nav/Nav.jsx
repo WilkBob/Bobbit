@@ -10,7 +10,7 @@ import { useContext, useState} from 'react';
 import { Button } from '@mui/material';
 import { Login } from '@mui/icons-material';
 
-const pages = ['Home', 'About', 'Forums', 'Contact'];
+const pages = ['Home', 'Forums', 'About', 'Contact'];
 const settings = ['Profile', 'Logout'];
 
 function ResponsiveAppBar() {
