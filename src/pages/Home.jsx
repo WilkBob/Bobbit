@@ -3,7 +3,8 @@ import DisplayPosts from '../components/DisplayPosts'
 import AddPost from '../components/AddPost'
 import { Typography } from '@mui/material';
 import SortButtons from '../components/SortButtons';
-import { getAllPosts } from '../Firebase/Posts';
+import { onValue, ref } from 'firebase/database';
+import { db } from '../Firebase/firebaseDB';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -11,15 +12,16 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const allPosts = await getAllPosts();
+    const forumsRef = ref(db, 'posts');
+    const unsubscribe = onValue(forumsRef, (snapshot) => {
+      let allPosts = Object.values(snapshot.val() || {}).map(forum => Object.values(forum));
+      allPosts = allPosts.flat();
       setPosts(allPosts);
       setLoading(false);
-      
-    }
-    fetchPosts();
-  }
-  , []);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <>

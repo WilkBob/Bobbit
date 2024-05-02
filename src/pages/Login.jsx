@@ -43,7 +43,7 @@ const Login = () => {
             margin: 'auto',
             padding: '1rem'
         
-        }}>
+        }}className='fadeIn'>
             <Typography  variant="h4" component="h1" gutterBottom>Sign In</Typography>
             <Typography variant="body1" gutterBottom>Sign in to your Bobbit account to connect with your favorite communities</Typography>
 
