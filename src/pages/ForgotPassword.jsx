@@ -44,6 +44,7 @@ const ForgotPassword = () => {
                 alignItems: 'center',
                 gap: 2,
             }}
+            className='fadeIn'
         >
             <Typography variant="h4">Forgot Password</Typography>
             <TextField

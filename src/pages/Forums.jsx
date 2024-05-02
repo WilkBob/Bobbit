@@ -4,7 +4,7 @@ import DisplayForums from '../components/DisplayForums'
 
 const Forums = () => {
   return (
-    <div>
+    <div className='fadeIn'>
       <AddForum/>
       <DisplayForums/>
     </div>

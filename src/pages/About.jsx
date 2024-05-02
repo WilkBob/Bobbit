@@ -3,7 +3,7 @@ import { Typography, Box, Container, Paper } from '@mui/material';
 
 const About = () => {
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" className='fadeIn'>
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           About This Project

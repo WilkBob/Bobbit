@@ -129,7 +129,7 @@ const Signup = () => {
   display: 'flex', 
   justifyContent: 'space-between', 
   alignItems: 'center' 
-}}>
+}} className='fadeIn'>
   <Box sx={{ 
     width: step == 1 ? 15 : 8, 
     height: step == 1 ? 15 : 8, 
@@ -181,8 +181,7 @@ const Signup = () => {
     id="username" 
     label={"Username" + (errors.username.length > 0 ? ` - ${errors.username}` : '')}
     name="username" 
-    autoComplete="username" 
-    autoFocus />
+    autoComplete="username"/>
 }
       {step === 2 && 
         <TextField 

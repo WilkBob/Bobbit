@@ -24,7 +24,7 @@ function App() {
     
     <Nav/>
       <Waves/>
-      <Container className='glass container'>
+      <Container className='glass container fadeIn'>
         <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/login' element={<Login/>}/>
