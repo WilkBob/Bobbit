@@ -11,22 +11,34 @@
     "forums": {
       ".write": "auth != null && !data.exists() && newData.exists()",
       "$forumId": {
-        ".write": "auth != null"
+        ".write": "auth != null && (data.child('ownerId').val() === auth.uid || newData.child('ownerId').val() === auth.uid)",
+         "$posts": {
+          ".write": "auth != null"
+         }
       }
     },
     "posts": {
-      ".write": "auth != null",
+      ".write": "auth != null && !data.exists() && newData.exists()",
       "$forumId": {
         ".write": "auth != null",
         "$postId": {
-          ".write": "auth != null"
+          ".write": "auth != null && (data.child('userId').val() === auth.uid || newData.child('userId').val() === auth.uid)",
+          "comments": {
+            ".write": "auth != null"
+          },
+          "likes": {
+            ".write": "auth != null"
+          }
         }
       }
     },
     "comments": {
-      ".write": "auth != null",
+      ".write": "auth != null && !data.exists() && newData.exists()",
       "$postId": {
-        ".write": "auth != null"
+        ".write": "auth != null && (data.child('userId').val() === auth.uid || newData.child('userId').val() === auth.uid)",
+        "$likes": {
+          ".write": "auth != null"
+        }
       }
     }
   }
