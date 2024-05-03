@@ -6,10 +6,12 @@ import { Link } from "react-router-dom";
 
 
 const Image = styled('img')({
-  width: 50,
-  height: 50,
+  width: 60,
+  height: 60,
   objectFit: 'cover',
   borderRadius: '5px',
+  transition: 'transform 0.3s',
+  marginRight: 10,
     '&:hover': {
       transform: 'scale(1.1)',
     },

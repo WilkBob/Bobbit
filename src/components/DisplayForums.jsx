@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { getForums } from '../Firebase/Forums';
 import { Link as RouterLink } from 'react-router-dom';
-import { Card, CardContent, CardMedia, Typography, Grid, CardActionArea, Divider } from '@mui/material';
+import { Card, CardContent, CardMedia, Typography, Grid, CardActionArea, Divider, CircularProgress } from '@mui/material';
 
 const DisplayForums = () => {
     const [forums, setForums] = useState([]);
+    const [loading, setLoading] = useState(true);
     const fetchForums = async () => {
         const forums = await getForums();
         console.log(forums);
@@ -13,6 +14,7 @@ const DisplayForums = () => {
 
     useEffect(() => {
         fetchForums();
+        setLoading(false);
     }, []);
 
     return (
@@ -21,7 +23,13 @@ const DisplayForums = () => {
                 Forums
             </Typography>
             <Grid container spacing={3}>
-                {forums.map(forum => (
+                { loading &&
+                    <Grid item md={12}>
+                        <CircularProgress />
+                    </Grid>
+                }
+
+                {!loading && forums.map(forum => (
                     <Grid item xs={12} sm={6} md={4} key={forum.id} sx={{display:'flex'}}>
                         <Card raised component={RouterLink} to={`/forum/${forum.id}`} sx={{ textDecoration: 'none', display:'flex'}}>
                             <CardActionArea>

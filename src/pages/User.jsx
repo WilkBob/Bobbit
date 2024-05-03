@@ -3,14 +3,16 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 
 'react-router-dom';
 import { getPostsByUser, getUser } from '../Firebase/Users';
-import { Typography, Card, CardContent, Avatar } from '@mui/material';
+import { Typography} from '@mui/material';
 import DisplayPosts from '../components/DisplayPosts';
+import SortButtons from '../components/SortButtons';
 
 const User = () => {
     const [loading, setLoading] = useState(true);
     const {id} = useParams();
     const [displayUser, setDisplayUser] = useState(null);
     const [posts, setPosts] = useState([]);
+    const [displayPosts, setDisplayPosts] = useState([]);
     const navigate = useNavigate();
     const fetchUser = async () => {
   const user = await getUser(id);
@@ -32,9 +34,7 @@ const fetchPosts = async () => {
   }
 }
 
-const sortPosts = (posts) => {
-  return posts.sort((a, b) => b.timestamp - a.timestamp);
-}
+
 
 useEffect(() => {   
   fetchUser();
@@ -50,7 +50,8 @@ if (loading) {
       <Typography variant="h6" component="div" sx={{ marginBottom: '10px' }}>
         Posts by {displayUser?.username}
       </Typography>
-      <DisplayPosts posts={sortPosts(posts)} loading={loading} />
+      <SortButtons setDisplayPosts={setDisplayPosts} posts={posts} />
+      <DisplayPosts posts={displayPosts} loading={loading} />
     </div>
   );
 }

@@ -129,7 +129,10 @@ const Comment = ({
                     
                         color={isLiked ? 'primary' : 'inherit'}
                         onClick={handleLike}
-                    
+                        sx={{transition: 'transform 0.3s',
+         '&:hover': {
+                                transform: 'scale(1.1)'
+                        }}}
                     >
                         <Badge badgeContent={likesCount} color="primary">
                         <ThumbUp/>
