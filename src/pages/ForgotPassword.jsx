@@ -3,6 +3,7 @@ import { UserContext } from '../components/context/UserContext';
 import { TextField, Button, Typography, CircularProgress, Box, Alert } from '@mui/material';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../Firebase/firebaseAuth';
+import { useNavigate } from 'react-router-dom';
 
 
 const ForgotPassword = () => {
@@ -11,7 +12,7 @@ const ForgotPassword = () => {
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const { user } = useContext(UserContext);
-
+    const navigate = useNavigate();
     useEffect(() => {
         if (user) {
             navigate('/profile');

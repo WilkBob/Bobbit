@@ -10,6 +10,10 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const {user} = useContext(UserContext);
+    const [errors, setErrors] = useState({
+        email: '',
+        password: ''
+    });
     const [form, setForm] = useState({
         email: '',
         password: ''
@@ -24,12 +28,19 @@ const Login = () => {
     }, [user]);
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await signIn(form.email, form.password);
+        
+        try {
+            await signIn(form.email, form.password);
+        }
+        catch (error) {
+            setErrors({email: 'Invalid email or password', password: 'Invalid email or password'});
         }
 
+    }
     const handleChange = (e) => {
         const {name, value} = e.target;
         setForm({...form, [name]: value});
+        setErrors({...form, [name]: ''});
     }
 
     return (
@@ -48,11 +59,12 @@ const Login = () => {
             <Typography variant="body1" gutterBottom>Sign in to your Bobbit account to connect with your favorite communities</Typography>
 
             <form style={{display: 'flex', flexDirection: 'column', gap: '10px'}} onSubmit={handleSubmit}>
-                <TextField name='email'fullWidth  label="Email" variant="outlined" onChange={handleChange} />
-                <TextField fullWidth name='password' label="Password" variant="outlined" type="password" onChange={handleChange}/>
+                <TextField name='email' fullWidth  label="Email" variant="outlined"  onChange={handleChange} />
+                <TextField fullWidth name='password' label="Password" variant="outlined" type="password" error={errors.password.length > 1 ? errors.password : false} onChange={handleChange}/>
                 <Button fullWidth variant="contained" color="primary" type='submit'>
                     Login
                 </Button>
+
             </form>
             <Link to="/signup" >
                 <Typography variant="body2" color="primary">Don't have an account? Register here</Typography>
