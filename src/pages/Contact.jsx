@@ -1,5 +1,8 @@
 import React from 'react';
-import { Typography, Box, Container, Paper } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
 
 const Contact = () => {
   return (

@@ -2,7 +2,12 @@ import React, { useContext, useState } from 'react';
 import { UserContext } from './context/UserContext';
 import { addComment } from '../Firebase/Comments';
 import { useNavigate } from 'react-router-dom';
-import { Box, TextField, Button, CircularProgress, IconButton, InputAdornment } from '@mui/material';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import CloseIcon from '@mui/icons-material/Close';
 

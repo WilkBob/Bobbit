@@ -1,6 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../components/context/UserContext';
-import { TextField, Button, Typography, CircularProgress, Box, Alert } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../Firebase/firebaseAuth';
 import { useNavigate } from 'react-router-dom';

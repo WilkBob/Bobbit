@@ -1,6 +1,20 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Typography, Avatar, IconButton, TextField, Badge } from "@mui/material";
-import { Collections, DeleteOutline, Edit, EditOutlined,  SaveOutlined, ThumbUp } from "@mui/icons-material";
+import {
+    Box,
+    Typography,
+    Avatar,
+    IconButton,
+    TextField,
+    Badge
+} from "@mui/material";
+import {
+    Collections,
+    DeleteOutline,
+    Edit,
+    EditOutlined,
+    SaveOutlined,
+    ThumbUp
+} from "@mui/icons-material";
 import { UserContext } from "./context/UserContext";
 import { Link, useNavigate} from "react-router-dom";
 import CommentImage from "./CommentImage";
@@ -126,7 +140,6 @@ const Comment = ({
                         </>
                     )}
                     <IconButton
-                    
                         color={isLiked ? 'primary' : 'inherit'}
                         onClick={handleLike}
                         sx={{transition: 'transform 0.3s',

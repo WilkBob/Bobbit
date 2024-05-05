@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-import { styled, useTheme } from '@mui/system';
-import { IconButton, useMediaQuery } from '@mui/material';
+import styled from '@mui/system/styled';
+import useTheme from '@mui/system/useTheme';
+import IconButton from '@mui/material/IconButton';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Close from '@mui/icons-material/Close';
 
 const Image = styled('img')({
@@ -43,7 +45,7 @@ const CommentImage = ({ src }) => {
         aria-describedby="modal-modal-description"
       >
         <Box 
-        className='glass'
+          className='glass'
           sx={{ 
             position: 'absolute', 
             top: '50%', 
@@ -54,12 +56,10 @@ const CommentImage = ({ src }) => {
             overflowY: 'auto',
           }}
         >
-            <IconButton onClick={handleClose} sx={{position: 'absolute', top: 0, right: 0}}>
-                <Close />
-            </IconButton>
-          <Image src={src} alt="Comment" sx={{
-            borderRadius: '4px',
-          }} />
+          <IconButton onClick={handleClose} sx={{position: 'absolute', top: 0, right: 0}}>
+            <Close />
+          </IconButton>
+          <Image src={src} alt="Comment" sx={{borderRadius: '4px'}} />
         </Box>
       </Modal>
     </>

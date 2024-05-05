@@ -1,15 +1,18 @@
 import React, { useContext } from 'react';
-import { Card, CardContent, Typography, CardMedia, IconButton, TextField } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import CardMedia from '@mui/material/CardMedia';
+import IconButton from '@mui/material/IconButton';
+import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
 import { updateForum } from '../Firebase/Forums';
 import { useState } from 'react';
-import { Edit, EditOutlined, PhotoCamera, Save, SaveOutlined } from '@mui/icons-material';
+import Edit from '@mui/icons-material/Edit';
+import EditOutlined from '@mui/icons-material/EditOutlined';
+import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import Save from '@mui/icons-material/Save';
 import { UserContext } from './context/UserContext';
-
-
-
-
-
 
 const ForumCard = ({ forum, loading }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -40,7 +43,7 @@ const ForumCard = ({ forum, loading }) => {
             return false;
         }
         return true;
-    }
+    };
 
     const handleEdit = async () => {
         if (!validateForum()) return;
@@ -48,7 +51,7 @@ const ForumCard = ({ forum, loading }) => {
         const editResult = await updateForum(forum.id, editedForum.name, editedForum.description, editedImage);
         console.log('Edit result:', editResult);
         window.location.reload();
-    }
+    };
 
     const handleInputChange = (event) => {
         setEditedForum({
@@ -80,7 +83,7 @@ const ForumCard = ({ forum, loading }) => {
                         opacity: 0.8,
                     }}
                 >
-                    {forum.image && editedImagePreviewUrl &&
+                    {forum.image && editedImagePreviewUrl && (
                         <CardMedia
                             sx={{
                                 height: '100%',
@@ -89,7 +92,6 @@ const ForumCard = ({ forum, loading }) => {
                                 position: 'absolute',
                                 top: 0,
                                 left: 0,
-
                                 zIndex: -1,
                                 overflow: 'hidden',
                                 opacity: 0.1,
@@ -98,8 +100,8 @@ const ForumCard = ({ forum, loading }) => {
                             image={editedImagePreviewUrl}
                             alt={forum.name}
                         />
-                         } {
-                        forum.image && !editedImagePreviewUrl &&
+                    )}
+                    {forum.image && !editedImagePreviewUrl && (
                         <CardMedia
                             sx={{
                                 height: '100%',
@@ -116,19 +118,19 @@ const ForumCard = ({ forum, loading }) => {
                             image={forum.image}
                             alt={forum.name}
                         />
-                    }
+                    )}
                     <CardContent>
-                    {forum.ownerId === userDetails?.uid && (
+                        {forum.ownerId === userDetails?.uid && (
                             <IconButton
-                                onClick={() =>{ setIsEditing(!isEditing)
-                                setEditedForum({
-                                    name: forum.name,
-                                    description: forum.description,
-                                })
-                                setEditedImage(null)
-                                setEditedImagePreviewUrl(null)
-                                ;}}
-                                
+                                onClick={() => {
+                                    setIsEditing(!isEditing);
+                                    setEditedForum({
+                                        name: forum.name,
+                                        description: forum.description,
+                                    });
+                                    setEditedImage(null);
+                                    setEditedImagePreviewUrl(null);
+                                }}
                                 color={isEditing ? 'success' : 'inherit'}
                             >
                                 {isEditing ? <Edit /> : <EditOutlined />}
@@ -136,10 +138,7 @@ const ForumCard = ({ forum, loading }) => {
                         )}
 
                         {isEditing && (
-                            <IconButton component="label" htmlFor={'uploadbutton'} color={
-                                editedImage ? 'success' : 'inherit'
-                            
-                            }>
+                            <IconButton component="label" htmlFor={'uploadbutton'} color={editedImage ? 'success' : 'inherit'}>
                                 <input
                                     type="file"
                                     accept="image/*"
@@ -147,13 +146,10 @@ const ForumCard = ({ forum, loading }) => {
                                     style={{ display: 'none' }}
                                     id="uploadbutton"
                                 />
-                              
-                                    <PhotoCamera />
-                                
+                                <PhotoCamera />
                             </IconButton>
-
-
                         )}
+
                         {isEditing && (
                             <IconButton color="success" onClick={handleEdit}>
                                 <Save />
@@ -180,7 +176,6 @@ const ForumCard = ({ forum, loading }) => {
                             </Typography>
                         )}
 
-                        
                         {isEditing ? (
                             <TextField
                                 variant="outlined"
@@ -200,7 +195,7 @@ const ForumCard = ({ forum, loading }) => {
                                 {forum.description}
                             </Typography>
                         )}
-                        
+
                         <Typography variant="body2" color="text.secondary">
                             {forum.posts ? Object.keys(forum.posts).length : 0} posts
                         </Typography>

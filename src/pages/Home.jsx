@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import DisplayPosts from '../components/DisplayPosts'
 import AddPost from '../components/AddPost'
-import { Typography } from '@mui/material';
+import  Typography  from '@mui/material/Typography';
 import SortButtons from '../components/SortButtons';
 import { onValue, ref } from 'firebase/database';
 import { db } from '../Firebase/firebaseDB';

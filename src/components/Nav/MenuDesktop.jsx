@@ -19,10 +19,7 @@ export function MenuDesktop({
         <>
             <AdbIcon
                 sx={{
-                    display: {
-                        xs: 'none',
-                        md: 'flex'
-                    },
+                    display: { xs: 'none', md: 'flex' },
                     mr: 1,
                     color: '#cf7753'
                 }}
@@ -34,10 +31,7 @@ export function MenuDesktop({
                 to="/"
                 sx={{
                     mr: 2,
-                    display: {
-                        xs: 'none',
-                        md: 'flex'
-                    },
+                    display: { xs: 'none', md: 'flex' },
                     fontFamily: 'monospace',
                     fontWeight: 700,
                     letterSpacing: '.3rem',
@@ -51,10 +45,7 @@ export function MenuDesktop({
             <Box
                 sx={{
                     flexGrow: 1,
-                    display: {
-                        xs: 'flex',
-                        md: 'none'
-                    }
+                    display: { xs: 'flex', md: 'none' }
                 }}
             >
                 <IconButton
@@ -82,10 +73,7 @@ export function MenuDesktop({
                     open={Boolean(anchorElNav)}
                     onClose={handleCloseNavMenu}
                     sx={{
-                        display: {
-                            xs: 'block',
-                            md: 'none'
-                        }
+                        display: { xs: 'block', md: 'none' }
                     }}
                 >
                     {pages.map(page => (
@@ -94,7 +82,7 @@ export function MenuDesktop({
                                 component={Link}
                                 to={`/${page === 'Home' ? '' : page.toLowerCase()}`}
                                 textAlign="center"
-                                sx={{ color: 'inherit', textDecoration: 'none'}}
+                                sx={{ color: 'inherit', textDecoration: 'none' }}
                             >
                                 {page}
                             </Typography>

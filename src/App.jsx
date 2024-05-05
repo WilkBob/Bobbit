@@ -1,4 +1,4 @@
-import { Container } from '@mui/material'
+import Container from '@mui/material/Container/Container'
 import './App.css'
 import Nav from './components/Nav/Nav'
 import {Routes, Route} from 'react-router-dom'

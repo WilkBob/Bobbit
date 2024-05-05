@@ -1,6 +1,6 @@
 import { PostCard } from '../components/PostCard';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Typography } from '@mui/material';
+import  Typography  from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import { updatePost } from '../Firebase/Posts';
 import CommentBox from '../components/CommentBox';

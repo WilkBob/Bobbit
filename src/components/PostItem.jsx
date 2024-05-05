@@ -1,31 +1,39 @@
 import React from "react";
-import { ListItem, ListItemAvatar, Avatar, ListItemText, Typography, Chip, Divider, styled } from "@mui/material";
-import CommentIcon from '@mui/icons-material/Comment';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ListItemText from "@mui/material/ListItemText";
+import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
+import styled from "@mui/system/styled";
+import CommentIcon from "@mui/icons-material/Comment";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { Link } from "react-router-dom";
 
-
-const Image = styled('img')({
+const Image = styled("img")({
   width: 60,
   height: 60,
-  objectFit: 'cover',
-  borderRadius: '5px',
-  transition: 'transform 0.3s',
+  objectFit: "cover",
+  borderRadius: "5px",
+  transition: "transform 0.3s",
   marginRight: 10,
-    '&:hover': {
-      transform: 'scale(1.1)',
-    },
+  "&:hover": {
+    transform: "scale(1.1)",
+  },
 });
 
 export function PostItem({ post }) {
   const likesCount = post.likes ? Object.keys(post.likes).length : 0;
   const commentsCount = post.comments ? Object.keys(post.comments).length : 0;
   return (
-    <ListItem key={post.id} component={Link} to={`/post/${post.forumId}/${post.id}`} button 
-    
-    sx={{
-      borderRadius: 'inherit',
-    }}>
+    <ListItem
+      key={post.id}
+      component={Link}
+      to={`/post/${post.forumId}/${post.id}`}
+      button
+      sx={{
+        borderRadius: "inherit",
+      }}
+    >
       <ListItemAvatar>
         {post.image && <Image src={post.image} />}
       </ListItemAvatar>
@@ -34,51 +42,48 @@ export function PostItem({ post }) {
         secondary={
           <>
             <Typography
-              sx={{ display: 'inline', marginLeft: 1, marginRight: 1}}
-              component={'span'}
+              sx={{ display: "inline", marginLeft: 1, marginRight: 1 }}
+              component={"span"}
               variant="body2"
               color="text.primary"
             >
-              {'u/'}{post.username} <Chip component={'span'} label={post.forumName} size="small" />
+              {"u/"}{post.username} <Chip component={"span"} label={post.forumName} size="small" />
             </Typography>
             <Typography
               variant="body2"
               component="span"
               sx={{
-                display: '-webkit-box',
+                display: "-webkit-box",
                 WebkitLineClamp: 1,
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
               }}
             >
               {`${new Date(post.timestamp).toLocaleDateString(
-                'en-US',
+                "en-US",
                 {
-                  month: 'long',
-                  day: 'numeric',
+                  month: "long",
+                  day: "numeric",
                 }
               )} — ${post.content}`}
             </Typography>
-            
-              
-            
           </>
         }
-      /><Chip
-                icon={<ThumbUpIcon />}
-                label={likesCount}
-                variant="contained"
-                size="small"
-                sx={{ marginRight: 1 }}
-              />
-              <Chip
-                icon={<CommentIcon />}
-                label={commentsCount}
-                variant="contained"
-                size="small"
-              />
-      
+      />
+      <Chip
+        icon={<ThumbUpIcon />}
+        label={likesCount}
+        variant="contained"
+        size="small"
+        sx={{ marginRight: 1 }}
+      />
+      <Chip
+        icon={<CommentIcon />}
+        label={commentsCount}
+        variant="contained"
+        size="small"
+      />
     </ListItem>
   );
 }

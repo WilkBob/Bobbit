@@ -7,8 +7,8 @@ import Container from '@mui/material/Container';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 import { useContext, useState} from 'react';
-import { Button } from '@mui/material';
-import { Login } from '@mui/icons-material';
+import  Button  from '@mui/material/Button';
+import  Login  from '@mui/icons-material/Login';
 
 const pages = ['Home', 'Forums', 'About', 'Contact'];
 const settings = ['Profile', 'Logout'];

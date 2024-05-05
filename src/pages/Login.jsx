@@ -1,6 +1,8 @@
 import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../components/context/UserContext';
-import { TextField, Button, Typography } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { signIn } from '../Firebase/firebaseAuth';
 import { useNavigate } from 'react-router-dom';

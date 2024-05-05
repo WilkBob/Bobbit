@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { ButtonGroup, Button } from '@mui/material';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Button from '@mui/material/Button';
 
 const SortButtons = ({ posts, setDisplayPosts }) => {
   const [sortBy, setSortBy] = useState('likes');

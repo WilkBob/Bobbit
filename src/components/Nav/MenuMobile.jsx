@@ -5,18 +5,12 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import AdbIcon from "@mui/icons-material/Adb";
 
-export function MenuMobile({
-    pages,
-    handleCloseNavMenu
-}) {
+export function MenuMobile({ pages, handleCloseNavMenu }) {
     return (
         <>
             <AdbIcon
                 sx={{
-                    display: {
-                        xs: 'flex',
-                        md: 'none'
-                    },
+                    display: { xs: 'flex', md: 'none' },
                     mr: 1,
                     color: '#cf7753'
                 }}
@@ -28,10 +22,7 @@ export function MenuMobile({
                 to="/"
                 sx={{
                     mr: 2,
-                    display: {
-                        xs: 'flex',
-                        md: 'none'
-                    },
+                    display: { xs: 'flex', md: 'none' },
                     flexGrow: 1,
                     fontFamily: 'monospace',
                     fontWeight: 700,
@@ -45,10 +36,7 @@ export function MenuMobile({
             <Box
                 sx={{
                     flexGrow: 1,
-                    display: {
-                        xs: 'none',
-                        md: 'flex'
-                    }
+                    display: { xs: 'none', md: 'flex' }
                 }}
             >
                 {pages.map(page => (

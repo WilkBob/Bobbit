@@ -1,20 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    Box,
-    Typography,
-    Chip,
-
-    IconButton,
-    Avatar,
-    TextField,
-    Button,
-    CircularProgress,
-    Badge
-} from "@mui/material";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardHeader from "@mui/material/CardHeader";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
+import IconButton from "@mui/material/IconButton";
+import Avatar from "@mui/material/Avatar";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
+import Badge from "@mui/material/Badge";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import EditIcon from "@mui/icons-material/Edit";
@@ -22,17 +19,13 @@ import { UserContext } from "./context/UserContext";
 import { deletePost } from "../Firebase/Posts";
 import { toggleLike } from "../Firebase/Users";
 import PostImage from "./PostImage";
-import {PhotoCamera as Camera, Delete, SaveOutlined } from "@mui/icons-material";
+import { PhotoCamera as Camera, Delete, SaveOutlined } from "@mui/icons-material";
 
 export function PostCard({ post, handleEdit, loading, setLoading }) {
     const navigate = useNavigate();
     const { userDetails } = useContext(UserContext);
-    const [likesCount, setLikesCount] = useState(
-        0
-    );
-    const [liked, setLiked] = useState(
-        false
-    );
+    const [likesCount, setLikesCount] = useState(0);
+    const [liked, setLiked] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editedPost, setEditedPost] = useState(null);
     const [editedTitle, setEditedTitle] = useState(null);
@@ -40,37 +33,45 @@ export function PostCard({ post, handleEdit, loading, setLoading }) {
 
     const handleSave = () => {
         if (!editedPost.trim()) {
-            alert('Post cannot be empty');
+            alert("Post cannot be empty");
             return;
         }
         if (editedPost.trim().length < 10) {
-            alert('Post must be at least 10 characters');
+            alert("Post must be at least 10 characters");
             return;
         }
         if (editedImage && editedImage.size > 2000000) {
-            alert('Image must be less than 1MB');
+            alert("Image must be less than 1MB");
             return;
         }
-        if (editedImage && !['image/jpeg', 'image/png', 'image/gif'].includes(editedImage.type)) {
-            alert('Image must be a jpeg, png or gif');
+        if (
+            editedImage &&
+            !["image/jpeg", "image/png", "image/gif"].includes(editedImage.type)
+        ) {
+            alert("Image must be a jpeg, png or gif");
             return;
         }
 
-
-        handleEdit(post.id, editedTitle, editedPost, userDetails.profileImage || null, editedImage? editedImage : null);
+        handleEdit(
+            post.id,
+            editedTitle,
+            editedPost,
+            userDetails.profileImage || null,
+            editedImage ? editedImage : null
+        );
         setIsEditing(false);
         editedImage && setEditedImage(null);
     };
 
     const handleDelete = async () => {
-        const confirmDelete = window.confirm('Are you sure you want to delete this post?');
+        const confirmDelete = window.confirm("Are you sure you want to delete this post?");
         if (!confirmDelete) {
             return;
         }
         setLoading(true);
-       await deletePost(post.id, post.forumId);
-       navigate('/');
-    }
+        await deletePost(post.id, post.forumId);
+        navigate("/");
+    };
 
     useEffect(() => {
         if (!post) {
@@ -80,14 +81,13 @@ export function PostCard({ post, handleEdit, loading, setLoading }) {
         setLiked(userDetails && post.likes && post.likes[userDetails.uid]);
         setEditedPost(post.content);
         setEditedTitle(post.title);
-
     }, [post, userDetails]);
 
-    if(loading) return (<CircularProgress/>);
+    if (loading) return <CircularProgress />;
 
     return (
         <Card sx={{ display: "flex", marginTop: 2, padding: 2 }}>
-            <Box sx={{ display: "flex", flexDirection: "column", marginInline: "auto", width:'95%'}}>
+            <Box sx={{ display: "flex", flexDirection: "column", marginInline: "auto", width: "95%" }}>
                 <CardHeader
                     title={
                         !isEditing ? (
@@ -108,24 +108,24 @@ export function PostCard({ post, handleEdit, loading, setLoading }) {
                                 </IconButton>
                             </Typography>
                         ) : (
-                            <TextField label='Title' value={editedTitle} sx={{marginBottom: '5px'}} onChange={(e) => setEditedTitle(e.target.value)} />
+                            <TextField label="Title" value={editedTitle} sx={{ marginBottom: '5px' }} onChange={(e) => setEditedTitle(e.target.value)} />
                         )
                     }
                     subheader={
                         <Chip
                             key="timestampChip"
-                            label={new Date(post?.timestamp).toLocaleDateString('en-US', {
-                                month: 'long',
-                                day: 'numeric',
-                                year: 'numeric',
-                                hour: 'numeric',
-                                minute: 'numeric'
-                            }) + (post?.edited ? ' (edited)' : '')}
+                            label={new Date(post?.timestamp).toLocaleDateString("en-US", {
+                                month: "long",
+                                day: "numeric",
+                                year: "numeric",
+                                hour: "numeric",
+                                minute: "numeric"
+                            }) + (post?.edited ? " (edited)" : "")}
                             color="primary"
                         />
                     }
                 />
-                <Box key="likesBox" sx={{ display: "flex", alignItems: "center", width: '100%'}}>
+                <Box key="likesBox" sx={{ display: "flex", alignItems: "center", width: '100%' }}>
                     {userDetails && userDetails.uid === post.userId && (
                         <IconButton color="secondary" onClick={handleDelete}>
                             <Delete />
@@ -137,7 +137,7 @@ export function PostCard({ post, handleEdit, loading, setLoading }) {
                         </IconButton>
                     )}
                     {isEditing && (
-                        <IconButton  component="label" htmlFor={'upload-button'} sx={{ marginBottom: 1 }}>
+                        <IconButton component="label" htmlFor={'upload-button'} sx={{ marginBottom: 1 }}>
                             <input
                                 type="file"
                                 accept="image/*"
@@ -145,17 +145,14 @@ export function PostCard({ post, handleEdit, loading, setLoading }) {
                                 style={{ display: "none" }}
                                 id="upload-button"
                             />
-                            {<Camera/>}
+                            {<Camera />}
                         </IconButton>
                     )}
-                    {
-                        isEditing &&
+                    {isEditing && (
                         <IconButton color="success" onClick={handleSave}>
                             <SaveOutlined />
                         </IconButton>
-                        
-                    }
-
+                    )}
                 </Box>
                 <CardContent sx={{ width: "100%" }}>
                     <Box key="userBox" sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}>
@@ -171,12 +168,12 @@ export function PostCard({ post, handleEdit, loading, setLoading }) {
                             color="text.secondary"
                             sx={{ marginLeft: 1 }}
                         >
-                            {`u/${post.username}`} 
+                            {`u/${post.username}`}
                         </Typography>
-                        <Chip component={Link} to={`/forum/${post.forumId}`} label={post.forumName} size="small"  sx={{marginLeft: 1, cursor: 'pointer'}}/>
+                        <Chip component={Link} to={`/forum/${post.forumId}`} label={post.forumName} size="small" sx={{ marginLeft: 1, cursor: 'pointer' }} />
                     </Box>
                     {post.image && !editedImage && (
-                        <PostImage src={post.image}/>
+                        <PostImage src={post.image} />
                     )}
                     {editedImage && isEditing && (
                         <PostImage src={URL.createObjectURL(editedImage)} />

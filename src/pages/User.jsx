@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 
 'react-router-dom';
 import { getPostsByUser, getUser } from '../Firebase/Users';
-import { Typography} from '@mui/material';
+import  Typography from '@mui/material/Typography';
 import DisplayPosts from '../components/DisplayPosts';
 import SortButtons from '../components/SortButtons';
 
