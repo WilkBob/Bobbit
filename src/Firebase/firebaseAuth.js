@@ -33,7 +33,7 @@ export const signIn = async (email, password) => {
         const user = userCredential.user;
         window.localStorage.setItem('notAToken', JSON.stringify(user.accessToken));
         window.localStorage.setItem('user', JSON.stringify(user));
-        // console.log('fireauth 35: ', user);
+        // //console.log('fireauth 35: ', user);
         return user;
     } catch (error) {
         console.error(error);

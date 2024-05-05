@@ -39,7 +39,7 @@ const DisplayComments = ({ postId }) => {
         if (image && !['image/jpeg', 'image/png', 'image/gif'].includes(image.type))
             return alert('Image must be a jpeg, png or gif');
         const editResult = await updateComment(content, postId, id, image, userDetails.profileImage || null);
-        console.log('Edit result:', editResult);
+        //console.log('Edit result:', editResult);
     };
 
     return (

@@ -49,7 +49,7 @@ const ForumCard = ({ forum, loading }) => {
         if (!validateForum()) return;
         setIsEditing(false);
         const editResult = await updateForum(forum.id, editedForum.name, editedForum.description, editedImage);
-        console.log('Edit result:', editResult);
+        //console.log('Edit result:', editResult);
         window.location.reload();
     };
 

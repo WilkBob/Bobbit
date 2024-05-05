@@ -15,7 +15,7 @@ const Post = () => {
   const navigate = useNavigate();
   const handleEdit = async (id, title, content, userImage, image) => {
     const editResult = await updatePost(id, title, content, userImage, forumId, image);
-    console.log('Edit result:', editResult);
+    //console.log('Edit result:', editResult);
   }
 
   useEffect(() => {

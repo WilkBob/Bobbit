@@ -7,7 +7,7 @@ import { toggleLike } from './Users';
 
 export const getPost = async (id, forumId) => {
     const post = await get(ref(db, `posts/${forumId}/${id}`));
-    console.log(post.val());
+    //console.log(post.val());
     return post.val();
   }
   

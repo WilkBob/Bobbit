@@ -16,7 +16,7 @@ const DisplayForums = () => {
 
     const fetchForums = async () => {
         const forums = await getForums();
-        console.log(forums);
+        //console.log(forums);
         setForums(forums);
     };
 

@@ -87,11 +87,11 @@ const Signup = () => {
       setErrors({...errors, confirmPassword: ''});
     }
     if (validateUsername(username) && validateEmail(email) && validatePassword(password) && password === confirmPassword) {
-      console.log('User created');
+      //console.log('User created');
     }
 
     await signUp(email, password, username);
-    console.log(user);
+    //console.log(user);
     
   }
 
