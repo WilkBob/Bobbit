@@ -1,10 +1,10 @@
 # Bobbit - Promineo Tech Week 16 Final 🎓
 
-![GitHub stars](https://img.shields.io/github/stars/yourusername/yourrepo?style=social)
-![GitHub forks](https://img.shields.io/github/forks/yourusername/yourrepo?style=social)
-![GitHub issues](https://img.shields.io/github/issues/yourusername/yourrepo)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/yourusername/yourrepo)
-![GitHub license](https://img.shields.io/github/license/yourusername/yourrepo)
+![GitHub stars](https://img.shields.io/github/stars/WilkBob/Bobbit?style=social)
+![GitHub forks](https://img.shields.io/github/forks/WilkBob/Bobbit?style=social)
+![GitHub issues](https://img.shields.io/github/issues/WilkBob/Bobbit)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/WilkBob/Bobbit)
+![GitHub license](https://img.shields.io/github/license/WilkBob/Bobbit)
 
 Bobbit is a community forum application that emulates some of Reddit's functionality. It allows users to create posts, profiles, and boards, fostering a platform for discussion and interaction. 📝
 
