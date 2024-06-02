@@ -21,7 +21,7 @@ const Image = styled("img")({
   },
 });
 
-export function PostItem({ post }) {
+export function PostItem({ post, first, last }) {
   const likesCount = post.likes ? Object.keys(post.likes).length : 0;
   const commentsCount = post.comments ? Object.keys(post.comments).length : 0;
   return (
@@ -31,7 +31,10 @@ export function PostItem({ post }) {
       to={`/post/${post.forumId}/${post.id}`}
       button
       sx={{
-        borderRadius: "inherit",
+        borderTopLeftRadius: first ? 'inherit' : 0,
+        borderTopRightRadius: first ? 'inherit' : 0,
+        borderBottomLeftRadius: last ? 'inherit' : 0,
+        borderBottomRightRadius: last ? 'inherit' : 0,
       }}
     >
       <ListItemAvatar>

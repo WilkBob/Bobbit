@@ -5,20 +5,26 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 
 const DisplayPosts = ({ posts, loading }) => {
+  const postValues = posts && Object.values(posts);
   return (
     <>
       <List className='glass' sx={{ padding: '0', borderRadius: '10px' }}>
-        {posts &&
-          Object.values(posts).map(post => [
-            <PostItem post={post} key={post.id} />,
-            <Divider key={post.id + 'divider'} />
+        {postValues &&
+          postValues.map((post, index) => [
+            <PostItem post={post} key={post.id} first={
+              index === 0
+            } last={
+              index === postValues.length - 1
+            }
+             />,
+            index !== postValues.length - 1 && <Divider key={`divider-${post.id}`} />
           ])}
         {loading && (
           <CircularProgress
             sx={{ display: 'block', margin: 'auto', marginTop: '20px' }}
           />
         )}
-        {posts.length < 1 && !loading && (
+        {postValues.length < 1 && !loading && (
           <Typography
             variant="h6"
             sx={{ textAlign: 'center', marginTop: '20px' }}
