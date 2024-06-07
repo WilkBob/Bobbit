@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -7,8 +7,9 @@ import Box from '@mui/material/Box';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { UserContext } from '../components/context/UserContext';
-import { signUp } from '../Firebase/firebaseAuth';
+import { googleSignUp, signUp } from '../Firebase/firebaseAuth';
 import { useNavigate } from 'react-router-dom';
+import Google from '@mui/icons-material/Google';
 
 
 
@@ -94,6 +95,14 @@ const Signup = () => {
     //console.log(user);
     
   }
+
+  const handleGoogle = async () => {
+   await googleSignUp();
+  }
+
+
+
+ 
 
   return (
     <>
@@ -237,7 +246,16 @@ const Signup = () => {
         color="primary" 
         style={{ marginTop: '20px' }}>Sign Up
       </Button>}
+      <Typography sx={{textAlign:'center'}} variant="body1" component="p" gutterBottom className='fadeIn'>or sign up with</Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
+        
+      <IconButton onClick={handleGoogle}>
+        <Google />
+      </IconButton>
+        
+      </Box>
       </form>
+      
     </>
   )
 }

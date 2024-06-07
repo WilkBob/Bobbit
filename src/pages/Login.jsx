@@ -4,9 +4,9 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-import { signIn } from '../Firebase/firebaseAuth';
+import { googleSignIn, signIn } from '../Firebase/firebaseAuth';
 import { useNavigate } from 'react-router-dom';
-
+import Google from '@mui/icons-material/Google';
 
 
 
@@ -45,6 +45,11 @@ const Login = () => {
         setErrors({...form, [name]: ''});
     }
 
+
+    const handleGoogleSignIn = async () => {
+        await googleSignIn();
+    }
+
     return (
         <div style={{
             display: 'flex',
@@ -65,6 +70,10 @@ const Login = () => {
                 <TextField fullWidth name='password' label="Password" variant="outlined" type="password" error={errors.password.length > 1 ? errors.password : false} onChange={handleChange}/>
                 <Button fullWidth variant="contained" color="primary" type='submit'>
                     Login
+                </Button>
+                <Typography variant="body2" color="textSecondary">Or</Typography>
+                <Button fullWidth variant="outlined" onClick={handleGoogleSignIn}>
+                    Sign in with Google <Google />
                 </Button>
 
             </form>
