@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { UserContext } from './context/UserContext';
 import { addComment } from '../Firebase/Comments';
 import { useNavigate } from 'react-router-dom';
@@ -20,22 +20,22 @@ const CommentBox = ({ postId, forumId }) => {
     const [commentImagePreviewUrl, setCommentImagePreviewUrl] = useState(null);
     const [commenting, setCommenting] = useState(false);
 
-    const handleCommentChange = (event) => {
+    const handleCommentChange = useCallback((event) => {
         if(!commenting) setCommenting(true);
         setComment(event.target.value);
-    }
+    }, [commenting]);
 
-    const handleCommentImageChange = (event) => {
+    const handleCommentImageChange = useCallback((event) => {
         setCommentImage(event.target.files[0]);
         setCommentImagePreviewUrl(URL.createObjectURL(event.target.files[0]));
-    }
+    }, []);
 
-    const handleRemoveCommentImage = () => {
+    const handleRemoveCommentImage = useCallback(() => {
         setCommentImage(null);
         setCommentImagePreviewUrl(null);
-    }
+    }, []);
 
-    const validateComment = () => {
+    const validateComment = useCallback(() => {
         if (comment.trim().length < 5) {
             alert('Comment must be at least 5 characters');
             return false;
@@ -52,19 +52,20 @@ const CommentBox = ({ postId, forumId }) => {
         }
 
         return true;
-    }
-    const handleComment = async () => {
+    }, [comment, commentImage]);
+
+    const handleComment = useCallback(async () => {
         if (!user) return navigate('/login');
         if (!validateComment()) return;
         setLoading(true);
         
-       const NewComment = await addComment(comment, userDetails.username, user.uid, postId, userDetails.profileImage || null, forumId, commentImage);
+        const NewComment = await addComment(comment, userDetails?.username, user?.uid, postId, userDetails?.profileImage || null, forumId, commentImage);
         setComment('');
         setCommentImage(null);
         setCommentImagePreviewUrl(null);
         setCommenting(false);
         setLoading(false);
-    }
+    }, [user, navigate, validateComment, comment, userDetails, user.uid, postId, forumId, commentImage]);
 
     return (
         <Box sx={{ marginBlock: 2 }}>

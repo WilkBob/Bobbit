@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Collapse from '@mui/material/Collapse';
@@ -44,7 +44,8 @@ const AddForum = () => {
     return true;
   };
 
-  const handleSubmit = async (event) => {
+
+const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
     if (!user) navigate('/login');
     if (!validateForum()) return;
@@ -52,13 +53,13 @@ const AddForum = () => {
     const newid = await addForum(
       name,
       description,
-      userDetails.uid,
-      userDetails.username,
+      userDetails?.uid,
+      userDetails?.username,
       image
     );
     setOpen(false);
     navigate(`/forum/${newid}`);
-  };
+}, [user, navigate, validateForum, name, description, userDetails, image, setOpen]);
 
   return (
     <div>

@@ -28,7 +28,7 @@ const DisplayComments = ({ postId }) => {
     const handleDelete = async (id, postId) => {
         const confirmDelete = window.confirm('Are you sure you want to delete this comment?');
         if (confirmDelete) {
-            await deleteComment(postId, id, user.uid);
+            await deleteComment(postId, id, user?.uid);
         }
     };
 
@@ -38,7 +38,7 @@ const DisplayComments = ({ postId }) => {
         if (image && image.size > 2000000) return alert('Image must be less than 1MB');
         if (image && !['image/jpeg', 'image/png', 'image/gif'].includes(image.type))
             return alert('Image must be a jpeg, png or gif');
-        const editResult = await updateComment(content, postId, id, image, userDetails.profileImage || null);
+        const editResult = await updateComment(content, postId, id, image, userDetails?.profileImage || null);
         //console.log('Edit result:', editResult);
     };
 

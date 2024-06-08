@@ -11,6 +11,7 @@ import { updateUser } from "../Firebase/Users";
 import UserCardAvatar from "./UserCardAvatar";
 
 export function UserCard({ displayUser }) {
+  "use no memo";
   const { user, userDetails } = useContext(UserContext);
   const isCurrentUser = displayUser?.uid === user?.uid;
   const [isEditing, setIsEditing] = useState(false);

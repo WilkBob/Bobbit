@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Collapse from '@mui/material/Collapse';
@@ -14,6 +14,7 @@ import SignInIcon from '@mui/icons-material/Login';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 
 const AddPost = ({ forumId }) => {
+  //  "use no memo"; //
   const [loading, setLoading] = useState(false);
   const { user, userDetails } = useContext(UserContext);
   const [open, setOpen] = useState(false);
@@ -54,37 +55,36 @@ const AddPost = ({ forumId }) => {
     return true;
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = useCallback(async (event) => {
+  event.preventDefault();
 
-    if (!user) return navigate('/login');
-    if (!validatePost()) return;
+  if (!user) return navigate('/login');
+  if (!validatePost()) return;
 
-    setLoading(true);
+  setLoading(true);
 
-    const newPost = await addPost({
-      title,
-      content,
-      userId: user.uid,
-      username: userDetails.username,
-      userImage: userDetails.profileImage || null,
-      forumId: forumId,
-      image: image,
-      link,
-    });
+  const newPost = await addPost({
+    title,
+    content,
+    userId: user.uid,
+    username: userDetails.username ? userDetails.username : '',
+    userImage: userDetails.profileImage || null,
+    forumId: forumId,
+    image: image,
+    link,
+  });
 
-    // Clear the form
-    setTitle('');
-    setContent('');
-    setImage(null);
-    setImagePreviewUrl(null);
+  // Clear the form
+  setTitle('');
+  setContent('');
+  setImage(null);
+  setImagePreviewUrl(null);
+  setLink('');
 
-    setLoading(false);
-    setOpen(false);
+  setLoading(false);
+  navigate(`/post/${newPost.id}`);
 
-    // Reload the page
-    navigate(`/post/${forumId}/${newPost.id}`);
-  };
+}, [user, validatePost, title, content, userDetails, forumId, image, link]); // Add all dependencies here
 
   return (
     <>

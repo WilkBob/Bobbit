@@ -19,9 +19,12 @@ import { UserContext } from "./context/UserContext";
 import { deletePost } from "../Firebase/Posts";
 import { toggleLike } from "../Firebase/Users";
 import PostImage from "./PostImage";
-import { PhotoCamera as Camera, Delete, SaveOutlined } from "@mui/icons-material";
+import Camera from "@mui/icons-material/Camera";
+import SaveOutlined from "@mui/icons-material/SaveOutlined";
+import  Delete  from "@mui/icons-material/Delete";
 
 export function PostCard({ post, handleEdit, loading, setLoading }) {
+    "use no memo";
     const navigate = useNavigate();
     const { userDetails } = useContext(UserContext);
     const [likesCount, setLikesCount] = useState(0);
