@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -7,8 +7,9 @@ import Box from '@mui/material/Box';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { UserContext } from '../components/context/UserContext';
-import { signUp } from '../Firebase/firebaseAuth';
+import { googleSignUp, signUp } from '../Firebase/firebaseAuth';
 import { useNavigate } from 'react-router-dom';
+import Google from '@mui/icons-material/Google';
 
 
 
@@ -51,16 +52,35 @@ const Signup = () => {
   const [step, setStep] = useState(1);
 
   const nextStep = () => {
+    if (step === 4) {
+      return;
+    }
+    if (step === 3 && !validatePassword(form.password)) {
+      setErrors({...errors, password: 'Password must contain 1 uppercase letter, 1 special character, and be at least 7 characters long'});
+      return;
+    }
+    if (step === 2 && !validateEmail(form.email)) {
+      setErrors({...errors, email: 'Invalid email address'});
+      return;
+    }
+    if (step === 1 && !validateUsername(form.username)) {
+      setErrors({...errors, username: 'Username must be alphanumeric'});
+      return;
+    }
     setStep(prevStep => prevStep + 1);
   }
 
   const prevStep = () => {
+    if (step === 1) {
+      return;
+    }
     setStep(prevStep => prevStep - 1);
   }
 
   const handleChange = (e) => {
     const {name, value} = e.target;
     setForm({...form, [name]: value});
+    setErrors({...errors, [name]: ''});
   }
 
   const handleSubmit = async (e) => {
@@ -95,6 +115,14 @@ const Signup = () => {
     
   }
 
+  const handleGoogle = async () => {
+   await googleSignUp();
+  }
+
+
+
+ 
+
   return (
     <>
       <Typography align='center' variant="h3" component="h1" gutterBottom className='fadeIn'>Welcome to Bobbit</Typography>
@@ -113,15 +141,11 @@ const Signup = () => {
         >
         <Typography align='center' variant="body1" component="p" gutterBottom className='fadeIn'>{`Step ${step} of 4`}</Typography>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-  {step > 1 ? 
+
     <IconButton onClick={prevStep}>
       <ArrowBackIosIcon />
     </IconButton>
-    :
-    <IconButton style={{ visibility: 'hidden' }}>
-      <ArrowForwardIosIcon />
-    </IconButton>
-  }
+
   {/* dots to track progress */}
   <Box sx={{ 
   width: '70%', 
@@ -158,20 +182,18 @@ const Signup = () => {
     transition: 'background-color 0.3s, width 0.3s, height 0.3s' 
   }} />
 </Box>
-  {step < 4 ? 
+  
     <IconButton onClick={nextStep}>
       <ArrowForwardIosIcon />
     </IconButton>
-    :
-    <IconButton style={{ visibility: 'hidden' }}>
-      <ArrowForwardIosIcon />
-    </IconButton>
-  }
+    
+  
 </div>
       {step === 1 && 
   <TextField 
     error={errors.username.length > 0}
     onChange={handleChange}
+    value={form.username}
     className='fadeIn'
     variant="outlined" 
     margin="normal" 
@@ -184,6 +206,7 @@ const Signup = () => {
 }
       {step === 2 && 
         <TextField 
+        value={form.email}
         error={errors.email.length > 0}
         onChange={handleChange}
           className='fadeIn'
@@ -198,6 +221,7 @@ const Signup = () => {
         />}
       {step === 3 && 
       <TextField 
+      value={form.password}
       error={errors.password.length > 0}
       onChange={handleChange}
         variant="outlined" 
@@ -214,14 +238,15 @@ const Signup = () => {
 
       {step === 4 &&
       <TextField
-      error={errors.confirmPassword.length > 0}
+      value={form.confirmPassword}
+      error={errors.confirmPassword.length >=form.passwords && form.password !== form.confirmPassword}
       onChange={handleChange}
         variant="outlined"
         margin="normal"
         required
         fullWidth
         name="confirmPassword"
-        label="Confirm Password"
+        label={"Confirm Password" + (errors.confirmPassword.length > 0 ? ` - ${errors.confirmPassword}` : '')}
         type="password"
         id="confirmPassword"
         autoComplete="current-password"
@@ -237,7 +262,21 @@ const Signup = () => {
         color="primary" 
         style={{ marginTop: '20px' }}>Sign Up
       </Button>}
+      <Typography sx={{textAlign:'center'}} variant="body1" component="p" gutterBottom className='fadeIn'>or</Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
+        
+      <Button variant='outlined' onClick={handleGoogle}>
+        Sign Up with Google
+        <Google sx={{
+          height: '20px',
+          width: '20px',
+          marginLeft: '5px'
+        }} />
+      </Button>
+        
+      </Box>
       </form>
+      
     </>
   )
 }
