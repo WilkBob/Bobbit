@@ -28,7 +28,8 @@ const PostImage = ({ src }) => {
         alt="Comment"
         src={src}
         sx={{ 
-          width: isMobile ? '100%' : '80%', 
+          width: isMobile ? '100%' : '80%',
+          maxHeight: '200px', 
           cursor: 'pointer', 
           transition: 'transform 0.15s ease-in-out',
           borderRadius: '4px',
@@ -48,7 +49,7 @@ const PostImage = ({ src }) => {
             top: '50%', 
             left: '50%', 
             transform: 'translate(-50%, -50%)',
-            width: '80%',
+            width: '95%',
             maxHeight: '80vh',
             overflowY: 'auto',
           }}

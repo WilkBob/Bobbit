@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -24,7 +24,7 @@ import SaveOutlined from "@mui/icons-material/SaveOutlined";
 import  Delete  from "@mui/icons-material/Delete";
 
 export function PostCard({ post, handleEdit, loading, setLoading }) {
-    "use no memo";
+   
     const navigate = useNavigate();
     const { userDetails } = useContext(UserContext);
     const [likesCount, setLikesCount] = useState(0);
@@ -33,8 +33,7 @@ export function PostCard({ post, handleEdit, loading, setLoading }) {
     const [editedPost, setEditedPost] = useState(null);
     const [editedTitle, setEditedTitle] = useState(null);
     const [editedImage, setEditedImage] = useState(null);
-
-    const handleSave = () => {
+    const handleSave = useCallback(() => {
         if (!editedPost.trim()) {
             alert("Post cannot be empty");
             return;
@@ -54,19 +53,19 @@ export function PostCard({ post, handleEdit, loading, setLoading }) {
             alert("Image must be a jpeg, png or gif");
             return;
         }
-
+    
         handleEdit(
             post.id,
             editedTitle,
             editedPost,
-            userDetails.profileImage || null,
+            userDetails?.profileImage || null,
             editedImage ? editedImage : null
         );
         setIsEditing(false);
         editedImage && setEditedImage(null);
-    };
-
-    const handleDelete = async () => {
+    }, [editedPost, editedTitle, editedImage, handleEdit, post.id, userDetails?.profileImage]);
+    
+    const handleDelete = useCallback(async () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this post?");
         if (!confirmDelete) {
             return;
@@ -74,7 +73,7 @@ export function PostCard({ post, handleEdit, loading, setLoading }) {
         setLoading(true);
         await deletePost(post.id, post.forumId);
         navigate("/");
-    };
+    }, [post.id, post.forumId, deletePost, navigate]);
 
     useEffect(() => {
         if (!post) {

@@ -14,7 +14,6 @@ import SignInIcon from '@mui/icons-material/Login';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 
 const AddPost = ({ forumId }) => {
-  //  "use no memo"; //
   const [loading, setLoading] = useState(false);
   const { user, userDetails } = useContext(UserContext);
   const [open, setOpen] = useState(false);

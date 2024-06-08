@@ -34,7 +34,8 @@ const Post = () => {
   }, [id]);
 
   return (<>
-    <PostCard post={post} handleEdit={handleEdit} loading={loading} setLoading={setLoading}/>
+    {post &&
+    <PostCard post={post} handleEdit={handleEdit} loading={loading} setLoading={setLoading}/>}
     <Typography variant="h6" component="div" sx={{ marginBottom: '10px' }}>
       Comments
     </Typography>

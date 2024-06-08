@@ -1,4 +1,4 @@
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, getAdditionalUserInfo } from "firebase/auth";
 import { getDatabase, set, ref } from "firebase/database";
 import { app } from "./firebase";
 import { GoogleAuthProvider } from "firebase/auth";
@@ -77,6 +77,21 @@ export const googleSignIn = async () => {
         const provider = new GoogleAuthProvider();
         const userCredential = await signInWithPopup(auth, provider);
         const user = userCredential.user;
+        const additionalUserInfo = getAdditionalUserInfo(userCredential);
+
+        // Check if the user is new
+        if (additionalUserInfo.isNewUser) {
+            // Set up the user's account
+            await set(ref(db, `users/${user.uid}`), {
+                uid: user.uid,
+                email: user.email,
+                username: user.displayName,
+                profileImage: user.photoURL,
+                bio: 'No bio yet...',
+                joined: Date.now()
+            });
+        }
+
         window.localStorage.setItem('notAToken', JSON.stringify(user.accessToken));
         window.localStorage.setItem('user', JSON.stringify(user));
         return user;
