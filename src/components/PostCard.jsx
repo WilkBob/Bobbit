@@ -19,7 +19,7 @@ import { UserContext } from "./context/UserContext";
 import { deletePost } from "../Firebase/Posts";
 import { toggleLike } from "../Firebase/Users";
 import PostImage from "./PostImage";
-import Camera from "@mui/icons-material/Camera";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import SaveOutlined from "@mui/icons-material/SaveOutlined";
 import  Delete  from "@mui/icons-material/Delete";
 
@@ -134,7 +134,7 @@ export function PostCard({ post, handleEdit, loading, setLoading }) {
                         </IconButton>
                     )}
                     {userDetails && userDetails.uid === post.userId && (
-                        <IconButton color={isEditing ? 'success' : 'inherit'} onClick={() => setIsEditing(!isEditing)} >
+                        <IconButton  onClick={() => setIsEditing(!isEditing)} >
                             <EditIcon />
                         </IconButton>
                     )}
@@ -147,11 +147,11 @@ export function PostCard({ post, handleEdit, loading, setLoading }) {
                                 style={{ display: "none" }}
                                 id="upload-button"
                             />
-                            {<Camera />}
+                            {<PhotoCamera />}
                         </IconButton>
                     )}
                     {isEditing && (
-                        <IconButton color="success" onClick={handleSave}>
+                        <IconButton onClick={handleSave}>
                             <SaveOutlined />
                         </IconButton>
                     )}

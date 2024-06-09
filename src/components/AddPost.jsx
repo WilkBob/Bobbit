@@ -81,7 +81,7 @@ const AddPost = ({ forumId }) => {
   setLink('');
 
   setLoading(false);
-  navigate(`/post/${newPost.id}`);
+  navigate(`/post/${newPost.forumId}/${newPost.id}`);
 
 }, [user, validatePost, title, content, userDetails, forumId, image, link]); // Add all dependencies here
 

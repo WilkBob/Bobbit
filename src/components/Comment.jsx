@@ -7,14 +7,13 @@ import {
     TextField,
     Badge
 } from "@mui/material";
-import {
-    Collections,
-    DeleteOutline,
-    Edit,
-    EditOutlined,
-    SaveOutlined,
-    ThumbUp
-} from "@mui/icons-material";
+import Edit from "@mui/icons-material/Edit";
+import EditOutlined from "@mui/icons-material/EditOutlined";
+import DeleteOutline from "@mui/icons-material/DeleteOutline";
+import ThumbUp from "@mui/icons-material/ThumbUp";
+import SaveOutlined from "@mui/icons-material/SaveOutlined";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
+
 import { UserContext } from "./context/UserContext";
 import { Link, useNavigate} from "react-router-dom";
 import CommentImage from "./CommentImage";
@@ -91,7 +90,7 @@ const Comment = ({
                                         hidden
                                         onChange={(e) => {setEditedImage(e.target.files[0]); setEditedImagePreviewUrl(URL.createObjectURL(e.target.files[0]))}}
                                     />
-                                    <Collections/>
+                                    <PhotoCamera/>
                                 </IconButton>
                             )
                         }}
@@ -119,14 +118,14 @@ const Comment = ({
                         <>
                             {isEditing && (
                                 <IconButton
-                                    color="success"
+                                    color="inherit"
                                     onClick={handleSave}
                                 >
                                     <SaveOutlined/>
                                 </IconButton>
                             )}
                             <IconButton
-                                color={isEditing ? 'success' : 'inherit'}
+                                color='inherit'
                                 onClick={() => {setIsEditing(!isEditing); setEditedImagePreviewUrl(null); setEditedImage(null)}}
                             >
                                 {isEditing ? <Edit/> : <EditOutlined/>}
