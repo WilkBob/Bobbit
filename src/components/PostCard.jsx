@@ -139,7 +139,7 @@ export function PostCard({ post, handleEdit, loading, setLoading }) {
                         </IconButton>
                     )}
                     {isEditing && (
-                        <IconButton component="label" htmlFor={'upload-button'} sx={{ marginBottom: 1 }}>
+                        <IconButton component="label" htmlFor={'upload-button'} >
                             <input
                                 type="file"
                                 accept="image/*"
