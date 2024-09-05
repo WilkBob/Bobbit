@@ -6,7 +6,7 @@
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/WilkBob/Bobbit)
 
 Bobbit is a community forum application that emulates some of Reddit's functionality. It allows users to create posts, profiles, and boards, fostering a platform for discussion and interaction. 📝
-
+https://bobbit.web.app/
 ## Technologies Used 💻
 
 - **React**: The application is built using React, a popular JavaScript library for building user interfaces.
